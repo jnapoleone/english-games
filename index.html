@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Sebastian's English Games</title>
+<meta name="apple-mobile-web-app-title" content="English Games">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#3d9be9">
+<meta name="robots" content="noindex">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect x='4' y='4' width='56' height='56' rx='8' fill='%23ffd23f' stroke='%2314213d' stroke-width='6'/%3E%3Crect x='18' y='24' width='8' height='10' fill='%2314213d'/%3E%3Crect x='38' y='24' width='8' height='10' fill='%2314213d'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bungee&family=Nunito:wght@600;800;900&display=swap">
+<style>
+:root{--sky:#7cc7ff;--sky-deep:#3d9be9;--ink:#14213d;--paper:#fff;--grass:#2fd36b;--dirt:#a8642d;--lava:#ff5a36;--coin:#ffc83d;--lock:#9fb3c8;--muted:#5a6b85;
+  --display:"Bungee","Arial Black",Impact,system-ui,sans-serif;--body:"Nunito",ui-rounded,"Segoe UI",system-ui,sans-serif;color-scheme:light}
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;font-family:var(--body);font-weight:600;color:var(--ink);background:linear-gradient(180deg,var(--sky-deep),var(--sky) 55%,#b9e3ff);background-attachment:fixed;
+  padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+.wrap{max-width:520px;margin:0 auto;padding-inline:16px;padding-block:24px 48px}
+h1{font-family:var(--display);font-weight:400;text-align:center;font-size:clamp(30px,9vw,46px);line-height:1;margin:8px 0 6px;color:var(--paper);
+  text-shadow:0 4px 0 var(--ink),3px 0 0 var(--ink),-3px 0 0 var(--ink),0 -3px 0 var(--ink),3px 4px 0 var(--ink),-3px 4px 0 var(--ink)}
+.sub{text-align:center;font-weight:900;margin:12px auto 22px;background:rgba(255,255,255,.75);border-radius:10px;padding:6px 10px;max-width:32ch}
+.games{display:grid;gap:14px}
+.game{display:grid;grid-template-columns:64px 1fr;gap:14px;align-items:center;text-decoration:none;color:inherit;background:var(--paper);border:3px solid var(--ink);border-radius:14px;padding:12px;box-shadow:0 6px 0 var(--ink)}
+a.game:active{transform:translateY(4px);box-shadow:0 2px 0 var(--ink)}
+a.game:focus-visible{outline:3px solid var(--ink);outline-offset:3px}
+.tile{width:64px;height:64px;border:3px solid var(--ink);border-radius:8px;background:linear-gradient(var(--grass) 0 38%,var(--dirt) 38%);display:grid;place-items:center;
+  font-family:var(--display);font-size:24px;color:var(--paper);text-shadow:0 2px 0 var(--ink)}
+.tile.sea{background:linear-gradient(#5fd0ff 0 45%,#1f6fd1 45%)}
+.tile.gold{background:linear-gradient(var(--coin) 0 45%,#e09a00 45%)}
+.game.soon{opacity:.75;box-shadow:0 6px 0 var(--lock);border-color:var(--lock)}
+.game.soon .tile{filter:grayscale(.7)}
+.game b{display:block;font-family:var(--display);font-weight:400;font-size:17px;line-height:1.15}
+.game span{display:block;font-size:14px;color:var(--muted);font-weight:800;margin-top:2px}
+.game em{display:inline-block;font-style:normal;font-family:var(--display);font-size:11px;background:var(--ink);color:var(--paper);border-radius:6px;padding:2px 7px;margin-top:6px}
+.game em.go{background:var(--grass);color:var(--ink)}
+.foot{text-align:center;font-size:13px;color:var(--ink);margin-top:26px;font-weight:800;opacity:.8}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>ENGLISH<br>GAMES</h1>
+  <p class="sub">Grade 9 English with Mr. Winter · Unit 1</p>
+  <div class="games">
+    <a class="game" href="fiction-obby/">
+      <div class="tile">1</div>
+      <div><b>Fiction Obby</b><span>Plot, character, conflict, POV, theme + a twist-ending boss</span><em class="go" id="fo">PLAY</em></div>
+    </a>
+    <div class="game soon" aria-disabled="true">
+      <div class="tile gold">2</div>
+      <div><b>Olympus Cards</b><span>Collect all 15 Greek gods</span><em>COMING SOON</em></div>
+    </div>
+    <div class="game soon" aria-disabled="true">
+      <div class="tile sea">3</div>
+      <div><b>Odyssey: Book 12</b><span>Sirens, Scylla &amp; Charybdis, and the sun god's cattle</span><em>COMING SOON</em></div>
+    </div>
+  </div>
+  <p class="foot">Tip: tap Share → Add to Home Screen to keep this like an app.</p>
+</div>
+<script>
+try{const s=JSON.parse(localStorage.getItem("fictionObby.v1"));if(s&&s.stages){const n=Object.values(s.stages).filter(r=>r.best>0).length;document.getElementById("fo").textContent=n?`${n}/6 CLEARED · ${s.coins} COINS`:"PLAY"}}catch(e){}
+</script>
+</body>
+</html>

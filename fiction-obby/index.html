@@ -1,0 +1,448 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"></head><body>
+<title>Fiction Obby</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bungee&family=Nunito:wght@600;800;900&display=swap">
+<style>
+/* Layout: one phone-sized column. A sky "obby" world: a map of floating stage platforms, then a full-screen run per stage.
+   Single committed bright game look (not theme-switched); every color is explicit. */
+:root{
+  --sky:#7cc7ff; --sky-deep:#3d9be9; --ink:#14213d; --paper:#ffffff;
+  --grass:#2fd36b; --grass-dark:#15a24b; --dirt:#a8642d; --dirt-dark:#7a4519;
+  --lava:#ff5a36; --lava-dark:#d63c1c; --coin:#ffc83d; --coin-dark:#e09a00;
+  --lock:#9fb3c8; --good:#18b85a; --bad:#ef3b2d; --panel:#f3f8ff; --muted:#5a6b85;
+  --display:"Bungee", "Arial Black", Impact, system-ui, sans-serif;
+  --body:"Nunito", ui-rounded, "Segoe UI", system-ui, sans-serif;
+  color-scheme: light;
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{margin:0;background:var(--sky);color:var(--ink);font-family:var(--body);font-weight:600;font-size:16px;
+  background-image:linear-gradient(180deg,var(--sky-deep) 0%,var(--sky) 55%,#b9e3ff 100%);background-attachment:fixed;min-height:100%}
+button{font:inherit;color:inherit;cursor:pointer;-webkit-tap-highlight-color:transparent}
+button:focus-visible{outline:3px solid var(--ink);outline-offset:3px}
+.wrap{max-width:520px;margin:0 auto;padding-inline:16px;padding-block:12px 40px;min-height:100%;position:relative}
+.cloud{position:fixed;background:#fff;opacity:.85;pointer-events:none;z-index:0;
+  box-shadow:24px 0 0 #fff, 48px 0 0 #fff, 24px -16px 0 #fff}
+.c1{top:90px;left:-10px;width:24px;height:16px}
+.c2{top:260px;right:60px;width:24px;height:16px}
+.c3{top:520px;left:40px;width:24px;height:16px;opacity:.6}
+@media (prefers-reduced-motion:no-preference){.c1{animation:drift 38s linear infinite}.c2{animation:drift 52s linear infinite reverse}}
+@keyframes drift{from{transform:translateX(-40px)}to{transform:translateX(60vw)}}
+main{position:relative;z-index:1}
+
+/* HUD */
+.hud{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;display:flex;gap:8px;align-items:center;justify-content:space-between;padding-block:8px}
+.chip{display:flex;align-items:center;gap:6px;background:var(--paper);border:3px solid var(--ink);border-radius:10px;padding:4px 10px;
+  font-family:var(--display);font-size:15px;box-shadow:0 4px 0 var(--ink);font-variant-numeric:tabular-nums;white-space:nowrap}
+.coin{width:16px;height:16px;border-radius:50%;background:var(--coin);border:3px solid var(--coin-dark);flex:none}
+.hearts{display:flex;gap:3px}
+.heart{width:18px;height:16px;position:relative;flex:none}
+.heart::before{content:"";position:absolute;inset:0;background:var(--lava);
+  clip-path:polygon(0 25%,25% 0,50% 20%,75% 0,100% 25%,100% 50%,50% 100%,0 50%)}
+.heart.gone::before{background:#c9d3df}
+.iconbtn{background:var(--paper);border:3px solid var(--ink);border-radius:10px;padding:4px 10px;font-family:var(--display);font-size:13px;box-shadow:0 4px 0 var(--ink)}
+.iconbtn:active{transform:translateY(3px);box-shadow:0 1px 0 var(--ink)}
+
+/* Title */
+.logo{text-align:center;margin:10px 0 6px}
+.logo h1{font-family:var(--display);font-weight:400;font-size:clamp(34px,10vw,52px);line-height:.95;margin:0;color:var(--paper);
+  text-shadow:0 4px 0 var(--ink),3px 0 0 var(--ink),-3px 0 0 var(--ink),0 -3px 0 var(--ink),3px 4px 0 var(--ink),-3px 4px 0 var(--ink);letter-spacing:1px}
+.logo p{margin:10px auto 0;max-width:34ch;font-weight:800;color:var(--ink);background:rgba(255,255,255,.75);border-radius:10px;padding:6px 10px;text-wrap:balance}
+
+/* Map */
+.map{display:flex;flex-direction:column-reverse;gap:14px;margin-top:18px}
+.plat{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:12px;width:86%;text-align:left;border:0;padding:0;background:none}
+.plat:nth-child(even){margin-left:auto}
+.plat .block{width:58px;height:58px;flex:none;border:3px solid var(--ink);border-radius:8px;position:relative;
+  background:linear-gradient(var(--grass) 0 38%,var(--dirt) 38% 100%);box-shadow:0 5px 0 var(--ink);
+  display:grid;place-items:center;font-family:var(--display);font-size:22px;color:var(--paper);text-shadow:0 2px 0 var(--ink)}
+.plat .block::after{content:"";position:absolute;left:6px;right:6px;bottom:6px;height:6px;background:var(--dirt-dark);opacity:.5;border-radius:2px}
+.plat.boss .block{background:linear-gradient(#ff8a3d 0 38%,var(--lava-dark) 38% 100%)}
+.plat.locked .block{background:var(--lock);filter:saturate(.3)}
+.plat .meta{background:var(--paper);border:3px solid var(--ink);border-radius:10px;padding:8px 10px;box-shadow:0 4px 0 var(--ink);min-width:0}
+.plat .meta b{display:block;font-family:var(--display);font-weight:400;font-size:15px;line-height:1.15}
+.plat .meta span{display:block;font-size:13px;color:var(--muted);font-weight:800}
+.plat.locked .meta{opacity:.7}
+.stars{display:flex;gap:2px}
+.star{width:16px;height:16px;background:#cdd6e2;clip-path:polygon(50% 0,61% 35%,98% 35%,68% 57%,79% 91%,50% 70%,21% 91%,32% 57%,2% 35%,39% 35%)}
+.star.on{background:var(--coin)}
+.plat:not(.locked):active .block{transform:translateY(4px);box-shadow:0 1px 0 var(--ink)}
+.lavabar{margin-top:18px;height:34px;border:3px solid var(--ink);border-radius:8px;
+  background:repeating-linear-gradient(135deg,var(--lava) 0 14px,#ff7a4d 14px 28px);box-shadow:0 4px 0 var(--ink);
+  display:grid;place-items:center;font-family:var(--display);color:var(--paper);font-size:13px;text-shadow:0 2px 0 var(--ink)}
+@media (prefers-reduced-motion:no-preference){.lavabar{animation:lava 2s linear infinite;background-size:40px 40px}}
+@keyframes lava{to{background-position:40px 0}}
+.badges{margin-top:20px;background:var(--paper);border:3px solid var(--ink);border-radius:12px;padding:12px;box-shadow:0 5px 0 var(--ink)}
+.badges h2,.panel h2{font-family:var(--display);font-weight:400;font-size:16px;margin:0 0 8px}
+.badgerow{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.badge{border:2px dashed var(--lock);border-radius:10px;padding:8px 4px;text-align:center;font-size:11px;font-weight:900;line-height:1.15;color:var(--muted);min-width:0}
+.badge i{display:block;width:30px;height:30px;margin:0 auto 4px;border-radius:6px;background:var(--lock);border:2px solid var(--ink);transform:rotate(45deg) scale(.8)}
+.badge.on{border:2px solid var(--ink);color:var(--ink);background:#fff8dc}
+.badge.on i{background:var(--coin)}
+
+/* Run screen */
+.run{display:flex;flex-direction:column;gap:12px}
+.progress{height:16px;border:3px solid var(--ink);border-radius:8px;background:var(--paper);overflow:hidden;box-shadow:0 3px 0 var(--ink)}
+.progress i{display:block;height:100%;background:var(--grass);border-right:3px solid var(--ink);transition:width .3s}
+.stagehead{font-family:var(--display);font-size:13px;color:var(--paper);text-shadow:0 2px 0 var(--ink);letter-spacing:.5px}
+.card{background:var(--paper);border:3px solid var(--ink);border-radius:14px;padding:16px;box-shadow:0 6px 0 var(--ink)}
+.card .tag{display:inline-block;font-family:var(--display);font-size:11px;background:var(--ink);color:var(--paper);border-radius:6px;padding:3px 7px;margin-bottom:8px;letter-spacing:.5px}
+.card .scene{background:var(--panel);border-left:5px solid var(--sky-deep);border-radius:6px;padding:8px 10px;margin:0 0 10px;font-size:15px;font-style:italic}
+.card h3{margin:0;font-size:19px;line-height:1.3;font-weight:900;text-wrap:balance}
+.choices{display:grid;gap:10px}
+.choice{display:block;width:100%;text-align:left;background:var(--paper);border:3px solid var(--ink);border-radius:12px;padding:12px 14px;
+  font-weight:800;font-size:16px;line-height:1.3;box-shadow:0 4px 0 var(--ink);min-height:52px}
+.choice:active:not([disabled]){transform:translateY(3px);box-shadow:0 1px 0 var(--ink)}
+.choice.right{background:#c9f7da;border-color:var(--good);box-shadow:0 4px 0 var(--good)}
+.choice.wrong{background:#ffd9d4;border-color:var(--bad);box-shadow:0 4px 0 var(--bad)}
+.choice[disabled]{cursor:default}
+.choice.dim{opacity:.55}
+.feedback{border:3px solid var(--ink);border-radius:14px;padding:14px;box-shadow:0 6px 0 var(--ink)}
+.feedback.ok{background:#e4fbec}
+.feedback.no{background:#fff0ec}
+.feedback b{font-family:var(--display);font-weight:400;font-size:17px;display:block;margin-bottom:4px}
+.feedback p{margin:0 0 12px;line-height:1.4}
+.big{display:block;width:100%;font-family:var(--display);font-size:18px;border:3px solid var(--ink);border-radius:12px;padding:12px;
+  background:var(--grass);color:var(--paper);text-shadow:0 2px 0 var(--ink);box-shadow:0 5px 0 var(--grass-dark),0 5px 0 3px var(--ink)}
+.big:active{transform:translateY(4px);box-shadow:0 1px 0 var(--grass-dark),0 1px 0 3px var(--ink)}
+.big.alt{background:var(--paper);color:var(--ink);text-shadow:none;box-shadow:0 5px 0 var(--ink)}
+.powerup .tag{background:var(--coin-dark)}
+.powerup ul{margin:8px 0 0;padding-left:20px;line-height:1.45}
+.powerup li{margin-bottom:4px}
+.powerup h3{font-family:var(--display);font-weight:400;font-size:20px}
+.streak{font-family:var(--display);font-size:13px;color:var(--ink);background:var(--coin);border:3px solid var(--ink);border-radius:8px;padding:2px 8px;align-self:center}
+.toast{position:fixed;left:50%;top:40%;transform:translate(-50%,-50%);z-index:20;font-family:var(--display);font-size:22px;color:var(--paper);
+  text-shadow:0 3px 0 var(--ink),2px 0 0 var(--ink),-2px 0 0 var(--ink);pointer-events:none;white-space:nowrap}
+@media (prefers-reduced-motion:no-preference){.toast{animation:pop 1s ease-out forwards}.shake{animation:shake .35s}}
+@keyframes pop{0%{opacity:0;transform:translate(-50%,-30%) scale(.6)}20%{opacity:1;transform:translate(-50%,-50%) scale(1.1)}100%{opacity:0;transform:translate(-50%,-90%) scale(1)}}
+@keyframes shake{25%{transform:translateX(-6px)}50%{transform:translateX(6px)}75%{transform:translateX(-3px)}}
+
+/* End screens + report */
+.result{text-align:center}
+.result h2{font-family:var(--display);font-weight:400;font-size:28px;margin:4px 0 8px}
+.result .stars{justify-content:center;gap:6px;margin:6px 0 10px}
+.result .star{width:40px;height:40px}
+.result p{margin:0 0 14px;line-height:1.45}
+.btnrow{display:grid;gap:10px}
+.panel{background:var(--paper);border:3px solid var(--ink);border-radius:14px;padding:14px;box-shadow:0 6px 0 var(--ink)}
+.tablewrap{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:14px;font-variant-numeric:tabular-nums}
+th,td{text-align:left;padding:6px 4px;border-bottom:2px solid #e3e9f2;vertical-align:top}
+th{font-size:12px;text-transform:uppercase;letter-spacing:.5px;color:var(--muted)}
+.miss{border-left:5px solid var(--lava);background:var(--panel);border-radius:6px;padding:8px 10px;margin-bottom:8px;font-size:14px;line-height:1.35}
+.miss small{display:block;color:var(--good);font-weight:900;margin-top:4px}
+.note{font-size:13px;color:var(--muted);margin:8px 0 0;line-height:1.4}
+.avatar{width:54px;height:70px;margin:0 auto 6px;position:relative}
+.avatar .h{position:absolute;left:12px;top:0;width:30px;height:28px;background:#ffd23f;border:3px solid var(--ink);border-radius:4px}
+.avatar .h::before,.avatar .h::after{content:"";position:absolute;top:9px;width:5px;height:6px;background:var(--ink)}
+.avatar .h::before{left:6px}.avatar .h::after{right:6px}
+.avatar .b{position:absolute;left:8px;top:30px;width:38px;height:26px;background:var(--sky-deep);border:3px solid var(--ink);border-radius:3px}
+.avatar .l{position:absolute;left:12px;top:56px;width:30px;height:14px;background:var(--grass-dark);border:3px solid var(--ink);border-top:0}
+@media (prefers-reduced-motion:no-preference){.avatar.jump{animation:jump .6s ease-in-out infinite alternate}}
+@keyframes jump{to{transform:translateY(-10px)}}
+</style>
+
+<div class="cloud c1"></div><div class="cloud c2"></div><div class="cloud c3"></div>
+<div class="wrap"><main id="app"></main></div>
+
+<script>
+/* ============ CONTENT: from Mr. Winter's ENL1W Unit 1 materials ============ */
+const STAGES = [
+{ id:"setting", name:"Plot & Setting", badge:"Setting Scout",
+  power:{title:"Plot & Setting", pts:[
+    "<b>Plot</b> = the shape of a story: exposition → rising action → <b>climax</b> → falling action → resolution.",
+    "<b>Climax</b> = the turning point, where tension peaks.",
+    "<b>Setting</b> = PLACE + TIME. Give as much important info as you can.",
+    "Mr. Winter's example: <i>“Rural France, a castle, 18th century.”</i>"]},
+  qs:[
+  {id:"s1",q:"Setting has two parts. What are they?",a:"Place and time",w:["Characters and conflict","Beginning and ending","Mood and tone"],
+   ex:"Setting = WHERE + WHEN. Mr. Winter wants as much important detail as possible."},
+  {id:"s2",q:"Which setting description would get the best mark?",a:"Paris, France, a cramped apartment, late 1800s",w:["In a city","Long ago","France"],
+   ex:"Strong settings give place AND time with real detail, like Mr. Winter's example: “Rural France, a castle, 18th century.”"},
+  {id:"s3",q:"Put the plot in order. What comes right AFTER the rising action?",a:"Climax",w:["Exposition","Resolution","Falling action"],
+   ex:"Exposition → rising action → CLIMAX → falling action → resolution. The climax is the top of the mountain."},
+  {id:"s4",q:"What is the climax of a story?",a:"The turning point where the tension is highest",w:["The very last sentence","Where the characters are introduced","The lesson the story teaches"],
+   ex:"The climax is the peak moment. Everything after it is falling action."},
+  {id:"s5",sc:"Mathilde dances at a ball at the Ministry, walks along the Champs-Élysées, and counts every franc.",q:"Which setting can you infer for “The Necklace”?",a:"Paris, France",w:["Vancouver, Canada","Colombia","Ithaca, Greece"],
+   ex:"Clues like the Champs-Élysées, the Seine and francs point to Paris. That's inference: evidence + reasoning."},
+  {id:"s6",q:"Where is “The Jade Peony” set?",a:"Vancouver's Chinatown",w:["Rural China","Toronto's Chinatown","Paris"],
+   ex:"Grandmama searches the alleys of Keefer and Pender Streets in Vancouver's Chinatown."}
+  ]},
+{ id:"character", name:"Character Types", badge:"Character Builder",
+  power:{title:"Character Types", pts:[
+    "<b>Protagonist</b> = main character. <b>Antagonist</b> = opposes the protagonist and creates conflict.",
+    "<b>Static</b> = does NOT change by the end. <b>Dynamic</b> = DOES change.",
+    "<b>Flat</b> = simple, static. <b>Round</b> = complex, realistic.",
+    "Writers <b>show, not tell</b>: you infer traits from actions, thoughts and body reactions."]},
+  qs:[
+  {id:"c1",q:"The character who opposes the main character and creates conflict is the…",a:"Antagonist",w:["Protagonist","Narrator","Author"],
+   ex:"Antagonist = the one in the way. The protagonist is the main character."},
+  {id:"c2",sc:"After ten years of scrubbing floors and paying debts, Mathilde is strong, rough and hard-working, not the dreamy, spoiled woman she was.",q:"What kind of character is Mathilde?",a:"Dynamic",w:["Static","Flat","Antagonist"],
+   ex:"She changes by the end of the story, so she's dynamic. The handout even asks whether the ten years made her a better person."},
+  {id:"c3",q:"A character who is simple, never changes, and you only see one side of is…",a:"Flat",w:["Round","Dynamic","Protagonist"],
+   ex:"Flat = simple and static. Round = complex and realistic."},
+  {id:"c4",sc:"“My hands began to tremble.” “Very pale.” “My shirt soaked with sweat.”",q:"What can you INFER about the barber from these details?",a:"Killing terrifies him; he's not a hardened killer",w:["He is sick with a fever","He is excited to get revenge","He is bored with his job"],
+   ex:"Mr. Winter's model answer: these physiological reactions show the possibility of murder terrifies him."},
+  {id:"c5",sc:"Captain Torres hangs up his gun belt, closes his eyes, and chats about hanging rebels like it's the weather.",q:"Which trait does this SHOW about Torres?",a:"Brave and unshakably calm",w:["Nervous and jumpy","Kind and gentle","Forgetful and careless"],
+   ex:"Model answer: brave, with a calm facade despite being vulnerable. Violence is routine for him."},
+  {id:"c6",q:"Why do authors “show, not tell”?",a:"Readers infer traits themselves, so the story feels real and more fun",w:["It makes the story shorter","Telling is against the rules of grammar","So nobody can find the theme"],
+   ex:"Instead of writing “the barber was nervous,” Téllez shows the trembling hands. Stories you have to infer are more enjoyable."},
+  {id:"c7",q:"Mathilde is complex: vain, dreamy, then proud and tough. She's a…",a:"Round character",w:["Flat character","Static character","Narrator only"],
+   ex:"Round = complex and realistic, with many sides."}
+  ]},
+{ id:"conflict", name:"Conflict", badge:"Conflict Master",
+  power:{title:"5 Types of Conflict ⚠ ON THE TEST", pts:[
+    "Conflict = ANY opposition facing the main character. It moves events along. Not just fights!",
+    "<b>vs. Character</b>: struggles against an antagonist.",
+    "<b>vs. Fate</b>: against fate or the circumstances of life.",
+    "<b>vs. Society</b>: against the ideas, practices or customs of other people.",
+    "<b>vs. Self</b>: with their own soul, right vs wrong, limits, choices.",
+    "<b>vs. Environment</b>: against their (usually natural) environment."]},
+  qs:[
+  {id:"k1",q:"Which is TRUE about conflict?",a:"It's any opposition the main character faces",w:["It only means a physical fight","Every story needs at least five","It's the same thing as the theme"],
+   ex:"Conflict isn't just fights. It's any opposition, and it's what moves the events along."},
+  {id:"k2",sc:"The barber holds the razor at Torres's throat, torn over whether killing him would be right or wrong.",q:"Which conflict is this?",a:"Character vs. Self",w:["Character vs. Environment","Character vs. Fate","Character vs. Character"],
+   ex:"His struggle is inside his own conscience, so it's character vs. self."},
+  {id:"k3",sc:"The barber is a secret rebel working against a violent military regime.",q:"Which conflict is this?",a:"Character vs. Society",w:["Character vs. Self","Character vs. Environment","Character vs. Fate"],
+   ex:"Mr. Winter's answer: the barber vs. a violent political regime = character vs. society."},
+  {id:"k4",sc:"A hiker is trapped on a mountain in a blizzard with no food.",q:"Which conflict is this?",a:"Character vs. Environment",w:["Character vs. Society","Character vs. Self","Character vs. Character"],
+   ex:"Nature is the opponent here: character vs. environment."},
+  {id:"k5",sc:"An oracle predicts a king's grandson will kill him. No matter what he does, the prophecy comes true.",q:"Which conflict is this?",a:"Character vs. Fate",w:["Character vs. Environment","Character vs. Society","Character vs. Self"],
+   ex:"Struggling against destiny = character vs. fate. That's Acrisius in the Perseus myth!"},
+  {id:"k6",sc:"The barber and Captain Torres: a rebel and the captain who hunts rebels.",q:"Which conflict is this?",a:"Character vs. Character",w:["Character vs. Fate","Character vs. Environment","Character vs. Self"],
+   ex:"Two people on opposite sides = character vs. character."},
+  {id:"k7",sc:"A girl wants to play on the hockey team, but her town's custom says only boys can play.",q:"Which conflict is this?",a:"Character vs. Society",w:["Character vs. Fate","Character vs. Environment","Character vs. Character"],
+   ex:"Fighting against the customs or ideas of other people = character vs. society."},
+  {id:"k8",q:"At a Grade 9 level, how many MAIN conflicts does a short story usually have?",a:"One",w:["Five","None","Exactly three"],
+   ex:"Mr. Winter's notes: short stories at a Grade 9 level usually have only 1 main conflict. (Lather has layers, but one drives it.)"}
+  ]},
+{ id:"pov", name:"Point of View", badge:"POV Pro",
+  power:{title:"Point of View", pts:[
+    "POV = the angle the story is told from.",
+    "The <b>narrator</b> (voice telling the story) is NOT the <b>author</b>!",
+    "<b>First person</b>: “I.” You only know what that character knows. Could be reliable or unreliable.",
+    "<b>Third person omniscient</b>: god's-eye view; knows and sees all.",
+    "<b>Third person limited</b>: knows everything about ONE character."]},
+  qs:[
+  {id:"p1",sc:"“My hands began to tremble… I was a conscientious barber.”",q:"What POV is “Lather and Nothing Else”?",a:"First person",w:["Third person omniscient","Third person limited","Second person"],
+   ex:"“I” and “my” from inside the barber's head = first person. We only know what HE knows, which is why the twist works."},
+  {id:"p2",q:"In “Lather,” why does it matter that we're stuck inside the barber's head?",a:"We don't know Torres knows, so the ending shocks us",w:["It lets us read Torres's thoughts","It makes the story funnier","It tells us the theme directly"],
+   ex:"Torres's thoughts are hidden from us, so his final line hits like a twist. POV controls what readers know."},
+  {id:"p3",q:"The narrator and the author are…",a:"Two different things",w:["Always the same person","Both the main character","The same in first person only"],
+   ex:"Mr. Winter: separate narrator from author! Téllez wrote the story; the barber narrates it."},
+  {id:"p4",q:"A narrator who sees into EVERY character's mind is…",a:"Third person omniscient",w:["Third person limited","First person","Unreliable"],
+   ex:"Omniscient = all-knowing, the god's-eye view."},
+  {id:"p5",q:"A narrator who uses “he/she” but follows ONE character's thoughts is…",a:"Third person limited",w:["Third person omniscient","First person","Second person"],
+   ex:"Limited = knows all about ONE character."},
+  {id:"p6",sc:"Sek-Lung tells us: “I was eight when she died.”",q:"What POV is “The Jade Peony”?",a:"First person",w:["Third person omniscient","Third person limited","No narrator"],
+   ex:"The youngest grandson tells his own memory with “I”: first person."}
+  ]},
+{ id:"theme", name:"Theme", badge:"Theme Hunter",
+  power:{title:"Theme = Topic + Message", pts:[
+    "Theme = an insight about human life that the story reveals. It's almost never stated; you INFER it.",
+    "⚠ ALWAYS more than one word. “Friendship” is a topic, not a theme.",
+    "Theme is NOT the conflict, the moral, the topic, or a simple fact.",
+    "Your message must be <b>arguable</b>, <b>provable</b> with evidence, and <b>apply</b> to other stories and life.",
+    "If it sounds like a Hallmark card or fortune cookie, dig deeper!"]},
+  qs:[
+  {id:"t1",q:"Someone says the theme of a story is “Bravery.” What's wrong?",a:"One word is just a topic, not a theme",w:["Nothing; that's a perfect theme","Bravery is a conflict","Themes must be questions"],
+   ex:"Theme = topic + MESSAGE. “Bravery” is only the topic. What does the author say ABOUT bravery?"},
+  {id:"t2",q:"Which one is a real theme statement?",a:"Unchecked ambition corrupts the human soul.",w:["Ambition","The story is about a king who wants power.","Be yourself!"],
+   ex:"That's Mr. Winter's Macbeth example: a topic (ambition) + an arguable message about it."},
+  {id:"t3",q:"Which of these IS part of a theme?",a:"The author's message about a big idea",w:["The moral, stated in the last line","The main conflict","A simple fact everyone agrees with"],
+   ex:"Theme is NOT the conflict, NOT the moral, NOT a fact. It's the author's insight, and you infer it."},
+  {id:"t4",q:"Your theme statement must be arguable, provable, and…",a:"Applicable to other stories and life",w:["Funny","One word long","Stated directly by the author"],
+   ex:"The 3 tests: arguable (someone could disagree), provable (with evidence), applicable (works beyond this one story)."},
+  {id:"t5",q:"Which is the BEST place to start hunting for a theme topic?",a:"The title, repetition, and figurative language",w:["The author's birthday","The number of pages","The first word only"],
+   ex:"Mr. Winter's tips: check the title, notice repetition, watch figurative language, and ask what big idea the story deals with."},
+  {id:"t6",q:"“Lather and Nothing Else” explores which “versus” topic?",a:"Appearance vs. reality",w:["Love vs. money","Humans vs. technology","Good food vs. bad food"],
+   ex:"Mr. Winter gave: appearance vs. reality, and strength vs. violence. The barber looks powerful with the razor, but Torres held the real power."},
+  {id:"t7",q:"Which theme statement would Mr. Winter call a “Hallmark card”?",a:"Friends are always there for you.",w:["True friendship requires loyalty even when it's difficult.","True power is rarely where it appears to be.","Reason can overtake the instinct to be violent."],
+   ex:"Cute, shallow and not really arguable. The other three dig deeper and could start a debate."}
+  ]},
+{ id:"boss", name:"BOSS: Twist Ending", badge:"Irony Slayer", boss:true,
+  power:{title:"Boss Stage: Twists & Irony", pts:[
+    "<b>Situational irony</b> = the outcome is the exact OPPOSITE of what you expect.",
+    "“Lather”: the barber thinks he holds the power… but Torres knew all along.",
+    "“The Necklace”: ten years of misery to replace a necklace that was… fake.",
+    "<b>Foreshadowing</b> = hints planted early about what's coming.",
+    "Hearts are tight. You've got this."]},
+  qs:[
+  {id:"b1",q:"What is situational irony?",a:"When the outcome is the opposite of what you expect",w:["When a character is sarcastic","When the story is set in the past","When the narrator lies"],
+   ex:"Mr. Winter's definition: the actual outcome is the exact opposite of what you expect."},
+  {id:"b2",sc:"As he leaves, Torres says: “They told me that you'd kill me. I came to find out.”",q:"What does this ending reveal?",a:"Torres knew the barber was a rebel the whole time",w:["Torres planned to arrest the barber","The barber was never a rebel","Torres wanted the barber to cut him"],
+   ex:"The twist flips the power. The barber thought his secret was safe; Torres was testing fate and him."},
+  {id:"b3",q:"What real conflict is the setting of “Lather” based on?",a:"Colombia's La Violencia (1948–1958)",w:["The French Revolution","The Trojan War","World War I in France"],
+   ex:"Spanish names, a captain hunting rebels: Colombia's La Violencia, when over 200,000 people died."},
+  {id:"b4",q:"How much did the Loisels pay for the replacement necklace?",a:"36,000 francs",w:["500 francs","400 francs","18,000 francs"],
+   ex:"They paid 36,000 francs. 18,000 was his inheritance, 400 was the dress money, and 500 was what the original was worth!"},
+  {id:"b5",q:"What's the twist at the end of “The Necklace”?",a:"The borrowed necklace was fake, worth 500 francs at most",w:["Madame Forestier stole it back","Mathilde never lost it","Mr. Loisel had hidden it"],
+   ex:"“Mine was false.” Ten years of poverty for a fake: classic situational irony."},
+  {id:"b6",sc:"When Mathilde asks for jewels, Madame Forestier casually says, “Choose whatever you like.” Later, she doesn't even open the case.",q:"What is the author doing here?",a:"Foreshadowing that the necklace wasn't valuable",w:["Showing Forestier is the antagonist","Revealing the theme directly","Describing the setting"],
+   ex:"Someone careless with a “priceless” necklace? That's a hint planted for the twist."},
+  {id:"b7",sc:"Mr. Loisel gives up the 400 francs he'd saved for a rifle so Mathilde can buy a dress.",q:"What does this SHOW about Mr. Loisel?",a:"He's generous and sacrifices for his wife",w:["He hates hunting","He's greedy","He wants to go to the ball alone"],
+   ex:"Show, don't tell: his sacrifice reveals his character without the author saying “he was generous.”"},
+  {id:"b8",q:"Which is the strongest theme statement for “The Necklace”?",a:"Trying to look richer than you are can cost you everything.",w:["Necklaces","Mathilde loses a necklace and pays it back.","Money is nice."],
+   ex:"Topic (appearance vs. reality / pride) + an arguable message you can prove with the ten years of debt."},
+  {id:"b9",q:"How long do the Loisels work to pay off their debt?",a:"Ten years",w:["Ten months","Two years","Twenty years"],
+   ex:"Ten years of hard labour, and Mathilde looks old, rough and hard by the end."}
+  ]}
+];
+
+/* ============ STATE ============ */
+const KEY="fictionObby.v1";
+function load(){try{const s=JSON.parse(localStorage.getItem(KEY));if(s&&s.stages)return s}catch(e){}return{coins:0,stages:{},missed:{},log:[]}}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}}
+let S=load();
+let DB=null;
+(async()=>{try{if(window.claude&&claude.use){DB=await claude.use("db");if(view==="report")render()}}catch(e){DB=null}})();
+
+const $=s=>document.querySelector(s);
+const app=$("#app");
+let view="map", run=null;
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const shuffle=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
+const unlocked=i=>i===0||!!(S.stages[STAGES[i-1].id]&&S.stages[STAGES[i-1].id].best>0);
+const starsHTML=(n,max=3)=>Array.from({length:max},(_,i)=>`<i class="star ${i<n?"on":""}"></i>`).join("");
+const heartsHTML=(n,max=3)=>Array.from({length:max},(_,i)=>`<i class="heart ${i<n?"":"gone"}"></i>`).join("");
+function toast(t){const d=document.createElement("div");d.className="toast";d.textContent=t;document.body.appendChild(d);setTimeout(()=>d.remove(),1000)}
+function buzz(){try{navigator.vibrate&&navigator.vibrate(120)}catch(e){}}
+
+/* ============ VIEWS ============ */
+function render(){ if(view==="map")mapView(); else if(view==="power")powerView(); else if(view==="q")qView(); else if(view==="end")endView(); else if(view==="report")reportView(); window.scrollTo(0,0) }
+
+function hud(extra=""){
+  return `<div class="hud"><div class="chip"><i class="coin"></i>${S.coins}</div>${extra}<button class="iconbtn" id="rep" aria-label="Open the progress report">REPORT</button></div>`;
+}
+
+function mapView(){
+  const cleared=STAGES.filter(s=>S.stages[s.id]&&S.stages[s.id].best>0).length;
+  app.innerHTML = hud() + `
+  <div class="logo"><div class="avatar jump"><i class="h"></i><i class="b"></i><i class="l"></i></div>
+   <h1>FICTION<br>OBBY</h1>
+   <p>Climb ${STAGES.length} stages of Grade 9 English. Don't fall in the lava. ${cleared}/${STAGES.length} cleared.</p></div>
+  <div class="map">${STAGES.map((s,i)=>{
+     const st=S.stages[s.id]; const lock=!unlocked(i);
+     return `<button class="plat ${s.boss?"boss":""} ${lock?"locked":""}" data-i="${i}" ${lock?'aria-disabled="true"':""}>
+       <span class="block">${s.boss?"!":i+1}</span>
+       <span class="meta"><b>${esc(s.name)}</b><span>${lock?"Locked: clear the stage below":`${s.qs.length} questions${st?` · best ${st.bestScore}/${s.qs.length}`:""}`}</span></span>
+       <span class="stars">${starsHTML(st?st.best:0)}</span></button>`}).join("")}</div>
+  <div class="lavabar">START · THE FLOOR IS LAVA</div>
+  <section class="badges"><h2>Badges</h2><div class="badgerow">${STAGES.map(s=>{const on=S.stages[s.id]&&S.stages[s.id].best>0;return `<div class="badge ${on?"on":""}"><i></i>${esc(s.badge)}</div>`}).join("")}</div></section>
+  <p style="text-align:center;margin-top:18px"><a href="../" style="font-family:var(--display);color:var(--paper);text-shadow:0 2px 0 var(--ink);font-size:14px">← ALL GAMES</a></p>`;
+  app.querySelectorAll(".plat").forEach(b=>b.onclick=()=>{const i=+b.dataset.i;if(!unlocked(i)){toast("LOCKED");return}startStage(i)});
+  $("#rep").onclick=()=>{view="report";render()};
+}
+
+function startStage(i){
+  const st=STAGES[i];
+  run={i,stage:st,qs:shuffle(st.qs),k:0,hearts:st.boss?2:3,max:st.boss?2:3,correct:0,streak:0,coins:0,missed:[],answered:false};
+  view="power";render();
+}
+
+function powerView(){
+  const st=run.stage;
+  app.innerHTML = hud() + `<div class="run">
+   <div class="stagehead">STAGE ${st.boss?"BOSS":run.i+1} · ${esc(st.name).toUpperCase()}</div>
+   <div class="card powerup"><span class="tag">POWER-UP · READ THIS FIRST</span><h3>${esc(st.power.title)}</h3><ul>${st.power.pts.map(p=>`<li>${p}</li>`).join("")}</ul></div>
+   <p style="margin:0;color:#fff;font-weight:900;text-shadow:0 2px 0 var(--ink);text-align:center">${run.max} hearts · ${run.qs.length} jumps · 3 in a row = double coins</p>
+   <button class="big" id="go">START RUN</button>
+   <button class="big alt" id="back">Back to map</button></div>`;
+  $("#go").onclick=()=>{view="q";render()};
+  $("#back").onclick=()=>{view="map";render()};
+  $("#rep").onclick=()=>{view="report";render()};
+}
+
+function qView(){
+  const q=run.qs[run.k]; const st=run.stage;
+  if(!q._c) q._c=shuffle([q.a,...q.w]);
+  const pct=Math.round(run.k/run.qs.length*100);
+  app.innerHTML = hud(`<div class="chip"><span class="hearts">${heartsHTML(run.hearts,run.max)}</span></div>`) + `<div class="run">
+    <div class="stagehead">STAGE ${st.boss?"BOSS":run.i+1} · JUMP ${run.k+1} OF ${run.qs.length}</div>
+    <div class="progress" role="progressbar" aria-valuenow="${pct}" aria-valuemin="0" aria-valuemax="100"><i style="width:${pct}%"></i></div>
+    <div class="card" id="qc">${q.sc?`<p class="scene">${esc(q.sc)}</p>`:""}<h3>${esc(q.q)}</h3></div>
+    ${run.streak>=3?`<span class="streak">STREAK ×${run.streak} · DOUBLE COINS</span>`:""}
+    <div class="choices">${q._c.map((c,j)=>`<button class="choice" data-j="${j}">${esc(c)}</button>`).join("")}</div>
+    <div id="fb"></div></div>`;
+  app.querySelectorAll(".choice").forEach(b=>b.onclick=()=>answer(+b.dataset.j));
+  $("#rep").onclick=()=>{view="report";render()};
+}
+
+function answer(j){
+  if(run.answered)return; run.answered=true;
+  const q=run.qs[run.k]; const pick=q._c[j]; const ok=pick===q.a;
+  app.querySelectorAll(".choice").forEach((b,i)=>{b.disabled=true;const c=q._c[i];if(c===q.a)b.classList.add("right");else if(i===j)b.classList.add("wrong");else b.classList.add("dim")});
+  if(ok){run.correct++;run.streak++;const gain=run.streak>=3?20:10;run.coins+=gain;S.coins+=gain;toast(`+${gain}`)}
+  else{run.streak=0;run.hearts--;run.missed.push(q.id);S.missed[q.id]=(S.missed[q.id]||0)+1;buzz();
+    const qc=$("#qc");qc.classList.remove("shake");void qc.offsetWidth;qc.classList.add("shake");
+    const hs=app.querySelector(".hearts");if(hs)hs.innerHTML=heartsHTML(run.hearts,run.max)}
+  save();
+  const hud0=app.querySelector(".hud .chip");if(hud0)hud0.innerHTML=`<i class="coin"></i>${S.coins}`;
+  const dead=run.hearts<=0; const last=run.k===run.qs.length-1;
+  $("#fb").innerHTML=`<div class="feedback ${ok?"ok":"no"}"><b>${ok?["NAILED IT","CLEAN JUMP","EZ","LET'S GO"][Math.floor(Math.random()*4)]:"OOF"}</b>
+    ${ok?"":`<p><strong>Answer:</strong> ${esc(q.a)}</p>`}<p>${esc(q.ex)}</p>
+    <button class="big" id="nx">${dead?"FELL IN THE LAVA…":last?"FINISH STAGE":"NEXT JUMP"}</button></div>`;
+  $("#nx").onclick=()=>{ if(dead){finish(false)} else if(last){finish(true)} else {run.k++;run.answered=false;render()} };
+  $("#fb").scrollIntoView({behavior:matchMedia("(prefers-reduced-motion: reduce)").matches?"auto":"smooth",block:"nearest"});
+}
+
+function finish(cleared){
+  const st=run.stage; const rec=S.stages[st.id]||{best:0,bestScore:0,attempts:0,clears:0};
+  rec.attempts++;
+  let stars=0;
+  if(cleared){rec.clears++; stars = run.hearts===run.max?3:(run.hearts>=run.max-1&&run.max>2?2:1); if(stars>rec.best)rec.best=stars; if(run.correct>rec.bestScore)rec.bestScore=run.correct}
+  rec.last=Date.now(); S.stages[st.id]=rec;
+  const entry={at:new Date().toISOString(),stage:st.id,stageName:st.name,correct:run.correct,total:run.qs.length,cleared,stars,missed:run.missed.slice()};
+  S.log.unshift(entry); S.log=S.log.slice(0,60); save();
+  if(DB){DB.collection("runs").add(entry).catch(()=>{})}
+  run.stars=stars; run.cleared=cleared; view="end"; render();
+}
+
+function endView(){
+  const st=run.stage; const i=run.i; const next=STAGES[i+1];
+  const missedQs=run.missed.map(id=>st.qs.find(q=>q.id===id));
+  app.innerHTML = hud() + `<div class="run"><div class="card result">
+    ${run.cleared?`<div class="avatar jump"><i class="h"></i><i class="b"></i><i class="l"></i></div><h2>STAGE CLEARED!</h2><div class="stars">${starsHTML(run.stars)}</div>
+      <p>${run.correct}/${run.qs.length} correct · +${run.coins} coins<br><strong>Badge: ${esc(st.badge)}</strong></p>`
+     :`<h2>BACK TO CHECKPOINT</h2><p>You ran out of hearts on jump ${run.k+1}. ${run.correct} correct, +${run.coins} coins kept.<br>Read the Power-Up again, then retry. You'll get it.</p>`}
+    <div class="btnrow">
+      ${run.cleared&&next?`<button class="big" id="nextst">NEXT: ${esc(next.name).toUpperCase()}</button>`:""}
+      <button class="big ${run.cleared&&next?"alt":""}" id="again">${run.cleared?"Replay for 3 stars":"RETRY STAGE"}</button>
+      <button class="big alt" id="map">Map</button></div></div>
+    ${missedQs.length?`<div class="panel"><h2>Review these</h2>${missedQs.map(q=>`<div class="miss">${esc(q.q)}<small>✓ ${esc(q.a)}</small></div>`).join("")}</div>`:""}</div>`;
+  if($("#nextst"))$("#nextst").onclick=()=>startStage(i+1);
+  $("#again").onclick=()=>startStage(i);
+  $("#map").onclick=()=>{view="map";render()};
+  $("#rep").onclick=()=>{view="report";render()};
+}
+
+async function reportView(){
+  const allQ={};STAGES.forEach(s=>s.qs.forEach(q=>allQ[q.id]={...q,stage:s.name}));
+  const tough=Object.entries(S.missed).sort((a,b)=>b[1]-a[1]).slice(0,8).filter(([id])=>allQ[id]);
+  const fmt=t=>{try{return new Date(t).toLocaleString([], {month:"short",day:"numeric",hour:"numeric",minute:"2-digit"})}catch(e){return t}};
+  app.innerHTML = hud() + `<div class="run">
+   <div class="stagehead">PROGRESS REPORT</div>
+   <div class="panel"><h2>Stages</h2><div class="tablewrap"><table><thead><tr><th>Stage</th><th>Stars</th><th>Best</th><th>Tries</th><th>Last</th></tr></thead><tbody>
+   ${STAGES.map(s=>{const r=S.stages[s.id];return `<tr><td>${esc(s.name)}</td><td><span class="stars">${starsHTML(r?r.best:0)}</span></td><td>${r?`${r.bestScore}/${s.qs.length}`:"—"}</td><td>${r?r.attempts:0}</td><td>${r&&r.last?fmt(r.last):"—"}</td></tr>`}).join("")}
+   </tbody></table></div><p class="note">This device: ${S.log.length} runs played, ${S.coins} coins.</p></div>
+   <div class="panel"><h2>Keeps missing</h2>${tough.length?tough.map(([id,n])=>{const q=allQ[id];return `<div class="miss"><b>${esc(q.stage)}</b> · missed ${n}×<br>${esc(q.q)}<small>✓ ${esc(q.a)}</small></div>`}).join(""):`<p class="note">Nothing missed yet. Play a stage and tricky questions show up here.</p>`}</div>
+   <div class="panel" id="alldev"><h2>All devices</h2><p class="note">Loading…</p></div>
+   <button class="big alt" id="map">Back to map</button></div>`;
+  $("#map").onclick=()=>{view="map";render()};
+  $("#rep").onclick=()=>{};
+  const box=$("#alldev");
+  if(!DB){box.remove();return}
+  try{
+    const snap=await DB.collection("runs").orderBy("at","desc").limit(40).get();
+    if(view!=="report")return;
+    box.innerHTML=`<h2>All devices · last ${snap.size} runs</h2>`+(snap.empty?`<p class="note">No runs logged yet.</p>`:
+     `<div class="tablewrap"><table><thead><tr><th>When</th><th>Stage</th><th>Score</th><th>Result</th></tr></thead><tbody>${snap.docs.map(d=>{const r=d.data();return `<tr><td>${esc(fmt(r.at))}</td><td>${esc(r.stageName||r.stage)}</td><td>${r.correct}/${r.total}</td><td>${r.cleared?starsHTML(r.stars):"Fell"}</td></tr>`}).join("")}</tbody></table></div>`);
+  }catch(e){box.innerHTML=`<h2>All devices</h2><p class="note">Couldn't load shared runs right now. This device's progress is above.</p>`}
+}
+
+render();
+</script>
+
+</body></html>
