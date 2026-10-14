@@ -44,6 +44,10 @@ a.game:focus-visible{outline:3px solid var(--ink);outline-offset:3px}
   <h1>ENGLISH<br>GAMES</h1>
   <p class="sub">Grade 9 English with Mr. Winter · Unit 1</p>
   <div class="games">
+    <a class="game" href="study-guide/">
+      <div class="tile gold">★</div>
+      <div><b>Unit 1 Survival Guide</b><span>Missed class? Read this first: the 3 stories + everything the game tests</span><em class="go" id="sg">READ</em></div>
+    </a>
     <a class="game" href="fiction-obby/">
       <div class="tile">1</div>
       <div><b>Fiction Obby</b><span>Plot, character, conflict, POV, theme + a twist-ending boss</span><em class="go" id="fo">PLAY</em></div>
@@ -61,6 +65,7 @@ a.game:focus-visible{outline:3px solid var(--ink);outline-offset:3px}
 </div>
 <script>
 try{const s=JSON.parse(localStorage.getItem("fictionObby.v1"));if(s&&s.stages){const n=Object.values(s.stages).filter(r=>r.best>0).length;document.getElementById("fo").textContent=n?`${n}/6 CLEARED · ${s.coins} COINS`:"PLAY"}}catch(e){}
+try{const g=JSON.parse(localStorage.getItem("unit1Guide.v1"));if(g){const n=Object.values(g).filter(Boolean).length;if(n)document.getElementById("sg").textContent=`${n}/7 LEVELS DONE`}}catch(e){}
 </script>
 </body>
 </html>

@@ -1,0 +1,390 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Unit 1 Survival Guide</title>
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#3d9be9">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect x='4' y='4' width='56' height='56' rx='8' fill='%23ffd23f' stroke='%2314213d' stroke-width='6'/%3E%3Crect x='18' y='24' width='8' height='10' fill='%2314213d'/%3E%3Crect x='38' y='24' width='8' height='10' fill='%2314213d'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bungee&family=Nunito:wght@600;700;800;900&display=swap">
+<style>
+/* Layout: one reading column (max 640px) on the same sky world as the games; a sticky level bar on top,
+   then "levels" — each a white card stack: rule, in-the-stories, watch-out, quick check, play button. */
+:root{
+  --sky:#7cc7ff; --sky-deep:#3d9be9; --ink:#14213d; --paper:#ffffff; --panel:#eef6ff;
+  --grass:#2fd36b; --grass-dark:#15a24b; --dirt:#a8642d; --lava:#ff5a36; --coin:#ffc83d; --coin-dark:#e09a00;
+  --muted:#4f5f78; --good:#14864a; --line:#d9e4f2;
+  --display:"Bungee","Arial Black",Impact,system-ui,sans-serif;
+  --body:"Nunito",ui-rounded,"Segoe UI",system-ui,sans-serif;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+body{margin:0;color:var(--ink);font-family:var(--body);font-weight:600;font-size:17px;line-height:1.55;
+  background:var(--sky);background-image:linear-gradient(180deg,var(--sky-deep),var(--sky) 40%,#b9e3ff);background-attachment:fixed;
+  padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+a{color:inherit}
+.wrap{max-width:640px;margin:0 auto;padding-inline:16px;padding-block:8px 60px}
+
+/* Sticky level bar */
+.bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:10;background:var(--sky-deep);border-bottom:3px solid var(--ink);box-shadow:0 3px 0 rgba(20,33,61,.25)}
+.bar .in{max-width:640px;margin:0 auto;padding:8px 16px;display:flex;gap:8px;align-items:center}
+.meter{flex:1;min-width:0;height:14px;background:var(--paper);border:3px solid var(--ink);border-radius:7px;overflow:hidden}
+.meter i{display:block;height:100%;width:0;background:var(--grass);border-right:3px solid var(--ink);transition:width .3s}
+.meter-l{font-family:var(--display);font-size:12px;color:var(--paper);text-shadow:0 2px 0 var(--ink);white-space:nowrap;font-variant-numeric:tabular-nums}
+.chips{display:flex;gap:6px;overflow-x:auto;padding:0 16px 8px;max-width:640px;margin:0 auto;scrollbar-width:none}
+.chips::-webkit-scrollbar{display:none}
+.chips a{flex:none;text-decoration:none;font-family:var(--display);font-size:12px;background:var(--paper);border:3px solid var(--ink);border-radius:8px;padding:3px 9px;box-shadow:0 3px 0 var(--ink)}
+.chips a.done{background:var(--grass)}
+
+/* Header */
+header{text-align:center;padding-block:22px 6px}
+h1{font-family:var(--display);font-weight:400;font-size:clamp(30px,9vw,46px);line-height:1;margin:0;color:var(--paper);
+  text-shadow:0 4px 0 var(--ink),3px 0 0 var(--ink),-3px 0 0 var(--ink),0 -3px 0 var(--ink),3px 4px 0 var(--ink),-3px 4px 0 var(--ink);text-wrap:balance}
+.lede{background:rgba(255,255,255,.85);border:3px solid var(--ink);border-radius:12px;padding:12px 14px;margin:18px 0 0;text-align:left;box-shadow:0 5px 0 var(--ink)}
+.lede p{margin:0 0 6px}.lede p:last-child{margin:0}
+
+/* Levels */
+section.level{margin-top:34px;scroll-margin-top:96px}
+.lvhead{display:flex;align-items:center;gap:12px;margin-bottom:12px}
+.block{width:52px;height:52px;flex:none;border:3px solid var(--ink);border-radius:8px;background:linear-gradient(var(--grass) 0 38%,var(--dirt) 38%);
+  display:grid;place-items:center;font-family:var(--display);font-size:20px;color:var(--paper);text-shadow:0 2px 0 var(--ink);box-shadow:0 4px 0 var(--ink)}
+.block.boss{background:linear-gradient(#ff8a3d 0 38%,#d63c1c 38%)}
+.block.story{background:linear-gradient(var(--coin) 0 38%,var(--coin-dark) 38%)}
+.lvhead h2{font-family:var(--display);font-weight:400;font-size:22px;line-height:1.1;margin:0;color:var(--paper);text-shadow:0 3px 0 var(--ink),2px 0 0 var(--ink),-2px 0 0 var(--ink)}
+.lvhead small{display:block;font-family:var(--body);font-weight:900;font-size:13px;color:var(--ink);text-shadow:none;margin-top:4px}
+.card{background:var(--paper);border:3px solid var(--ink);border-radius:14px;padding:16px;box-shadow:0 6px 0 var(--ink);margin-bottom:14px}
+.card h3{font-family:var(--display);font-weight:400;font-size:15px;letter-spacing:.3px;margin:0 0 8px}
+.card p{margin:0 0 10px}.card p:last-child{margin-bottom:0}
+.card ul{margin:0;padding-left:20px}.card li{margin-bottom:6px}
+.tag{display:inline-block;font-family:var(--display);font-size:11px;border-radius:6px;padding:2px 7px;margin-bottom:8px;letter-spacing:.4px;background:var(--ink);color:var(--paper)}
+.tag.test{background:var(--lava)}
+.tag.story{background:var(--coin);color:var(--ink)}
+.terms{display:grid;gap:8px}
+.term{display:grid;grid-template-columns:minmax(0,9.5em) minmax(0,1fr);gap:10px;align-items:baseline;padding:8px 10px;background:var(--panel);border-radius:8px}
+.term b{font-weight:900}
+@media (max-width:420px){.term{grid-template-columns:1fr;gap:2px}}
+.quote{border-left:5px solid var(--sky-deep);background:var(--panel);border-radius:6px;padding:8px 12px;margin:8px 0;font-style:italic}
+.warn{background:#fff3ef;border-color:var(--lava)}
+.warn h3{color:#b8321a}
+.plot{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:4px;align-items:end;margin:6px 0 4px}
+.plot div{border:3px solid var(--ink);border-radius:6px 6px 0 0;background:var(--grass);display:flex;align-items:flex-end;justify-content:center;padding:4px 2px;
+  font-size:11px;font-weight:900;line-height:1.1;text-align:center;min-width:0;overflow-wrap:anywhere}
+.plot .p1{height:46px}.plot .p2{height:78px}.plot .p3{height:112px;background:var(--lava);color:var(--paper)}.plot .p4{height:70px}.plot .p5{height:46px}
+
+/* Quick check */
+details{border:3px solid var(--ink);border-radius:10px;background:var(--paper);margin-bottom:8px;box-shadow:0 3px 0 var(--ink)}
+summary{cursor:pointer;list-style:none;padding:10px 12px;font-weight:900;display:flex;gap:10px;align-items:flex-start}
+summary::-webkit-details-marker{display:none}
+summary::before{content:"?";flex:none;width:24px;height:24px;border-radius:6px;background:var(--coin);border:2px solid var(--ink);display:grid;place-items:center;font-family:var(--display);font-size:13px;line-height:1}
+details[open] summary::before{content:"✓";background:var(--grass)}
+details > div{padding:0 12px 12px 46px;color:var(--good);font-weight:800}
+summary:focus-visible,.btn:focus-visible,.done-btn:focus-visible{outline:3px solid var(--ink);outline-offset:3px}
+
+/* Actions */
+.actions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:4px}
+.btn,.done-btn{display:block;text-align:center;text-decoration:none;font-family:var(--display);font-size:15px;border:3px solid var(--ink);border-radius:12px;padding:11px 8px;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.btn{background:var(--grass);color:var(--paper);text-shadow:0 2px 0 var(--ink);box-shadow:0 5px 0 var(--ink)}
+.done-btn{background:var(--paper);color:var(--ink);box-shadow:0 5px 0 var(--ink);font:inherit;font-family:var(--display);font-size:15px}
+.done-btn[aria-pressed="true"]{background:var(--coin)}
+.btn:active,.done-btn:active{transform:translateY(4px);box-shadow:0 1px 0 var(--ink)}
+
+/* Cheat sheet */
+.cheat{display:grid;gap:8px}
+.cheat div{background:var(--panel);border-radius:8px;padding:8px 10px}
+.cheat b{font-family:var(--display);font-weight:400;font-size:13px;display:block;margin-bottom:2px}
+footer{text-align:center;margin-top:30px;font-weight:800;font-size:14px}
+footer a{font-family:var(--display);color:var(--paper);text-shadow:0 2px 0 var(--ink)}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+
+<nav class="bar" aria-label="Guide levels">
+  <div class="in"><div class="meter" aria-hidden="true"><i id="meter"></i></div><span class="meter-l" id="meterl">0/7 DONE</span></div>
+  <div class="chips">
+    <a href="#stories" data-k="stories">STORIES</a><a href="#plot" data-k="plot">1 PLOT</a><a href="#character" data-k="character">2 CHARACTER</a>
+    <a href="#conflict" data-k="conflict">3 CONFLICT</a><a href="#pov" data-k="pov">4 POV</a><a href="#theme" data-k="theme">5 THEME</a><a href="#irony" data-k="irony">BOSS IRONY</a>
+  </div>
+</nav>
+
+<div class="wrap">
+<header>
+  <h1>UNIT 1<br>SURVIVAL GUIDE</h1>
+  <div class="lede">
+    <p><b>Missed class? Start here.</b> Everything Fiction Obby tests, in Mr. Winter's own words, in 7 short levels. About 3 minutes each.</p>
+    <p>Do one level, tap <b>Done</b>, then play that stage in the game to lock it in.</p>
+  </div>
+</header>
+
+<!-- ===================== STORIES ===================== -->
+<section class="level" id="stories">
+  <div class="lvhead"><div class="block story">★</div><h2>The 3 Stories<small>The game uses these. Know what happens.</small></h2></div>
+
+  <div class="card">
+    <span class="tag story">STORY 1</span>
+    <h3>“Lather and Nothing Else” · Hernando Téllez</h3>
+    <p><b>What happens:</b> A barber is shaving Captain Torres, the army officer who hunts and kills rebels. The barber is secretly a rebel spy. With a razor at Torres's throat, he agonizes: should he kill him? He decides he's a barber, not a murderer, and finishes a perfect shave. As Torres leaves, he says:</p>
+    <p class="quote">“They told me that you'd kill me. I came to find out.”</p>
+    <p><b>The twist:</b> Torres knew the barber was a rebel the whole time. The barber thought <i>he</i> had the power. Torres actually did.</p>
+    <p><b>Setting:</b> A barbershop in a Spanish-speaking country at war. Mr. Winter connected it to <b>Colombia's La Violencia (1948–1958)</b>, when over 200,000 people died.</p>
+    <p><b>Told by:</b> the barber, using “I” (first person). We only know what he knows, which is why the ending shocks us.</p>
+  </div>
+
+  <div class="card">
+    <span class="tag story">STORY 2</span>
+    <h3>“The Necklace” · Guy de Maupassant</h3>
+    <p><b>What happens:</b> Mathilde Loisel is pretty but poor, married to a clerk at the Ministry of Education in Paris, and miserable because she dreams of luxury. Her husband gets an invitation to a fancy Ministry ball. He gives up the <b>400 francs</b> he saved for a rifle so she can buy a dress, and she borrows a diamond necklace from her rich friend, <b>Madame Forestier</b>.</p>
+    <p>She's the star of the ball, then loses the necklace on the way home. Instead of admitting it, they buy a replacement for <b>36,000 francs</b>, using his inheritance and huge loans. They spend <b>ten years</b> in poverty paying it off. Mathilde becomes old, rough and hard-working.</p>
+    <p><b>The twist:</b> She finally tells Madame Forestier, who says:</p>
+    <p class="quote">“Oh, my poor, poor Mathilde! Mine was false. It was worth five hundred francs at the most!”</p>
+    <p><b>Setting:</b> Paris, France, in the late 1800s (the Ministry, the Champs-Élysées, francs).</p>
+  </div>
+
+  <div class="card">
+    <span class="tag story">STORY 3</span>
+    <h3>“When the Jade Peony” · Wayson Choy</h3>
+    <p><b>What happens:</b> Told by Sek-Lung, age 8, the youngest in a Chinese-Canadian family in <b>Vancouver's Chinatown</b>. His Grandmama (83) makes beautiful wind chimes from glass she finds in back alleys, which embarrasses the rest of the family. Together they build one last, sacred wind chime for her death, so her spirit can say goodbye.</p>
+    <p>Her treasure is a <b>jade peony</b> pendant from a pale juggler she loved when she was young. When she sees a white cat with pink eyes, she knows it's a sign she'll die soon. After she dies, her son raises the chime, and Sek-Lung finds the jade peony in his pocket.</p>
+    <p><b>Big ideas:</b> symbols (wind chime, jade peony, white cat) and the clash between old-country ways and being “Canadian now.”</p>
+  </div>
+  <div class="actions"><button class="done-btn" data-k="stories" aria-pressed="false">DONE</button><a class="btn" href="../fiction-obby/">PLAY</a></div>
+</section>
+
+<!-- ===================== PLOT & SETTING ===================== -->
+<section class="level" id="plot">
+  <div class="lvhead"><div class="block">1</div><h2>Plot &amp; Setting<small>Game: Stage 1</small></h2></div>
+  <div class="card">
+    <h3>The rule</h3>
+    <div class="terms">
+      <div class="term"><b>Plot</b><span>The shape of a story: the events in order.</span></div>
+      <div class="term"><b>Climax</b><span>The turning point, where the tension is highest.</span></div>
+      <div class="term"><b>Setting</b><span>PLACE + TIME. Give as much important info as you can.</span></div>
+    </div>
+    <p style="margin-top:12px"><b>The plot mountain:</b></p>
+    <div class="plot" aria-label="Plot diagram: exposition, rising action, climax, falling action, resolution">
+      <div class="p1">Expo&shy;sition</div><div class="p2">Rising action</div><div class="p3">CLIMAX</div><div class="p4">Falling action</div><div class="p5">Reso&shy;lution</div>
+    </div>
+  </div>
+  <div class="card">
+    <h3>In the stories</h3>
+    <ul>
+      <li>Mr. Winter's example of a strong setting: <i>“Rural France, a castle, 18th century.”</i> Place AND time, with detail.</li>
+      <li>“The Necklace”: Paris, France, late 1800s. You <b>infer</b> it from clues like the Champs-Élysées and francs.</li>
+      <li>“The Jade Peony”: Vancouver's Chinatown (Keefer and Pender Streets).</li>
+    </ul>
+  </div>
+  <div class="card warn"><h3>Watch out</h3><p>“In a city” or “long ago” is too vague. Always give place AND time.</p></div>
+  <details><summary>What comes right after the rising action?</summary><div>The climax.</div></details>
+  <details><summary>What two things make up setting?</summary><div>Place and time.</div></details>
+  <div class="actions"><button class="done-btn" data-k="plot" aria-pressed="false">DONE</button><a class="btn" href="../fiction-obby/">PLAY STAGE 1</a></div>
+</section>
+
+<!-- ===================== CHARACTER ===================== -->
+<section class="level" id="character">
+  <div class="lvhead"><div class="block">2</div><h2>Character Types<small>Game: Stage 2</small></h2></div>
+  <div class="card">
+    <h3>The rule: 3 pairs</h3>
+    <div class="terms">
+      <div class="term"><b>Protagonist</b><span>The main character.</span></div>
+      <div class="term"><b>Antagonist</b><span>Opposes the protagonist and creates conflict.</span></div>
+      <div class="term"><b>Static</b><span>Does NOT change by the end.</span></div>
+      <div class="term"><b>Dynamic</b><span>DOES change by the end.</span></div>
+      <div class="term"><b>Flat</b><span>Simple, one-sided (and static).</span></div>
+      <div class="term"><b>Round</b><span>Complex and realistic, many sides.</span></div>
+    </div>
+  </div>
+  <div class="card">
+    <h3>Inference + “show, don't tell”</h3>
+    <p><b>Inference</b> = using facts, observations and reasoning to reach a conclusion. In other words, a guess using evidence.</p>
+    <p>Good writers <b>show, don't tell</b>. Instead of writing “the barber was nervous,” Téllez shows it:</p>
+    <p class="quote">“My hands began to tremble.” · “Very pale.” · “My shirt soaked with sweat.”</p>
+    <p>Mr. Winter's model answer: these reactions show the barber is <b>terrified of killing</b>. He is not a hardened killer.</p>
+    <p>Torres hangs up his gun belt, closes his eyes, and talks about hanging rebels like it's the weather. That <b>shows</b> he is brave and calm, and that violence is routine for him.</p>
+  </div>
+  <div class="card">
+    <h3>In the stories</h3>
+    <ul>
+      <li>Mathilde changes over ten years of hard work, so she's <b>dynamic</b>. She's also complex, so she's <b>round</b>.</li>
+      <li>Mr. Loisel giving up his rifle money <b>shows</b> his character without the author saying “he was generous.”</li>
+    </ul>
+  </div>
+  <details><summary>A character who changes by the end is…</summary><div>Dynamic.</div></details>
+  <details><summary>What's the difference between an antagonist and a protagonist?</summary><div>The protagonist is the main character. The antagonist opposes them and creates conflict.</div></details>
+  <div class="actions"><button class="done-btn" data-k="character" aria-pressed="false">DONE</button><a class="btn" href="../fiction-obby/">PLAY STAGE 2</a></div>
+</section>
+
+<!-- ===================== CONFLICT ===================== -->
+<section class="level" id="conflict">
+  <div class="lvhead"><div class="block">3</div><h2>Conflict<small>Game: Stage 3 · Definitions are on the test</small></h2></div>
+  <div class="card">
+    <span class="tag test">ON THE TEST / EXAM</span>
+    <h3>The rule</h3>
+    <p>Conflict = <b>any</b> opposition the main character faces. It moves the events along. It's not just fights! Grade 9 short stories usually have <b>one</b> main conflict.</p>
+    <div class="terms">
+      <div class="term"><b>vs. Character</b><span>Struggles against an antagonist.</span></div>
+      <div class="term"><b>vs. Fate</b><span>Struggles against fate or the circumstances of life.</span></div>
+      <div class="term"><b>vs. Society</b><span>Struggles against the ideas, practices or customs of other people.</span></div>
+      <div class="term"><b>vs. Self</b><span>Struggles with their own soul, right vs. wrong, limits, choices.</span></div>
+      <div class="term"><b>vs. Environment</b><span>Struggles against their (usually natural) environment.</span></div>
+    </div>
+  </div>
+  <div class="card">
+    <h3>Memory trick</h3>
+    <p>Ask: <b>who or what is in the way?</b> Another person → Character. Destiny → Fate. The rules or customs of a group → Society. Their own mind → Self. Nature → Environment.</p>
+  </div>
+  <div class="card">
+    <h3>In the stories: “Lather” has all three of these</h3>
+    <ul>
+      <li>Barber vs. Captain Torres → <b>Character vs. Character</b></li>
+      <li>Barber torn over whether to kill → <b>Character vs. Self</b></li>
+      <li>Barber vs. a violent political regime → <b>Character vs. Society</b></li>
+    </ul>
+    <p style="margin-top:8px">Bonus from the myths: King Acrisius tries to escape the oracle's prophecy in the Perseus story → <b>Character vs. Fate</b>.</p>
+  </div>
+  <details><summary>A hiker is trapped in a blizzard. Which conflict?</summary><div>Character vs. Environment.</div></details>
+  <details><summary>Someone fights against their town's customs. Which conflict?</summary><div>Character vs. Society.</div></details>
+  <details><summary>Can you name all 5 without looking?</summary><div>Character, Fate, Society, Self, Environment.</div></details>
+  <div class="actions"><button class="done-btn" data-k="conflict" aria-pressed="false">DONE</button><a class="btn" href="../fiction-obby/">PLAY STAGE 3</a></div>
+</section>
+
+<!-- ===================== POV ===================== -->
+<section class="level" id="pov">
+  <div class="lvhead"><div class="block">4</div><h2>Point of View<small>Game: Stage 4</small></h2></div>
+  <div class="card">
+    <h3>The rule</h3>
+    <p>POV = the angle the story is told from. <b>The narrator (the voice telling the story) is NOT the author!</b></p>
+    <div class="terms">
+      <div class="term"><b>First person</b><span>“I.” We see through one character's eyes and only know what they know. Can be reliable or unreliable.</span></div>
+      <div class="term"><b>Third person omniscient</b><span>“He/she.” A god's-eye view: knows and sees everything.</span></div>
+      <div class="term"><b>Third person limited</b><span>“He/she.” Knows everything about ONE character.</span></div>
+    </div>
+  </div>
+  <div class="card">
+    <h3>In the stories</h3>
+    <ul>
+      <li>“Lather”: <b>first person</b> (the barber). We can't see inside Torres's head, so his last line is a shock. <b>POV controls what the reader knows.</b></li>
+      <li>“The Jade Peony”: <b>first person</b> (Sek-Lung remembering).</li>
+      <li>“The Necklace”: <b>third person</b> (“she,” “he”).</li>
+      <li>Mr. Winter's examples: <i>To Kill a Mockingbird</i> (first person, the main character) and Sherlock Holmes (first person, a witness).</li>
+    </ul>
+  </div>
+  <details><summary>Who wrote “Lather,” and who narrates it?</summary><div>Hernando Téllez wrote it. The barber narrates it.</div></details>
+  <details><summary>A narrator who knows everyone's thoughts is…</summary><div>Third person omniscient.</div></details>
+  <div class="actions"><button class="done-btn" data-k="pov" aria-pressed="false">DONE</button><a class="btn" href="../fiction-obby/">PLAY STAGE 4</a></div>
+</section>
+
+<!-- ===================== THEME ===================== -->
+<section class="level" id="theme">
+  <div class="lvhead"><div class="block">5</div><h2>Theme<small>Game: Stage 5 · Mr. Winter cares about this one a lot</small></h2></div>
+  <div class="card">
+    <h3>The rule</h3>
+    <p><b>Theme</b> = an insight about human life that the story reveals. The author almost never says it directly, so you have to <b>infer</b> it.</p>
+    <p style="font-size:20px;font-weight:900;text-align:center;margin:12px 0">THEME = TOPIC + MESSAGE</p>
+    <ul>
+      <li><b>Topic</b> = the big idea (ambition, power, friendship).</li>
+      <li><b>Message</b> = what the author says ABOUT it.</li>
+    </ul>
+  </div>
+  <div class="card warn">
+    <h3>Watch out: theme is NOT…</h3>
+    <ul>
+      <li><b>One word.</b> “Friendship” is a topic, not a theme.</li>
+      <li>The conflict, the moral, the topic, or a simple fact.</li>
+      <li>A Hallmark card or fortune cookie (“Friends are always there for you”). Dig deeper!</li>
+    </ul>
+  </div>
+  <div class="card">
+    <h3>Build one in 3 steps</h3>
+    <ul>
+      <li><b>1. Find the topic.</b> Check the title, look for repetition, notice figurative language, and ask what big idea the story deals with.</li>
+      <li><b>2. Try a “versus.”</b> Love vs. hate. Appearance vs. reality.</li>
+      <li><b>3. Say what the story says about it.</b> Your message must be <b>arguable</b> (someone could disagree), <b>provable</b> (with evidence from the story) and <b>applicable</b> (it works for other stories and life).</li>
+    </ul>
+  </div>
+  <div class="card">
+    <h3>Mr. Winter's examples</h3>
+    <ul>
+      <li><i>Macbeth:</i> “Unchecked ambition corrupts the human soul.”</li>
+      <li><i>Shrek:</i> “Only those willing to face the ugliest parts of themselves are able to find true love.”</li>
+      <li><i>Harry Potter:</i> “To become a powerful leader, it is necessary to break some rules.”</li>
+      <li><i>Black Mirror:</i> “Humans who rely too much on technology lose their humanity.”</li>
+      <li><i>“Lather”:</i> topics are <b>strength vs. violence</b> and <b>appearance vs. reality</b>. Themes: “Reason can overtake the instinct to be violent.” / “True power is rarely where it appears to be.”</li>
+    </ul>
+  </div>
+  <details><summary>Someone says the theme is “Bravery.” What's wrong?</summary><div>It's one word, so it's only a topic. Add a message: what does the story say about bravery?</div></details>
+  <details><summary>What are the 3 tests for a good theme statement?</summary><div>Arguable, provable, applicable.</div></details>
+  <div class="actions"><button class="done-btn" data-k="theme" aria-pressed="false">DONE</button><a class="btn" href="../fiction-obby/">PLAY STAGE 5</a></div>
+</section>
+
+<!-- ===================== IRONY ===================== -->
+<section class="level" id="irony">
+  <div class="lvhead"><div class="block boss">!</div><h2>Boss: Twists &amp; Irony<small>Game: Boss stage</small></h2></div>
+  <div class="card">
+    <h3>The rule</h3>
+    <div class="terms">
+      <div class="term"><b>Situational irony</b><span>The outcome is the exact OPPOSITE of what you expect.</span></div>
+      <div class="term"><b>Foreshadowing</b><span>Hints the author plants early about what's coming.</span></div>
+    </div>
+  </div>
+  <div class="card">
+    <h3>Both stories end in situational irony</h3>
+    <ul>
+      <li><b>“Lather”:</b> we expect the barber holds all the power because he has the razor. Instead, Torres knew all along and was testing him.</li>
+      <li><b>“The Necklace”:</b> ten years of poverty to replace a diamond necklace… that was fake, worth 500 francs at most.</li>
+    </ul>
+  </div>
+  <div class="card">
+    <h3>Numbers the boss asks about</h3>
+    <div class="terms">
+      <div class="term"><b>400 francs</b><span>Mr. Loisel's rifle money, spent on the dress.</span></div>
+      <div class="term"><b>36,000 francs</b><span>Cost of the replacement necklace.</span></div>
+      <div class="term"><b>18,000 francs</b><span>Mr. Loisel's inheritance (the rest was borrowed).</span></div>
+      <div class="term"><b>10 years</b><span>Time it took to pay off the debt.</span></div>
+      <div class="term"><b>500 francs</b><span>What the original necklace was really worth.</span></div>
+    </div>
+  </div>
+  <div class="card">
+    <h3>Spot the foreshadowing yourself</h3>
+    <p>“The Necklace” hides hints about the twist. Reread the scene where Mathilde borrows the necklace, and the scene where she returns it. How does Madame Forestier treat her jewellery? That's your clue.</p>
+  </div>
+  <details><summary>What is situational irony?</summary><div>When the outcome is the exact opposite of what you expect.</div></details>
+  <details><summary>What did Torres know before he sat down?</summary><div>That the barber was a rebel who might kill him. He came to find out.</div></details>
+  <div class="actions"><button class="done-btn" data-k="irony" aria-pressed="false">DONE</button><a class="btn" href="../fiction-obby/">FIGHT THE BOSS</a></div>
+</section>
+
+<!-- ===================== CHEAT SHEET ===================== -->
+<section class="level" id="cheat">
+  <div class="lvhead"><div class="block story">✓</div><h2>Night-Before Cheat Sheet<small>Screenshot this.</small></h2></div>
+  <div class="card cheat">
+    <div><b>Setting</b>Place + time, with detail.</div>
+    <div><b>Plot</b>Exposition → rising action → CLIMAX → falling action → resolution.</div>
+    <div><b>Characters</b>Protagonist/antagonist · static/dynamic · flat/round.</div>
+    <div><b>Conflict (5)</b>vs. Character · Fate · Society · Self · Environment.</div>
+    <div><b>POV</b>First person (“I”) · Third omniscient (knows all) · Third limited (one character). Narrator ≠ author.</div>
+    <div><b>Theme</b>Topic + message. More than one word. Arguable, provable, applicable.</div>
+    <div><b>Inference</b>A guess using evidence. Writers show, don't tell.</div>
+    <div><b>Situational irony</b>The opposite of what you expect happens.</div>
+  </div>
+</section>
+
+<footer><a href="../">← ALL GAMES</a></footer>
+</div>
+
+<script>
+const KEY="unit1Guide.v1", keys=["stories","plot","character","conflict","pov","theme","irony"];
+let done={};try{done=JSON.parse(localStorage.getItem(KEY))||{}}catch(e){}
+function paint(){
+  const n=keys.filter(k=>done[k]).length;
+  document.getElementById("meter").style.width=(n/keys.length*100)+"%";
+  document.getElementById("meterl").textContent=`${n}/${keys.length} DONE`;
+  document.querySelectorAll(".done-btn").forEach(b=>{const on=!!done[b.dataset.k];b.setAttribute("aria-pressed",on);b.textContent=on?"✓ DONE":"DONE"});
+  document.querySelectorAll(".chips a").forEach(a=>a.classList.toggle("done",!!done[a.dataset.k]));
+}
+document.querySelectorAll(".done-btn").forEach(b=>b.addEventListener("click",()=>{done[b.dataset.k]=!done[b.dataset.k];try{localStorage.setItem(KEY,JSON.stringify(done))}catch(e){}paint()}));
+paint();
+</script>
+</body>
+</html>
