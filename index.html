@@ -29,6 +29,7 @@ a.game:focus-visible{outline:3px solid var(--ink);outline-offset:3px}
 .tile{width:64px;height:64px;border:3px solid var(--ink);border-radius:8px;background:linear-gradient(var(--grass) 0 38%,var(--dirt) 38%);display:grid;place-items:center;
   font-family:var(--display);font-size:24px;color:var(--paper);text-shadow:0 2px 0 var(--ink)}
 .tile.sea{background:linear-gradient(#5fd0ff 0 45%,#1f6fd1 45%)}
+.tile.dark{background:#0e0f12;color:#d4ff3a;text-shadow:none;font-family:system-ui,sans-serif;font-weight:800}
 .tile.gold{background:linear-gradient(var(--coin) 0 45%,#e09a00 45%)}
 .game.soon{opacity:.75;box-shadow:0 6px 0 var(--lock);border-color:var(--lock)}
 .game.soon .tile{filter:grayscale(.7)}
@@ -44,6 +45,10 @@ a.game:focus-visible{outline:3px solid var(--ink);outline-offset:3px}
   <h1>ENGLISH<br>GAMES</h1>
   <p class="sub">Grade 9 English with Mr. Winter · Unit 1</p>
   <div class="games">
+    <a class="game" href="swipe/">
+      <div class="tile dark">↑</div>
+      <div><b>English Swipe</b><span>Swipe-through cards: test terms, writer's tricks, the Odyssey, gods &amp; heroes</span><em class="go" id="sw">OPEN</em></div>
+    </a>
     <a class="game" href="study-guide/">
       <div class="tile gold">★</div>
       <div><b>Unit 1 Survival Guide</b><span>Missed class? Read this first: the 3 stories + everything the game tests</span><em class="go" id="sg">READ</em></div>
@@ -66,6 +71,7 @@ a.game:focus-visible{outline:3px solid var(--ink);outline-offset:3px}
 <script>
 try{const s=JSON.parse(localStorage.getItem("fictionObby.v1"));if(s&&s.stages){const n=Object.values(s.stages).filter(r=>r.best>0).length;document.getElementById("fo").textContent=n?`${n}/6 CLEARED · ${s.coins} COINS`:"PLAY"}}catch(e){}
 try{const g=JSON.parse(localStorage.getItem("unit1Guide.v1"));if(g){const n=Object.values(g).filter(Boolean).length;if(n)document.getElementById("sg").textContent=`${n}/7 LEVELS DONE`}}catch(e){}
+try{const w=JSON.parse(localStorage.getItem("englishSwipe.v1"));if(w&&w.decks){const n=Object.values(w.decks).filter(d=>d.runs>0).length;if(n)document.getElementById("sw").textContent=`${n}/4 DECKS DONE`}}catch(e){}
 </script>
 </body>
 </html>

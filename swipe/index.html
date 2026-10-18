@@ -1,0 +1,398 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>English Swipe</title>
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#0e0f12">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Swipe">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230e0f12'/%3E%3Crect x='16' y='12' width='32' height='40' rx='6' fill='none' stroke='%23d4ff3a' stroke-width='5'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;500;600&display=swap">
+<style>
+:root{
+  --bg:#0e0f12; --card:#17191e; --card2:#1f2229; --line:#2b2f38; --text:#f2f3f5; --dim:#9aa1ad; --faint:#6b7280;
+  --accent:#d4ff3a; --good:#4ade80; --bad:#ff6b6b; --test:#ff9f43;
+  --display:"Space Grotesk",system-ui,sans-serif; --body:"Inter",system-ui,-apple-system,"Segoe UI",sans-serif;
+  color-scheme:dark;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;height:100%;background:var(--bg);color:var(--text);font-family:var(--body);font-size:17px;line-height:1.5}
+button{font:inherit;color:inherit}
+
+/* Top bar */
+.top{position:fixed;inset:0 0 auto 0;z-index:20;padding:calc(env(safe-area-inset-top,0px) + 10px) 16px 10px;
+  background:linear-gradient(var(--bg) 60%,rgba(14,15,18,0));pointer-events:none}
+.top .in{max-width:520px;margin:0 auto;display:flex;align-items:center;gap:10px;pointer-events:auto}
+.home{width:34px;height:34px;flex:none;display:grid;place-items:center;border-radius:10px;color:var(--dim);text-decoration:none;border:1px solid var(--line)}
+.deckbtn{flex:1;min-width:0;display:flex;align-items:center;gap:6px;background:none;border:0;padding:0;cursor:pointer;text-align:left}
+.deckbtn b{font-family:var(--display);font-weight:700;font-size:16px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.deckbtn svg{flex:none;color:var(--dim)}
+.count{font-family:var(--display);font-size:14px;color:var(--dim);font-variant-numeric:tabular-nums}
+.bar{max-width:520px;margin:8px auto 0;height:3px;background:var(--line);border-radius:2px;overflow:hidden}
+.bar i{display:block;height:100%;width:0;background:var(--accent);transition:width .25s}
+
+/* Feed */
+.feed{height:100%;height:100dvh;overflow-y:auto;scroll-snap-type:y mandatory;overscroll-behavior:contain;scrollbar-width:none}
+.feed::-webkit-scrollbar{display:none}
+.slide{height:100%;height:100dvh;scroll-snap-align:start;scroll-snap-stop:always;display:flex;align-items:center;justify-content:center;
+  padding:calc(env(safe-area-inset-top,0px) + 70px) 16px calc(env(safe-area-inset-bottom,0px) + 34px)}
+.c{width:100%;max-width:520px;max-height:100%;overflow-y:auto;background:var(--card);border:1px solid var(--line);border-radius:22px;padding:24px 22px;scrollbar-width:none}
+.c::-webkit-scrollbar{display:none}
+.kick{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:14px;font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--dim)}
+.kick .t{color:var(--test)}
+.kick .r{color:var(--accent)}
+h2{font-family:var(--display);font-weight:700;font-size:clamp(28px,8vw,38px);line-height:1.05;margin:0 0 14px;letter-spacing:-.01em;text-wrap:balance}
+.q{font-family:var(--display);font-weight:500;font-size:clamp(21px,5.6vw,25px);line-height:1.25;margin:0 0 18px;text-wrap:pretty}
+.c p{margin:0 0 12px}.c p:last-child{margin-bottom:0}
+.c ul,.c ol{margin:0 0 12px;padding-left:20px}.c li{margin-bottom:6px}
+.c em.k{font-style:normal;color:var(--accent)}
+.ex{background:var(--card2);border-radius:14px;padding:12px 14px;margin-top:14px;font-size:15px;color:#d6d9df}
+.ex b{display:block;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--faint);margin-bottom:4px;font-weight:600}
+.opts{display:grid;gap:10px}
+.opt{text-align:left;background:var(--card2);border:1px solid var(--line);border-radius:14px;padding:13px 15px;cursor:pointer;font-size:16px;line-height:1.35;transition:border-color .15s,background .15s}
+.opt:active{transform:scale(.99)}
+.opt:focus-visible,.deckbtn:focus-visible,.btn:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.opt[disabled]{cursor:default}
+.opt.right{border-color:var(--good);background:rgba(74,222,128,.12)}
+.opt.wrong{border-color:var(--bad);background:rgba(255,107,107,.1)}
+.opt.fade{opacity:.45}
+.why{display:none;margin-top:16px;padding-top:14px;border-top:1px solid var(--line);font-size:15px;color:#d6d9df}
+.why.on{display:block}
+.why strong{font-family:var(--display);display:block;font-size:17px;margin-bottom:4px}
+.why .ok{color:var(--good)}.why .no{color:var(--bad)}
+.hint{position:fixed;left:0;right:0;bottom:calc(env(safe-area-inset-bottom,0px) + 8px);text-align:center;font-size:12px;color:var(--faint);pointer-events:none;transition:opacity .3s}
+.btn{display:block;width:100%;text-align:center;border-radius:14px;padding:14px;margin-top:10px;font-weight:600;cursor:pointer;border:1px solid var(--line);background:var(--card2);text-decoration:none}
+.btn.main{background:var(--accent);color:#111;border-color:var(--accent)}
+.big{font-family:var(--display);font-weight:700;font-size:56px;line-height:1;margin:6px 0 4px;font-variant-numeric:tabular-nums}
+.small{font-size:14px;color:var(--dim)}
+
+/* Deck sheet */
+.sheet{position:fixed;inset:0;z-index:40;display:none;background:rgba(0,0,0,.6);align-items:flex-end;justify-content:center}
+.sheet.on{display:flex}
+.sheet .p{width:100%;max-width:520px;max-height:88dvh;overflow-y:auto;background:var(--card);border:1px solid var(--line);border-bottom:0;border-radius:22px 22px 0 0;
+  padding:18px 16px calc(env(safe-area-inset-bottom,0px) + 18px)}
+.sheet h3{font-family:var(--display);font-size:20px;margin:4px 4px 12px}
+.deck{display:flex;gap:12px;align-items:center;width:100%;text-align:left;background:var(--card2);border:1px solid var(--line);border-radius:14px;padding:13px 14px;margin-bottom:8px;cursor:pointer}
+.deck .tx{flex:1;min-width:0}
+.deck b{display:block;font-family:var(--display);font-size:17px}
+.deck span{display:block;font-size:13px;color:var(--dim)}
+.deck .sc{font-family:var(--display);font-size:13px;color:var(--dim);white-space:nowrap}
+.deck.cur{border-color:var(--accent)}
+.statrow{display:flex;justify-content:space-between;gap:12px;padding:9px 4px;border-bottom:1px solid var(--line);font-size:15px}
+.statrow:last-child{border-bottom:0}
+.statrow span:last-child{color:var(--dim);font-variant-numeric:tabular-nums;text-align:right}
+.linkish{background:none;border:0;color:var(--dim);text-decoration:underline;cursor:pointer;padding:10px 4px;font-size:14px}
+@media (max-height:720px){
+  html,body{font-size:15px;line-height:1.42}
+  .slide{padding-top:calc(env(safe-area-inset-top,0px) + 62px);padding-bottom:calc(env(safe-area-inset-bottom,0px) + 22px)}
+  .c{padding:18px 18px}
+  h2{font-size:26px;margin-bottom:10px}
+  .kick{margin-bottom:10px}
+  .c li{margin-bottom:3px}
+  .ex{margin-top:10px;padding:10px 12px;font-size:14px}
+}
+@media (prefers-reduced-motion:reduce){.bar i,.opt{transition:none}}
+</style>
+</head>
+<body>
+<div class="top"><div class="in">
+  <a class="home" href="../" aria-label="Back to all games"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 3 5 8l5 5"/></svg></a>
+  <button class="deckbtn" id="deckbtn" aria-haspopup="dialog"><b id="deckname">Deck</b><svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2"><path d="m3 5 4 4 4-4"/></svg></button>
+  <span class="count" id="count">1/1</span>
+</div><div class="bar"><i id="bar"></i></div></div>
+
+<main class="feed" id="feed" aria-live="polite"></main>
+<div class="hint" id="hint">Swipe up ↑</div>
+
+<div class="sheet" id="sheet" role="dialog" aria-modal="true" aria-labelledby="sheettitle"><div class="p">
+  <h3 id="sheettitle">Pick a deck</h3>
+  <div id="decks"></div>
+  <button class="linkish" id="statsbtn">Progress (for parents)</button>
+  <div id="stats" hidden></div>
+</div></div>
+
+<script>
+/* ---------- Content ----------
+   Definitions follow Mr. Winter's class notes. Examples come from films, games and books outside the course
+   wherever a course text would hand over a homework answer (Necklace sheet, Symbolism of Desire chart, Ithaka sheet). */
+const DECKS={
+  test:{name:"On the test",sub:"Elements of fiction: conflict, plot, character, setting, POV, theme"},
+  devices:{name:"Writer's tricks",sub:"Irony, inference, imagery, symbols, allusion and more"},
+  odyssey:{name:"The Odyssey",sub:"The epic, the crew, Book 12 and the big themes"},
+  myth:{name:"Gods & heroes",sub:"Greek & Roman names, the hero's journey, archetypes"}
+};
+const L=(deck,topic,h,b,ex,test)=>({t:"learn",deck,topic,h,b,ex,test});
+const Q=(deck,topic,q,opts,a,why,test)=>({t:"check",deck,topic,q,opts,a,why,test});
+const T=true;
+
+const CARDS=[
+/* ===== ON THE TEST ===== */
+L("test","Conflict","Conflict",
+ `<p>Any <em class="k">opposition</em> facing the main character. Without it, nothing happens: conflict is what moves the events along.</p><p>Mr. Winter lists five types. <b>The definitions are on the test.</b> Swipe for each one.</p>`,0,T),
+L("test","Conflict","Character vs Character",`<p>The character struggles against an <em class="k">antagonist</em>: another person or being.</p>`,"Batman vs the Joker. Harry vs Voldemort.",T),
+L("test","Conflict","Character vs Fate",`<p>The character struggles against <em class="k">fate or life's circumstances</em>: something decided for them that they can't easily change.</p>`,"In Across the Spider-Verse, Miles is told a terrible \"canon event\" has to happen, and he fights it anyway.",T),
+L("test","Conflict","Character vs Society",`<p>The character struggles against the <em class="k">ideas, practices or customs of others</em>: a government, a system, a culture's rules.</p>`,"Katniss vs the Capitol in The Hunger Games.",T),
+L("test","Conflict","Character vs Self",`<p>The character struggles with <em class="k">their own soul</em>: right and wrong, their limits, their choices. The fight happens inside.</p>`,"Bruce Banner trying to control the Hulk. Gollum arguing with himself over the Ring.",T),
+L("test","Conflict","Character vs Environment",`<p>The character struggles against the <em class="k">environment</em>, usually nature: storms, cold, the sea, survival.</p>`,"The Martian: an astronaut stranded on Mars, growing potatoes to stay alive.",T),
+Q("test","Conflict","A pilot crash-lands in the Arctic and has to survive the cold for a month. Main conflict?",["Character vs Environment","Character vs Society","Character vs Fate","Character vs Self"],0,"Nature is the opponent here: the cold, not a person.",T),
+Q("test","Conflict","A soldier has to decide whether to report his best friend for stealing. Main conflict?",["Character vs Self","Character vs Character","Character vs Environment","Character vs Fate"],0,"The struggle is inside him: right and wrong, loyalty and duty. That's Character vs Self.",T),
+Q("test","Conflict","In a city where books are banned, a girl secretly runs an underground library. Main conflict?",["Character vs Society","Character vs Self","Character vs Fate","Character vs Environment"],0,"She's going against the rules and customs of her whole society.",T),
+Q("test","Conflict","A prophecy says a prince will ruin his kingdom. Everything he does to stop it makes it come true. Main conflict?",["Character vs Fate","Character vs Character","Character vs Society","Character vs Environment"],0,"He's fighting a destiny that was set for him. That's Character vs Fate.",T),
+Q("test","Conflict","Which is the best definition of conflict?",["Any opposition facing the main character; it moves events along","The most exciting moment of the story","An argument between two characters","The lesson the story teaches"],0,"Learn it word for word: any opposition facing the main character, necessary to move events along. (The most exciting moment is the climax.)",T),
+Q("test","Conflict","A detective chases a serial thief across three countries. Main conflict?",["Character vs Character","Character vs Society","Character vs Self","Character vs Fate"],0,"Detective vs thief: a person against an antagonist.",T),
+
+L("test","Plot","Plot",`<p>The <em class="k">shape</em> of a story. Five parts, in order:</p><ol><li><b>Exposition</b>: meet the characters and setting</li><li><b>Rising action</b>: problems build</li><li><b>Climax</b>: the turning point, highest tension</li><li><b>Falling action</b>: the fallout</li><li><b>Resolution</b>: how it ends up</li></ol>`,0,T),
+Q("test","Plot","The moment of highest tension, where the story turns, is the…",["Climax","Rising action","Resolution","Exposition"],0,"The climax is the turning point. Everything builds to it, then falls away from it.",T),
+Q("test","Plot","Which part comes right after the climax?",["Falling action","Resolution","Rising action","Exposition"],0,"Exposition → rising action → climax → falling action → resolution.",T),
+Q("test","Plot","A movie opens on a quiet farm, showing the family and their daily routine. Which part of the plot is this?",["Exposition","Rising action","Climax","Falling action"],0,"Introducing characters and setting = exposition.",T),
+
+L("test","Setting","Setting",`<p><em class="k">Place and time.</em> Give as much detail as you can. "France" is weak. "Rural France, a castle, 18th century" is strong.</p>`,"Weak: \"in space.\" Strong: \"a dying mining colony on Mars, year 2150.\"",T),
+Q("test","Setting","Which is the strongest setting answer?",["A packed subway car under downtown Toronto, rush hour on a freezing January morning","In Canada","On a train","In the winter"],0,"Place AND time, with detail. The more specific, the more marks.",T),
+
+L("test","Character","Character types",`<ul><li><b>Protagonist</b>: the main character</li><li><b>Antagonist</b>: opposes the protagonist and creates conflict</li><li><b>Static</b>: doesn't change</li><li><b>Dynamic</b>: changes</li><li><b>Flat</b>: simple, static</li><li><b>Round</b>: complex, realistic</li></ul>`,"Static/dynamic is about change. Flat/round is about depth. A character can be round AND static.",T),
+Q("test","Character","A character who changes over the course of the story is…",["Dynamic","Static","Flat","Round"],0,"Dynamic = changes. Static = stays the same.",T),
+Q("test","Character","A complex, realistic character with many sides is…",["Round","Flat","Static","Antagonist"],0,"Round = complex and realistic. Flat = simple.",T),
+Q("test","Character","Who opposes the protagonist and creates conflict?",["The antagonist","The narrator","A static character","The author"],0,"The antagonist pushes against the main character.",T),
+Q("test","Character","Scrooge starts out greedy and ends the story generous. He is…",["Dynamic","Static","Flat","An antagonist"],0,"He changes, so he's dynamic.",T),
+
+L("test","Point of view","Point of view",`<p>The <em class="k">angle</em> the story is told from. The narrator is <b>not</b> the author.</p><ul><li><b>First person</b>: "I." One character's eyes; only knows what they know. Can be reliable or unreliable.</li><li><b>Second person</b>: "you." Speaks straight to the reader.</li><li><b>Third person omniscient</b>: god's-eye view; knows and sees all.</li><li><b>Third person limited</b>: knows everything about ONE character.</li></ul>`,"First-person narrators can be the protagonist (Scout in To Kill a Mockingbird) or a witness (Watson in Sherlock Holmes).",T),
+Q("test","Point of view","\"I didn't see him take the money, but I knew. I always know.\" What POV?",["First person","Second person","Third person limited","Third person omniscient"],0,"\"I\" telling their own story = first person.",T),
+Q("test","Point of view","\"You step onto the ice. You hear it crack under your boots.\" What POV?",["Second person","First person","Third person omniscient","Third person limited"],0,"\"You\" = second person. It puts the reader inside the story.",T),
+Q("test","Point of view","\"Mara wondered if he'd noticed. Across town, Leo was thinking the exact same thing.\" What POV?",["Third person omniscient","Third person limited","First person","Second person"],0,"The narrator knows what two different characters think, in two places. That's the god's-eye view.",T),
+Q("test","Point of view","\"Jin had no idea what his coach was thinking. He only knew his own heart was pounding.\" What POV?",["Third person limited","Third person omniscient","First person","Second person"],0,"\"He,\" but locked inside one character's head. Third person limited.",T),
+Q("test","Point of view","True or false: the narrator of a story is the author.",["False","True"],0,"Never assume it. The narrator is a voice the author created.",T),
+
+L("test","Theme","Theme",`<p>An <em class="k">insight about human life or nature</em> revealed in a work. It's rarely stated, so you have to <b>infer</b> it.</p><p><b>Theme = Topic + Message.</b> The message must be:</p><ul><li><b>Arguable</b>: someone could disagree</li><li><b>Provable</b>: you can back it up with evidence</li><li><b>Applicable</b>: true for other stories and real life</li></ul>`,"Mr. Winter's example, Macbeth: \"unchecked ambition corrupts the human soul.\"",T),
+L("test","Theme","What a theme is NOT",`<ul><li>One word ("friendship" is a <b>topic</b>)</li><li>A moral or fortune-cookie line ("always be kind")</li><li>The conflict</li><li>A plain fact nobody could argue with</li><li>Something the story says outright</li></ul>`,"Shrek, Mr. Winter's version: \"only those willing to face the ugliest parts of themselves are able to find true love.\" Topic: love. Message: you have to face your ugly side first.",T),
+Q("test","Theme","Which one is a real theme statement?",["Loyalty can trap people in situations they would otherwise escape","Loyalty","Always be loyal to your friends","The story is about two loyal friends"],0,"It has a topic AND an arguable message. The others are a topic, a moral, and a plain fact.",T),
+Q("test","Theme","\"Friendship\" is…",["A topic, not a theme","A theme","A conflict","A moral"],0,"Themes are always more than one word. Add the message: what does the story say ABOUT friendship?",T),
+Q("test","Theme","Which test does \"Never give up!\" fail?",["It's a fortune-cookie moral, not an arguable insight","It's too long","It names a topic","It uses evidence"],0,"It sounds like a poster. A theme makes a claim you'd have to prove with evidence.",T),
+Q("test","Theme","Theme = ?",["Topic + Message","Conflict + Climax","Setting + Character","Moral + Lesson"],0,"Find the topic, then ask what the story says about it.",T),
+
+/* ===== WRITER'S TRICKS ===== */
+L("devices","Inference","Inference",`<p>Using <em class="k">facts, observations and reasoning</em> to reach a conclusion: a guess based on evidence.</p><p>Good writers <b>show, don't tell</b>. They give you clues and let you work it out.</p>`,"Tell: \"He was scared.\" Show: \"His hands shook so hard the razor rattled against the bowl.\""),
+Q("devices","Inference","\"She checked the door for the third time, then sat with her back to the wall.\" Best inference?",["She's afraid someone is coming","She's bored","She's tired","She's happy to be home"],0,"Two clues (checking the door, back to the wall) point to fear. That's inference: evidence → conclusion."),
+Q("devices","Inference","Which line SHOWS instead of TELLS?",["His knuckles went white around the steering wheel","He was very angry","He felt nervous","He was a good driver"],0,"White knuckles let you infer the feeling. The others just announce it."),
+
+L("devices","Irony","Situational irony",`<p>The outcome is the <em class="k">opposite of what you expect</em>.</p><p>The barber in "Lather and Nothing Else" thinks he holds all the power. Then the captain reveals he knew the barber's secret the whole time.</p>`,"A fire station burns down. A lifeguard nearly drowns at a pool party."),
+Q("devices","Irony","A dentist who lectures everyone about sugar gets a dozen cavities. This is…",["Situational irony","Foreshadowing","Personification","An allusion"],0,"You'd expect the dentist to have perfect teeth. The opposite happens."),
+
+L("devices","Imagery","Imagery",`<p>Describing the <em class="k">five senses</em>: sight, sound, smell, touch, taste. Writers use adjectives and figurative language to do it.</p>`,"\"The bread crackled as it split, and warm steam rose up smelling of butter.\" Sound, touch, smell."),
+Q("devices","Imagery","\"The cold metal bit into his palms.\" Which sense?",["Touch","Sight","Taste","Sound"],0,"Cold and biting into palms is something you feel."),
+Q("devices","Imagery","\"Thunder rolled like barrels down a staircase.\" Which sense?",["Sound","Touch","Smell","Taste"],0,"Thunder and rolling barrels: it's all about the noise."),
+
+L("devices","Symbolism","Symbolism",`<p>A <em class="k">symbol</em> is an object, colour or creature that stands for a bigger idea.</p><p>How to spot one:</p><ul><li>The writer keeps coming back to it</li><li>It's described in extra detail</li><li>It's tied to what a character wants, fears or remembers</li></ul>`,"The One Ring in Lord of the Rings stands for power and how it corrupts. The mockingjay pin stands for rebellion."),
+Q("devices","Symbolism","In a story, a boy keeps his late father's broken watch and checks it whenever he's scared. The watch most likely symbolizes…",["His connection to his father","That he's always late","The setting's time period","His fear of clocks"],0,"It's repeated and tied to his feelings about his dad. Ask: what bigger idea is it carrying?"),
+
+L("devices","Foreshadowing","Foreshadowing",`<p>A <em class="k">hint</em> early in the story about what's coming later. It often looks unimportant the first time.</p><p>Twist endings usually have foreshadowing hidden in them. Reread and you'll find the clues.</p>`,"A character mentions she can't swim. Twenty minutes later, the boat sinks."),
+Q("devices","Foreshadowing","In chapter 1, a character jokes, \"This bridge looks like it'll fall apart.\" In chapter 9 it collapses. Chapter 1's line is…",["Foreshadowing","Situational irony","Personification","An allusion"],0,"An early hint at a later event."),
+
+L("devices","Figurative language","Personification & alliteration",`<p><b>Personification</b>: giving human actions or feelings to something that isn't human.</p><p><b>Alliteration</b>: repeating the same first sound in words close together.</p>`,"Personification: \"The wind howled at the window.\" Alliteration: \"Peter Piper picked a peck…\""),
+Q("devices","Figurative language","\"The old house groaned and sighed all night.\" This is…",["Personification","Alliteration","Allusion","Foreshadowing"],0,"Houses can't groan or sigh. Human actions given to a non-human thing."),
+Q("devices","Figurative language","\"Silent snow slid slowly down the slope.\" This is…",["Alliteration","Personification","Imagery only","Irony"],0,"Repeated S sounds at the start of words: alliteration."),
+
+L("devices","Allusion","Allusion",`<p>A brief, <em class="k">indirect reference</em> to a well-known person, place, event, literary work or work of art.</p><p>It lets the writer pass on a deeper meaning without explaining the whole story.</p>`,"\"Getting home in this storm was an odyssey.\" One word borrows a whole epic: a long, hard journey."),
+Q("devices","Allusion","\"Stop being such a Scrooge and lend me five bucks.\" This is an allusion to…",["A famous character known for being stingy","A type of conflict","The setting","A kind of narrator"],0,"Scrooge from A Christmas Carol. One name brings his whole personality with it."),
+Q("devices","Allusion","\"Choosing between those two jobs was like sailing between Scylla and Charybdis.\" What does the allusion suggest?",["Both choices are dangerous","Both choices are easy","Sailing is fun","The jobs are by the sea"],0,"In the Odyssey, both monsters are deadly. The allusion says: you lose something either way."),
+
+L("devices","Extended metaphor","Extended metaphor",`<p>A metaphor that compares two unlike things <em class="k">across many lines</em>: several sentences, paragraphs, stanzas, or a whole text.</p><p>A normal metaphor is one quick comparison. An extended one keeps building on the same comparison.</p>`,"Shakespeare starts \"All the world's a stage, and all the men and women merely players,\" then keeps going: entrances, exits, and seven \"acts\" of a person's life."),
+Q("devices","Extended metaphor","A song compares a relationship to a sinking ship in every verse: leaks, a broken mast, lifeboats. This is…",["An extended metaphor","A simile","Alliteration","Foreshadowing"],0,"One comparison (relationship = ship) stretched across the whole song."),
+Q("devices","Extended metaphor","What's the difference between a metaphor and an extended metaphor?",["An extended one keeps the comparison going across many lines","An extended one uses \"like\" or \"as\"","An extended one is about the future","There's no difference"],0,"Length. \"Like\" or \"as\" would make it a simile."),
+
+L("devices","Writing modes","Academic vs creative",`<p><b>Academic</b>: aims for <em class="k">clarity</em>. Standard English, no slang, clear structure. Summaries, biographies, instructions, reviews.</p><p><b>Creative</b>: aims for <em class="k">beauty and emotion</em>. Rules can bend; more figurative language. Poems, comics, scripts, ghost stories.</p>`,0),
+Q("devices","Writing modes","Which mode aims at an emotional reaction and uses more figurative language?",["Creative","Academic"],0,"Creative writing goes for beauty and emotion."),
+Q("devices","Writing modes","Which mode has the stricter structure and is more common at university?",["Academic","Creative"],0,"Academic: clarity, Standard English, clear structure."),
+
+/* ===== THE ODYSSEY ===== */
+L("odyssey","The epic","The Odyssey",`<p>An <em class="k">epic poem</em> by Homer, from the 8th or 7th century BC. "Homer" might be one name covering many storytellers.</p><p>It was passed down by <b>oral tradition</b> (told out loud) before being written on papyrus.</p>`,"Protagonist: Odysseus. Antagonists: the suitors and Poseidon. POV: third person omniscient."),
+L("odyssey","The epic","In medias res",`<p>Latin for <em class="k">"in the middle of things."</em> The story starts partway through.</p><p>The Odyssey opens 20 years after Odysseus left for Troy, 10 years into his trip home to Ithaca. We hear the earlier adventures later, when he tells them to the Phaeacians.</p>`,"Lots of movies do this: open on the big chase, then jump back to \"48 hours earlier.\""),
+Q("odyssey","The epic","\"In medias res\" means the story…",["Starts in the middle of the action","Is told by the gods","Ends happily","Is a poem"],0,"In the middle of things. The Odyssey starts 10 years into the journey home."),
+Q("odyssey","The epic","How was the Odyssey first passed down?",["Oral tradition: told out loud","Printed books","Carved on Trojan walls","Written by Odysseus"],0,"It was performed and memorized for generations before being written down."),
+Q("odyssey","The epic","What is the climax of the Odyssey?",["Odysseus and Telemachus kill the suitors","The Trojan Horse","Meeting the Cyclops","Leaving Calypso's island"],0,"From the class notes: the climax is the slaughter of the suitors."),
+
+L("odyssey","Backstory","Why is the trip home so hard?",`<p>Odysseus blinded the Cyclops <b>Polyphemus</b>, son of <em class="k">Poseidon</em>, god of the sea. Poseidon's wrath keeps knocking him off course.</p><p>Escaping the cave, Odysseus tells the Cyclops his name is "Nobody," and the men hide under the bellies of the sheep.</p>`,"Before all this: the Trojan War started when Paris took Helen, and was won with the Trojan Horse, Odysseus's trick."),
+Q("odyssey","Backstory","Why is Poseidon so angry with Odysseus?",["He blinded Poseidon's son, the Cyclops","He ate Poseidon's cattle","He refused to marry Calypso","He lost the Trojan War"],0,"Polyphemus is Poseidon's son. The sea god makes the journey a nightmare."),
+Q("odyssey","Backstory","What name did Odysseus give the Cyclops?",["Nobody","Trojan","Ithaca","Achilles"],0,"So when Polyphemus yells \"Nobody is hurting me!\", no one comes to help."),
+
+L("odyssey","Book 12","The Sirens",`<p>Circe warns him: the Sirens' song lures sailors to their deaths.</p><p>The crew plug their ears with <em class="k">wax</em>. Odysseus wants to hear it, so he's <b>tied to the mast</b>. He begs to be freed, and they tie him tighter.</p>`,"This is the symbol of self-restraint: feel it, but don't act on it."),
+L("odyssey","Book 12","Scylla vs Charybdis",`<p><b>Scylla</b>: a monster with 6 heads and 12 legs who snatches sailors.</p><p><b>Charybdis</b>: a whirlpool that swallows the sea 3 times a day.</p><p>Circe says: better to lose 6 men to Scylla than everyone to Charybdis. Odysseus disobeys her advice and puts on his armour anyway. Scylla takes 6 of his best men.</p>`,0),
+L("odyssey","Book 12","The sun god's cattle",`<p>On <b>Thrinacia</b>, island of <em class="k">Helios's cattle</em>, Eurylochus pushes for a landing. The crew swear not to touch the cattle.</p><p>The wind traps them for a month and they starve. While Odysseus sleeps, Eurylochus leads them to kill the cattle. Creepy omens follow: the hides twitch, the meat moos.</p><p><b>Zeus</b> destroys the ship with a thunderbolt. The whole crew dies. Odysseus clings to a fig tree over Charybdis and drifts 9 days to Calypso's island.</p>`,0),
+Q("odyssey","Book 12","How does the crew get past the Sirens?",["Wax in their ears; Odysseus tied to the mast","They sail at night","Athena sings louder","They take another route"],0,"And when he begs to be let go, they tie him tighter."),
+Q("odyssey","Book 12","Charybdis is…",["A whirlpool that swallows the sea 3 times a day","A six-headed monster","A goddess who holds Odysseus","The island of the sun god's cattle"],0,"Scylla is the six-headed one."),
+Q("odyssey","Book 12","Who leads the crew to kill Helios's cattle?",["Eurylochus","Telemachus","Odysseus","Polyphemus"],0,"While Odysseus is asleep."),
+Q("odyssey","Book 12","What happens to the crew after they eat the cattle?",["Zeus destroys the ship; they all die","They are turned into pigs","They reach Ithaca","Calypso rescues them"],0,"Breaking a sacred rule brings violent justice, a big Odyssey theme."),
+
+L("odyssey","Characters","Who's who",`<ul><li><b>Penelope</b>: his wife. Loyal, patient, cunning. Weaves a tapestry by day and unpicks it by night to stall the suitors.</li><li><b>Telemachus</b>: his son. Grows from nervous kid to confident man with Athena's help.</li><li><b>Athena</b>: goddess of wisdom; on Odysseus's side; often appears as a bird.</li><li><b>Circe</b>: turns men into pigs, then gives guidance. The first "witch" archetype.</li><li><b>Calypso</b>: holds Odysseus for 7 years until <b>Hermes</b> convinces her to free him.</li></ul>`,0),
+Q("odyssey","Characters","How does Penelope stall the suitors?",["She weaves a tapestry by day and unweaves it at night","She hides in a tower","She poisons their wine","She sails away"],0,"She says she'll choose a husband when the tapestry is done… and it never is."),
+Q("odyssey","Characters","Who convinces Calypso to let Odysseus go?",["Hermes","Poseidon","Penelope","Circe"],0,"The messenger god brings the order."),
+Q("odyssey","Characters","Which god is on Odysseus's side the most?",["Athena","Poseidon","Helios","Ares"],0,"Athena helps both Odysseus and Telemachus."),
+Q("odyssey","Characters","Circe turns Odysseus's men into…",["Pigs","Stone","Birds","Sheep"],0,"Desire for food and drink turns men into beasts, literally."),
+
+L("odyssey","Themes","Big ideas",`<ul><li><b>Xenia</b>: the sacred code of hospitality. Zeus enforces it.</li><li><b>Self-restraint</b>: keeping feelings separate from actions (the Sirens).</li><li><b>Disguise</b>: "Nobody," the beggar in Ithaca, the Trojan Horse.</li><li><b>Glory vs honour</b>: glory comes from victory and feats; honour from just, lawful behaviour. By the end, honour wins.</li><li><b>Memory & home</b>: the Lotus-Eaters, Circe and the Sirens all threaten to make him forget home.</li></ul>`,0),
+Q("odyssey","Themes","Xenia is…",["The sacred code of hospitality","Odysseus's ship","A sea monster","The Greek word for revenge"],0,"Guests and hosts owe each other respect. Zeus punishes people who break it."),
+Q("odyssey","Themes","Honour comes from ___, while glory comes from ___.",["just, lawful behaviour / victory and feats","victory / luck","the gods / money","age / youth"],0,"By the end of the epic, honour guides Odysseus instead of glory."),
+Q("odyssey","Themes","Odysseus dressed as a beggar in Ithaca is an example of which theme?",["Disguise","Xenia","Fate","Glory"],0,"Like \"Nobody\" and the Trojan Horse."),
+
+/* ===== GODS & HEROES ===== */
+L("myth","Gods","The Olympians",`<p>Home of the gods: <b>Mount Olympus</b>. Every Greek god has a Roman name too.</p><ul><li>Zeus (<b>Jupiter</b>): king, thunderbolt</li><li>Hera (<b>Juno</b>): marriage, jealous</li><li>Poseidon (<b>Neptune</b>): seas</li><li>Hades (<b>Pluto</b>): underworld</li><li>Athena (<b>Minerva</b>): wisdom &amp; battle</li><li>Ares (<b>Mars</b>): war</li><li>Aphrodite (<b>Venus</b>): love &amp; beauty</li><li>Hermes (<b>Mercury</b>): messenger</li></ul>`,0),
+L("myth","Gods","More Olympians",`<ul><li>Apollo (<b>Apollo</b>): music, poetry, light, truth; Oracle at Delphi</li><li>Artemis (<b>Diana</b>): moon &amp; hunt; Apollo's twin</li><li>Hephaestus (<b>Vulcan</b>): fire &amp; forge</li><li>Demeter (<b>Ceres</b>): agriculture; her moods cause the seasons</li><li>Persephone (<b>Proserpine</b>): spring; half the year in the underworld</li><li>Hestia (<b>Vesta</b>): home</li><li>Hebe (no Roman name): cupbearer</li></ul>`,0),
+Q("myth","Gods","Poseidon's Roman name?",["Neptune","Pluto","Mars","Vulcan"],0,"Pluto is Hades, Mars is Ares, Vulcan is Hephaestus."),
+Q("myth","Gods","Who sprang fully grown from Zeus's head?",["Athena","Artemis","Hera","Aphrodite"],0,"Wisdom, straight out of the king's head."),
+Q("myth","Gods","Why do we have seasons, according to the myth?",["Persephone spends half the year in the underworld, and Demeter grieves","Apollo moves the sun","Zeus gets angry","Poseidon floods the fields"],0,"Demeter's sadness while her daughter is with Hades = winter."),
+Q("myth","Gods","Hermes's Roman name, and his job?",["Mercury, messenger","Mars, war","Vulcan, forge","Jupiter, king"],0,"Winged sandals and cap."),
+Q("myth","Gods","Which god do the other gods dislike?",["Ares","Apollo","Hestia","Athena"],0,"Ares, god of war (Roman: Mars)."),
+Q("myth","Gods","Artemis's Roman name?",["Diana","Venus","Juno","Minerva"],0,"Moon and hunt; twin of Apollo."),
+
+L("myth","Hero's journey","The hero's journey",`<p>Joseph Campbell's <em class="k">monomyth</em>: one story pattern found in myths from every culture. It inspired George Lucas's Star Wars.</p><p><b>I. Departure</b>: unusual birth or childhood, call to adventure, refusal or acceptance, crossing the threshold, supernatural aid.</p><p><b>II. Initiation</b>: trials, mentor, special weapon, allies, the abyss (darkest point), transformation.</p><p><b>III. Return</b>: road home, master of two worlds.</p>`,0),
+Q("myth","Hero's journey","Obi-Wan, Gandalf and the Fairy Godmother all play which role?",["Supernatural aid / mentor","Threshold guardian","Shadow","Trickster"],0,"They give the hero help or wisdom from beyond the normal world."),
+Q("myth","Hero's journey","The hero's darkest point, just before the big change, is called…",["The abyss","The threshold","The call to adventure","The return"],0,"Then comes the transformation (think Mount Doom, the Death Star)."),
+Q("myth","Hero's journey","What are the three big stages, in order?",["Departure → Initiation → Return","Initiation → Departure → Return","Call → Climax → Resolution","Birth → Battle → Death"],0,"Leave home, get tested, come back changed."),
+Q("myth","Hero's journey","A lightsaber, the ruby slippers and Excalibur are all examples of…",["A special weapon or talisman","Allies","Mentors","Thresholds"],0,"A magic object that helps the hero in the Initiation stage."),
+Q("myth","Hero's journey","Refusing the call to adventure usually leads to…",["Disaster","Instant success","A mentor arriving with a gift","Nothing much"],0,"King Minos refused the gods, and got the Minotaur."),
+L("myth","Archetypes","Archetypes",`<p>Images, ideas and patterns that keep showing up in myths <em class="k">across cultures</em>. Campbell built on Carl Jung's idea of a "collective unconscious."</p><p>Character archetypes: hero, shadow, mentor, herald, threshold guardian, shapeshifter, trickster, ally, temptress, wise old man, witch/wizard.</p>`,"Loki is a trickster. Darth Vader is the shadow. Samwise is the ally."),
+Q("myth","Archetypes","Samwise helping Frodo carry the Ring up Mount Doom is the ___ archetype.",["Ally","Trickster","Shadow","Herald"],0,"Allies help the hero through the trials."),
+Q("myth","Archetypes","A character who keeps changing shape or loyalties, so the hero can't trust them, is a…",["Shapeshifter","Mentor","Herald","Wise old man"],0,"Shapeshifters keep the hero (and you) guessing.")
+];
+CARDS.forEach((c,i)=>c.id=c.deck+"-"+i);
+
+/* ---------- Saved progress (this browser only) ---------- */
+const KEY="englishSwipe.v1";
+let S={sessions:0,first:null,last:null,topics:{},miss:{},decks:{}};
+try{const s=JSON.parse(localStorage.getItem(KEY));if(s&&typeof s==="object")S=Object.assign(S,s)}catch(e){}
+const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}};
+
+/* ---------- Feed ---------- */
+const feed=document.getElementById("feed"),countEl=document.getElementById("count"),barEl=document.getElementById("bar"),hint=document.getElementById("hint");
+let cur="test",run=[],answered={},right=0,checks=0,missedNow=new Set(),started=false;
+const esc=s=>String(s).replace(/[&<>"]/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[m]));
+const shuffle=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
+
+function buildRun(deck){
+  if(deck==="missed"){
+    const ids=Object.keys(S.miss).filter(id=>S.miss[id]>0);
+    return shuffle(CARDS.filter(c=>ids.includes(c.id)));
+  }
+  return CARDS.filter(c=>c.deck===deck);
+}
+function kick(c,extra){
+  return `<div class="kick">${c.test?'<span class="t">On the test</span><span>·</span>':''}<span>${esc(c.topic)}</span>${extra||""}</div>`;
+}
+function slideFor(c,n,retry){
+  const el=document.createElement("section");el.className="slide";el.dataset.n=n;
+  if(c.t==="learn"){
+    el.innerHTML=`<article class="c">${kick(c)}<h2>${esc(c.h)}</h2>${c.b}${c.ex?`<div class="ex"><b>Example</b>${esc(c.ex)}</div>`:""}</article>`;
+  }else{
+    const order=shuffle(c.opts.map((o,i)=>i));
+    el.innerHTML=`<article class="c">${kick(c,retry?'<span>·</span><span class="r">Second try</span>':'<span>·</span><span>Quick check</span>')}
+      <p class="q">${esc(c.q)}</p><div class="opts">${order.map(i=>`<button class="opt" data-i="${i}">${esc(c.opts[i])}</button>`).join("")}</div>
+      <div class="why"></div></article>`;
+    el.querySelectorAll(".opt").forEach(b=>b.addEventListener("click",()=>answer(el,c,+b.dataset.i,retry)));
+  }
+  return el;
+}
+function answer(el,c,i,retry){
+  const key=el.dataset.n;if(answered[key])return;answered[key]=1;
+  const ok=i===c.a;
+  el.querySelectorAll(".opt").forEach(b=>{b.disabled=true;const j=+b.dataset.i;
+    if(j===c.a)b.classList.add("right");else if(j===i)b.classList.add("wrong");else b.classList.add("fade")});
+  const w=el.querySelector(".why");
+  w.innerHTML=`<strong class="${ok?"ok":"no"}">${ok?"Right.":"Not quite."}</strong>${esc(c.why)}${ok?"":'<p class="small" style="margin-top:8px">This one comes back in a few cards.</p>'}`;
+  w.classList.add("on");
+  if(!retry){checks++;if(ok)right++}
+  const t=S.topics[c.topic]||(S.topics[c.topic]={r:0,w:0});ok?t.r++:t.w++;
+  if(ok){if(S.miss[c.id])S.miss[c.id]=Math.max(0,S.miss[c.id]-1);if(!S.miss[c.id])delete S.miss[c.id]}
+  else{S.miss[c.id]=(S.miss[c.id]||0)+1;missedNow.add(c.id);requeue(el,c)}
+  S.last=new Date().toISOString();save();
+}
+function requeue(el,c){
+  const slides=[...feed.querySelectorAll(".slide")];const idx=slides.indexOf(el);
+  const target=slides[Math.min(idx+5,slides.length-1)]; /* the last slide is the results card */
+  const s=slideFor(c,"r"+Date.now(),true);feed.insertBefore(s,target);observe(s);updateCount();
+}
+function endSlide(){
+  const el=document.createElement("section");el.className="slide";el.dataset.end="1";
+  el.innerHTML=`<article class="c" id="endc"></article>`;return el;
+}
+function renderEnd(){
+  const c=document.getElementById("endc");if(!c)return;
+  const pct=checks?Math.round(right/checks*100):0;
+  if(checks&&cur!=="missed"){const d=S.decks[cur]||(S.decks[cur]={best:0,runs:0});d.best=Math.max(d.best,pct);save()}
+  const left=Object.keys(S.miss).length;
+  c.innerHTML=`<div class="kick"><span>${esc(deckLabel(cur))}</span><span>·</span><span>Done</span></div>
+    <div class="big">${right}/${checks}</div><p class="small">${checks?`${pct}% on the first try.`:"No quick checks answered yet."}</p>
+    ${missedNow.size?`<p>Missed this round: ${[...new Set([...missedNow].map(id=>CARDS.find(c=>c.id===id).topic))].map(esc).join(", ")}.</p>`:checks?"<p>Clean run.</p>":""}
+    ${left?`<button class="btn main" id="domiss">Redo the ones I've missed (${left})</button>`:""}
+    <button class="btn ${left?"":"main"}" id="dopick">Pick another deck</button>`;
+  const dm=document.getElementById("domiss");if(dm)dm.onclick=()=>start("missed");
+  document.getElementById("dopick").onclick=openSheet;
+}
+let io;
+function observe(s){io&&io.observe(s)}
+function updateCount(){
+  const slides=[...feed.querySelectorAll(".slide")];
+  const top=feed.scrollTop,h=feed.clientHeight;const i=Math.min(slides.length-1,Math.round(top/h));
+  countEl.textContent=`${i+1}/${slides.length}`;barEl.style.width=((i+1)/slides.length*100)+"%";
+  if(i>0)hint.style.opacity=0;
+  if(slides[i]&&slides[i].dataset.end){
+    if(!slides[i].dataset.counted&&checks){slides[i].dataset.counted=1;if(cur!=="missed"){const d=S.decks[cur]||(S.decks[cur]={best:0,runs:0});d.runs++;save()}}
+    renderEnd();
+  }
+}
+function deckLabel(d){return d==="missed"?"Ones I've missed":DECKS[d].name}
+function start(deck){
+  cur=deck;answered={};right=0;checks=0;missedNow=new Set();
+  run=buildRun(deck);feed.innerHTML="";
+  if(io)io.disconnect();
+  io=new IntersectionObserver(()=>updateCount(),{root:feed,threshold:.6});
+  run.forEach((c,n)=>{const s=slideFor(c,n,false);feed.appendChild(s);observe(s)});
+  const e=endSlide();feed.appendChild(e);observe(e);
+  feed.scrollTop=0;document.getElementById("deckname").textContent=deckLabel(deck);
+  hint.style.opacity=1;updateCount();closeSheet();
+  if(!started){started=true;S.sessions++;S.first=S.first||new Date().toISOString();S.last=new Date().toISOString();save()}
+  try{localStorage.setItem(KEY+".deck",deck)}catch(e){}
+}
+feed.addEventListener("scroll",()=>{clearTimeout(feed._t);feed._t=setTimeout(updateCount,60)},{passive:true});
+document.addEventListener("keydown",e=>{
+  if(document.getElementById("sheet").classList.contains("on")){if(e.key==="Escape")closeSheet();return}
+  if(["ArrowDown","PageDown"," "].includes(e.key)){e.preventDefault();feed.scrollBy({top:feed.clientHeight,behavior:"smooth"})}
+  if(["ArrowUp","PageUp"].includes(e.key)){e.preventDefault();feed.scrollBy({top:-feed.clientHeight,behavior:"smooth"})}
+});
+
+/* ---------- Deck sheet + parent progress ---------- */
+const sheet=document.getElementById("sheet");
+function openSheet(){
+  const counts=d=>CARDS.filter(c=>c.deck===d&&c.t==="check").length;
+  const left=Object.keys(S.miss).length;
+  document.getElementById("decks").innerHTML=Object.entries(DECKS).map(([k,v])=>{
+    const b=S.decks[k];return `<button class="deck${k===cur?" cur":""}" data-k="${k}"><div class="tx"><b>${esc(v.name)}</b><span>${esc(v.sub)}</span></div><span class="sc">${b&&b.runs?`Best ${b.best}%`:`${counts(k)} checks`}</span></button>`}).join("")
+    +(left?`<button class="deck${cur==="missed"?" cur":""}" data-k="missed"><div class="tx"><b>Ones I've missed</b><span>Only the questions you got wrong</span></div><span class="sc">${left}</span></button>`:"");
+  document.querySelectorAll(".deck").forEach(b=>b.onclick=()=>start(b.dataset.k));
+  document.getElementById("stats").hidden=true;
+  sheet.classList.add("on");
+}
+function closeSheet(){sheet.classList.remove("on")}
+document.getElementById("deckbtn").onclick=openSheet;
+sheet.addEventListener("click",e=>{if(e.target===sheet)closeSheet()});
+document.getElementById("statsbtn").onclick=()=>{
+  const st=document.getElementById("stats");
+  if(!st.hidden){st.hidden=true;return}
+  const fmt=d=>d?new Date(d).toLocaleString(undefined,{month:"short",day:"numeric",hour:"numeric",minute:"2-digit"}):"never";
+  const topics=Object.entries(S.topics).map(([k,v])=>[k,v,v.r/(v.r+v.w)]).sort((a,b)=>a[2]-b[2]);
+  st.innerHTML=`<div class="statrow"><span>Sessions</span><span>${S.sessions}</span></div>
+    <div class="statrow"><span>Last active</span><span>${fmt(S.last)}</span></div>
+    ${Object.entries(DECKS).map(([k,v])=>{const d=S.decks[k];return `<div class="statrow"><span>${esc(v.name)}</span><span>${d&&d.runs?`${d.runs} finished · best ${d.best}%`:"not finished yet"}</span></div>`}).join("")}
+    ${topics.length?`<p class="small" style="margin:14px 4px 4px">By topic, weakest first (all answers, including second tries):</p>`+topics.map(([k,v,p])=>`<div class="statrow"><span>${esc(k)}</span><span>${Math.round(p*100)}% of ${v.r+v.w}</span></div>`).join(""):'<p class="small" style="margin:14px 4px">No answers yet.</p>'}
+    <p class="small" style="margin:12px 4px 0">Saved on this device only.</p>`;
+  st.hidden=false;
+};
+
+let first="test";try{const d=localStorage.getItem(KEY+".deck");if(d&&(DECKS[d]))first=d}catch(e){}
+start(first);
+</script>
+</body>
+</html>
