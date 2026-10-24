@@ -1,0 +1,273 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Poetry Starter</title>
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#0e0f12">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230e0f12'/%3E%3Cpath d='M18 18h28M18 28h18M18 38h24M18 48h12' stroke='%23d4ff3a' stroke-width='5' stroke-linecap='round'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;500;600&display=swap">
+<style>
+/* Same dark palette and type as English Swipe, laid out as one reading column with a sticky progress bar. */
+:root{
+  --bg:#0e0f12; --card:#17191e; --card2:#1f2229; --line:#2b2f38; --text:#f2f3f5; --dim:#9aa1ad; --faint:#6b7280;
+  --accent:#d4ff3a; --good:#4ade80; --warn:#ff9f43;
+  --display:"Space Grotesk",system-ui,sans-serif; --body:"Inter",system-ui,-apple-system,"Segoe UI",sans-serif;
+  color-scheme:dark;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--text);font-family:var(--body);font-size:17px;line-height:1.55;
+  padding-bottom:env(safe-area-inset-bottom,0px)}
+a{color:var(--accent)}
+.wrap{max-width:600px;margin:0 auto;padding:0 16px 60px}
+
+.top{position:sticky;top:0;z-index:10;background:linear-gradient(var(--bg) 75%,rgba(14,15,18,0));padding:calc(env(safe-area-inset-top,0px) + 10px) 0 12px}
+.top .in{max-width:600px;margin:0 auto;padding:0 16px;display:flex;align-items:center;gap:10px}
+.home{width:34px;height:34px;flex:none;display:grid;place-items:center;border-radius:10px;color:var(--dim);border:1px solid var(--line)}
+.top b{flex:1;font-family:var(--display);font-size:16px}
+.top span{font-family:var(--display);font-size:14px;color:var(--dim);font-variant-numeric:tabular-nums}
+.meter{max-width:568px;margin:8px auto 0;height:3px;background:var(--line);border-radius:2px;overflow:hidden}
+.meter i{display:block;height:100%;width:0;background:var(--accent);transition:width .3s}
+.chips{display:flex;gap:6px;overflow-x:auto;max-width:600px;margin:10px auto 0;padding:0 16px;scrollbar-width:none}
+.chips::-webkit-scrollbar{display:none}
+.chips a{flex:none;text-decoration:none;font-size:13px;font-weight:600;color:var(--dim);border:1px solid var(--line);border-radius:999px;padding:4px 11px}
+.chips a.done{color:#111;background:var(--good);border-color:var(--good)}
+
+header{padding:18px 0 4px}
+.eyebrow{font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--dim)}
+h1{font-family:var(--display);font-weight:700;font-size:clamp(34px,10vw,48px);line-height:1;margin:8px 0 14px;letter-spacing:-.02em}
+.lede{color:#d6d9df;margin:0 0 10px}
+
+section{margin-top:40px;scroll-margin-top:110px}
+.sh{display:flex;align-items:baseline;gap:12px;margin-bottom:12px}
+.num{font-family:var(--display);font-weight:700;font-size:15px;color:var(--accent);flex:none;width:28px}
+h2{font-family:var(--display);font-weight:700;font-size:26px;line-height:1.1;margin:0;letter-spacing:-.01em}
+h2 small{display:block;font-family:var(--body);font-weight:500;font-size:14px;color:var(--dim);margin-top:5px;letter-spacing:0}
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:18px;margin-bottom:12px}
+.card h3{font-family:var(--display);font-size:17px;margin:0 0 8px}
+.card p{margin:0 0 10px}.card p:last-child{margin-bottom:0}
+.card ul,.card ol{margin:0 0 10px;padding-left:22px}.card li{margin-bottom:7px}
+.card li:last-child{margin-bottom:0}
+em.k{font-style:normal;color:var(--accent)}
+.ex{background:var(--card2);border-radius:12px;padding:12px 14px;margin-top:12px;font-size:15px;color:#d6d9df}
+.ex b.l{display:block;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--faint);margin-bottom:4px;font-weight:600}
+.pair{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}
+.pair div{background:var(--card2);border-radius:12px;padding:12px;font-size:15px}
+.pair b{display:block;font-family:var(--display);font-size:15px;margin-bottom:2px}
+.plus{color:var(--good)}.minus{color:#ff8a8a}
+.steps{counter-reset:s;list-style:none;padding:0!important}
+.steps li{counter-increment:s;position:relative;padding-left:40px;margin-bottom:12px!important}
+.steps li::before{content:counter(s);position:absolute;left:0;top:0;width:28px;height:28px;border-radius:8px;background:var(--card2);border:1px solid var(--line);
+  display:grid;place-items:center;font-family:var(--display);font-weight:700;font-size:14px;color:var(--accent)}
+.you{border-color:var(--warn)}
+.you .tag{display:inline-block;font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--warn);margin-bottom:6px}
+.done-btn{display:block;width:100%;margin-top:4px;padding:13px;border-radius:14px;border:1px solid var(--line);background:var(--card2);color:var(--text);font:inherit;font-weight:600;cursor:pointer}
+.done-btn[aria-pressed="true"]{background:rgba(74,222,128,.14);border-color:var(--good);color:var(--good)}
+.done-btn:focus-visible,.go:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.go{display:block;text-align:center;text-decoration:none;margin-top:10px;padding:14px;border-radius:14px;background:var(--accent);color:#111;font-weight:600}
+.small{font-size:14px;color:var(--dim)}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}.meter i{transition:none}}
+</style>
+</head>
+<body>
+<div class="top">
+  <div class="in">
+    <a class="home" href="../" aria-label="Back to all games"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 3 5 8l5 5"/></svg></a>
+    <b>Poetry Starter</b><span id="ml">0/6</span>
+  </div>
+  <div class="meter"><i id="mi"></i></div>
+  <nav class="chips" aria-label="Sections">
+    <a href="#what" data-k="what">What is poetry</a><a href="#read" data-k="read">How to read one</a><a href="#words" data-k="words">Connotation</a>
+    <a href="#why" data-k="why">Why it matters</a><a href="#poems" data-k="poems">The class poems</a><a href="#next" data-k="next">Coming up</a>
+  </nav>
+</div>
+
+<main class="wrap">
+<header>
+  <div class="eyebrow">Unit 2 · Poetry · Oct 20–22</div>
+  <h1>Poetry Starter</h1>
+  <p class="lede">Unit 2 started this week. This is what the first three classes covered, in about 8 minutes. Read it once, then swipe the two new decks to lock it in.</p>
+  <p class="small">Tap "Got it" at the end of each section. It saves on this phone.</p>
+</header>
+
+<section id="what">
+  <div class="sh"><span class="num">01</span><h2>What is poetry?<small>Class 1 · Oct 20</small></h2></div>
+  <div class="card">
+    <p>Mr. Winter's starting point: poetry is meant to be <em class="k">felt differently by different readers</em>. There's no single correct way to understand a poem. You need a reading you can back up.</p>
+    <p>The class opened with "Skyscrapers" by Matt Haig, a tiny poem stacked one or two words per line. Its idea: tip a poem on its side and it looks like a city skyline seen from far away. Skyscrapers made of words.</p>
+    <p>The point: how a poem <b>looks</b> on the page is part of what it means.</p>
+  </div>
+  <div class="card">
+    <h3>"Poetry is like…" and concrete images</h3>
+    <p>The class read other people's definitions of poetry. Every one uses a <em class="k">concrete image</em>: something real you could google a picture of, used to explain a feeling or a hard idea.</p>
+    <ul>
+      <li><b>An IKEA bed</b> (Carl Leggo): the manual doesn't make sense, it looks simple and is hard to put together.</li>
+      <li><b>Grandmother's stained recipe cards</b>: poetry is personal, old, about traditions; useful to others before you.</li>
+      <li><b>A DJ</b>: poetry plays with sounds and remixes other people's ideas.</li>
+      <li><b>Riding a horse in the rain with no reins</b>: scary, unpredictable, a skill most people don't have yet.</li>
+    </ul>
+    <div class="ex"><b class="l">Concrete vs not</b>"A cracked phone screen" is concrete; you can picture it. "Frustration" isn't. Poets explain the second by showing you the first.</div>
+  </div>
+  <div class="card you">
+    <span class="tag">Your turn</span>
+    <p>Your own "Poetry is like…" post goes on Google Classroom, plus replies to 3 classmates. That one's yours to write.</p>
+  </div>
+  <button class="done-btn" data-k="what" aria-pressed="false">Got it</button>
+</section>
+
+<section id="read">
+  <div class="sh"><span class="num">02</span><h2>How to read a poem<small>Take notes on this. Mr. Winter shows it every class.</small></h2></div>
+  <div class="card">
+    <ol class="steps">
+      <li><b>Read the title.</b> Anything interesting there?</li>
+      <li><b>Look at the poem.</b> Anything interesting about how it looks on the page? Line length, shape, capitals, gaps.</li>
+      <li><b>Read for WORD meaning.</b> Understand the words themselves. Look up the ones you don't know.</li>
+      <li><b>Read for PHRASE meaning.</b> Where's the punctuation? Who is speaking? What's the <em class="k">tone</em> and the <em class="k">mood</em>?</li>
+      <li><b>Read again for SOUNDS.</b> Anything interesting when you hear it?</li>
+      <li><b>Read again for POETIC DEVICES and IMAGERY.</b> Figurative language, symbols, alliteration, onomatopoeia.</li>
+      <li><b>What's the main message?</b> What do you think the poem is saying?</li>
+    </ol>
+  </div>
+  <div class="card">
+    <h3>Tone vs mood</h3>
+    <div class="pair">
+      <div><b>Tone</b>How the <em class="k">speaker</em> feels about the poem's subject.</div>
+      <div><b>Mood</b>How <em class="k">you</em>, the reader, feel while reading.</div>
+    </div>
+    <div class="ex"><b class="l">Example</b>A speaker describes a storm calmly and with wonder (tone: awed, calm), but the details of the drowning boat make you anxious (mood: tense). They can be different.</div>
+  </div>
+  <div class="card">
+    <h3>The speaker isn't the poet</h3>
+    <p>Same rule as narrators in Unit 1. The "I" in a poem is a voice the poet created. It can be an animal, an object, anyone. That matters for the poems below.</p>
+  </div>
+  <button class="done-btn" data-k="read" aria-pressed="false">Got it</button>
+</section>
+
+<section id="words">
+  <div class="sh"><span class="num">03</span><h2>Denotation vs connotation<small>Class 2–3 · Oct 21–22 · The worksheet lesson</small></h2></div>
+  <div class="card">
+    <p>Words are the building blocks of poetry, and words that mean the "same" thing (<b>synonyms</b>) rarely feel the same.</p>
+    <div class="pair">
+      <div><b>Denotation</b>The literal, <em class="k">dictionary</em> meaning. No feelings attached.</div>
+      <div><b>Connotation</b>The <em class="k">suggested extra meaning</em>: the feeling a word carries.</div>
+    </div>
+    <p style="margin-top:12px">Connotation comes from <b>culture and context</b>. You need to be able to say whether it's <span class="plus">positive</span> or <span class="minus">negative</span>.</p>
+    <div class="ex"><b class="l">Mr. Winter's example</b>"Obese" and "portly" both denote overweight. "Obese" suggests poor health and unpleasantness. "Portly" suggests dignity.</div>
+  </div>
+  <div class="card">
+    <h3>Same word, different feeling</h3>
+    <p>Context can flip a word's connotation. The handout uses "youthful" (denotation: seeming young):</p>
+    <ul>
+      <li>Admiring an old woman's youthful energy → <span class="plus">positive</span>: full of life.</li>
+      <li>An argument with too much youthful enthusiasm and no common sense → <span class="minus">negative</span>: immature.</li>
+    </ul>
+  </div>
+  <div class="card">
+    <h3>Spot the feeling</h3>
+    <p>Each pair means roughly the same thing. Which one would you rather be called?</p>
+    <div class="pair">
+      <div><b class="plus">thrifty</b>careful with money</div><div><b class="minus">cheap</b>won't spend a cent</div>
+      <div><b class="plus">confident</b>believes in himself</div><div><b class="minus">cocky</b>a little too much</div>
+      <div><b class="plus">curious</b>wants to know</div><div><b class="minus">nosy</b>in your business</div>
+      <div><b class="plus">home</b>warmth, family</div><div><b>house</b>just the building</div>
+    </div>
+    <p class="small" style="margin-top:12px">"House" is close to pure denotation: most people feel nothing about it. "Home" is loaded.</p>
+  </div>
+  <button class="done-btn" data-k="words" aria-pressed="false">Got it</button>
+</section>
+
+<section id="why">
+  <div class="sh"><span class="num">04</span><h2>Why it matters<small>The link between words and imagery</small></h2></div>
+  <div class="card">
+    <p>Most poets <b>don't make direct statements</b>, because direct statements don't hit your emotions. Instead they paint pictures with <em class="k">connotatively powerful words</em> that make you see, hear, smell, feel and empathize.</p>
+    <p>Those pictures are called <em class="k">imagery</em>: sensory details. Same definition as Unit 1: the five senses, using adjectives and figurative language.</p>
+    <div class="ex"><b class="l">Watch it work</b>"The dog was old" tells you. "The dog's grey muzzle rested on my shoe" makes you feel it. Every word choice nudges the mood.</div>
+  </div>
+  <div class="card">
+    <h3>Poetic devices = figurative + sound</h3>
+    <p>Mr. Winter splits poetic devices into two families. You already know a lot of the first one from Unit 1:</p>
+    <ul>
+      <li><b>Figurative</b>: personification, metaphor, extended metaphor, symbols, allusion…</li>
+      <li><b>Sound</b>: alliteration, onomatopoeia and more. This is the next lesson.</li>
+    </ul>
+  </div>
+  <button class="done-btn" data-k="why" aria-pressed="false">Got it</button>
+</section>
+
+<section id="poems">
+  <div class="sh"><span class="num">05</span><h2>The class poems<small>Know what happens in each. The meaning part is yours.</small></h2></div>
+  <div class="card">
+    <h3>"Jaguar" · Francisco X. Alarcón</h3>
+    <p><b>Speaker:</b> the jaguar itself, talking about the jungle park it lives in.</p>
+    <p><b>What happens:</b> some people say the jaguar is almost extinct in the park. The jaguar says those people don't realize it's all around them: the scent of the orchids is its scent, the roar of the waterfalls is its ancestors' roar, the stars at night are the spots on its fur. It ends by claiming it is, and always will be, the wild spirit of the jungle.</p>
+    <p><b>On the page:</b> very short lines, often two or three words, and almost no punctuation.</p>
+  </div>
+  <div class="card">
+    <h3>"sturgeon" · Kateri Akiwenzie-Damm</h3>
+    <p>A Canadian Indigenous writer. The sturgeon is a large, ancient river fish.</p>
+    <p><b>Speaker:</b> a person who says that whenever a sturgeon is caught in the Rainy River, she feels it happen to her: gasping for air, strange hands, the struggle to be free, the blow to the head.</p>
+    <p><b>What happens:</b> even later, sitting at her kitchen table, she knows this feeling. That's why she doesn't eat sturgeon. By the end she says she <i>is</i> a sturgeon.</p>
+    <p><b>On the page:</b> all lowercase, even the title and "i." No capital letters at all.</p>
+  </div>
+  <div class="card">
+    <h3>"The Promise" · Jane Hirshfield</h3>
+    <p>Read in class 1 with the same four questions. It's free to read on <a href="https://www.poetryfoundation.org/poems/55584/the-promise-56d23752834aa" rel="noopener">Poetry Foundation</a>.</p>
+  </div>
+  <div class="card you">
+    <span class="tag">Your turn</span>
+    <p>The four class questions, for any poem: how does it look, how does it sound, what's the most vivid image, what's the main message?</p>
+    <p>Bonus from class 2: what do "Jaguar" and "sturgeon" have in common?</p>
+    <p class="small">Hint: run step 4 on both. Who is speaking, and what are they speaking as? Then step 7: what's the message, and is it the same?</p>
+  </div>
+  <button class="done-btn" data-k="poems" aria-pressed="false">Got it</button>
+</section>
+
+<section id="next">
+  <div class="sh"><span class="num">06</span><h2>Coming up<small>From the Oct 22 slides</small></h2></div>
+  <div class="card">
+    <ul>
+      <li><b>Sound devices</b> are the next lesson: how to identify and use them.</li>
+      <li><b>You'll be writing poetry</b> in this unit. Every connotation choice you practise now shows up there.</li>
+      <li><b>Homework on the slide:</b> bring 2–3 pages with writing on them. Ask Mr. Winter what kind if you weren't there.</li>
+    </ul>
+  </div>
+  <div class="card">
+    <h3>Screenshot this</h3>
+    <ul>
+      <li><b>Denotation</b> = dictionary meaning. <b>Connotation</b> = the feeling. Positive or negative.</li>
+      <li><b>Tone</b> = the speaker's feeling. <b>Mood</b> = yours.</li>
+      <li><b>Concrete image</b> = something you could google a picture of.</li>
+      <li><b>Imagery</b> = sensory details. Poets show, they don't state.</li>
+      <li><b>Poetic devices</b> = figurative + sound.</li>
+      <li><b>7 steps</b>: title → look → words → phrases → sounds → devices → message.</li>
+    </ul>
+  </div>
+  <button class="done-btn" data-k="next" aria-pressed="false">Got it</button>
+  <a class="go" href="../swipe/#poetry">Now swipe it: Reading Poetry + Word Power</a>
+</section>
+</main>
+
+<script>
+const KEY="unit2Guide.v1",keys=["what","read","words","why","poems","next"];
+let done={};try{done=JSON.parse(localStorage.getItem(KEY))||{}}catch(e){}
+function paint(){
+  const n=keys.filter(k=>done[k]).length;
+  document.getElementById("ml").textContent=`${n}/${keys.length}`;
+  document.getElementById("mi").style.width=(n/keys.length*100)+"%";
+  document.querySelectorAll(".done-btn").forEach(b=>{const on=!!done[b.dataset.k];b.setAttribute("aria-pressed",on);b.textContent=on?"✓ Got it":"Got it"});
+  document.querySelectorAll(".chips a").forEach(a=>a.classList.toggle("done",!!done[a.dataset.k]));
+}
+document.querySelectorAll(".done-btn").forEach(b=>b.addEventListener("click",()=>{
+  done[b.dataset.k]=!done[b.dataset.k];try{localStorage.setItem(KEY,JSON.stringify(done))}catch(e){}paint();
+  if(done[b.dataset.k]){const i=keys.indexOf(b.dataset.k);if(i<keys.length-1)document.getElementById(keys[i+1]).scrollIntoView()}
+}));
+paint();
+</script>
+</body>
+</html>

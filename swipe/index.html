@@ -83,6 +83,7 @@ h2{font-family:var(--display);font-weight:700;font-size:clamp(28px,8vw,38px);lin
 .deck span{display:block;font-size:13px;color:var(--dim)}
 .deck .sc{font-family:var(--display);font-size:13px;color:var(--dim);white-space:nowrap}
 .deck.cur{border-color:var(--accent)}
+.deck i.new{font-style:normal;font-family:var(--body);font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;background:var(--accent);color:#111;border-radius:6px;padding:2px 6px;vertical-align:2px;margin-left:4px}
 .statrow{display:flex;justify-content:space-between;gap:12px;padding:9px 4px;border-bottom:1px solid var(--line);font-size:15px}
 .statrow:last-child{border-bottom:0}
 .statrow span:last-child{color:var(--dim);font-variant-numeric:tabular-nums;text-align:right}
@@ -121,6 +122,8 @@ h2{font-family:var(--display);font-weight:700;font-size:clamp(28px,8vw,38px);lin
    Definitions follow Mr. Winter's class notes. Examples come from films, games and books outside the course
    wherever a course text would hand over a homework answer (Necklace sheet, Symbolism of Desire chart, Ithaka sheet). */
 const DECKS={
+  poetry:{name:"Reading poetry",sub:"Unit 2: what poetry is, the 7-step read, tone vs mood, the class poems",isNew:true},
+  words:{name:"Word power",sub:"Unit 2: denotation vs connotation",isNew:true},
   test:{name:"On the test",sub:"Elements of fiction: conflict, plot, character, setting, POV, theme"},
   devices:{name:"Writer's tricks",sub:"Irony, inference, imagery, symbols, allusion and more"},
   odyssey:{name:"The Odyssey",sub:"The epic, the crew, Book 12 and the big themes"},
@@ -256,7 +259,68 @@ Q("myth","Hero's journey","A lightsaber, the ruby slippers and Excalibur are all
 Q("myth","Hero's journey","Refusing the call to adventure usually leads to…",["Disaster","Instant success","A mentor arriving with a gift","Nothing much"],0,"King Minos refused the gods, and got the Minotaur."),
 L("myth","Archetypes","Archetypes",`<p>Images, ideas and patterns that keep showing up in myths <em class="k">across cultures</em>. Campbell built on Carl Jung's idea of a "collective unconscious."</p><p>Character archetypes: hero, shadow, mentor, herald, threshold guardian, shapeshifter, trickster, ally, temptress, wise old man, witch/wizard.</p>`,"Loki is a trickster. Darth Vader is the shadow. Samwise is the ally."),
 Q("myth","Archetypes","Samwise helping Frodo carry the Ring up Mount Doom is the ___ archetype.",["Ally","Trickster","Shadow","Herald"],0,"Allies help the hero through the trials."),
-Q("myth","Archetypes","A character who keeps changing shape or loyalties, so the hero can't trust them, is a…",["Shapeshifter","Mentor","Herald","Wise old man"],0,"Shapeshifters keep the hero (and you) guessing.")
+Q("myth","Archetypes","A character who keeps changing shape or loyalties, so the hero can't trust them, is a…",["Shapeshifter","Mentor","Herald","Wise old man"],0,"Shapeshifters keep the hero (and you) guessing."),
+
+/* ===== UNIT 2: READING POETRY (Oct 20–22) =====
+   Appended at the end on purpose: card ids are index-based, so new cards must never be inserted above old ones.
+   The class questions on the poems ("main message", the bonus question) stay as prompts, not answers. */
+L("poetry","What is poetry","What is poetry?",`<p>Mr. Winter's starting point: poetry is meant to be <em class="k">felt differently by different readers</em>.</p><p>There's no single correct way to understand a poem. What counts is a reading you can back up.</p>`,"Class opened with Matt Haig's \"Skyscrapers\": tilt a poem on its side and it looks like a tiny city skyline. Skyscrapers made of words."),
+L("poetry","Concrete images","Concrete images",`<p>A <em class="k">concrete image</em> is something real you could google a picture of.</p><p>Poets use concrete images to explain <b>feelings or complex ideas</b>.</p>`,"\"Poetry is like putting an IKEA bed together\" (Carl Leggo): looks simple, the manual makes no sense, really hard to get right."),
+Q("poetry","Concrete images","Which one is a concrete image?",["Grandmother's recipe cards, stained with butter","Nostalgia","A feeling of belonging","Tradition"],0,"You could google a picture of stained recipe cards. The others are ideas the image is trying to explain."),
+Q("poetry","Concrete images","\"Poetry is a DJ.\" What idea is this image explaining?",["Poetry plays with sounds and remixes other people's ideas","Poetry is loud","Poetry is only for parties","Poetry has to rhyme"],0,"From the class slides: musical, combining sounds, building new ideas from old ones."),
+Q("poetry","Concrete images","Why do poets use concrete images?",["To make feelings and complex ideas easy to picture","To make the poem longer","Because they can't spell abstract words","To avoid having a message"],0,"A picture you can see does what a vague word can't."),
+Q("poetry","What is poetry","According to Mr. Winter, is there one correct way to understand a poem?",["No: readers feel it differently, but you need evidence","Yes: the teacher's reading","Yes: the poet's reading","No, and you don't need evidence either"],0,"Different readings are fine. Unsupported ones aren't."),
+
+L("poetry","7-step read","How to read a poem",`<ol><li><b>Title</b>: anything interesting?</li><li><b>Look</b>: how does it sit on the page?</li><li><b>Word meaning</b>: understand the words</li><li><b>Phrase meaning</b>: punctuation, who's speaking, tone, mood</li><li><b>Sounds</b>: read it again and listen</li><li><b>Devices &amp; imagery</b>: figurative language, symbols, alliteration, onomatopoeia</li><li><b>Main message</b></li></ol>`,"Memory trick: Title, Look, Words, Phrases, Sounds, Devices, Message. Outside in, then deeper."),
+Q("poetry","7-step read","What's step 1 of reading a poem?",["Read the title","Find the main message","Count the lines","Look up every word"],0,"Start with the title. The message comes last."),
+Q("poetry","7-step read","Which step is about the poem's shape on the page?",["Step 2: look at the poem","Step 5: sounds","Step 7: message","Step 3: word meaning"],0,"Short lines, odd spacing, no capitals: the look is part of the meaning."),
+Q("poetry","7-step read","Who's speaking, the tone and the mood all belong to which step?",["Reading for PHRASE meaning","Reading for WORD meaning","Reading the title","Reading for SOUNDS"],0,"Step 4. Punctuation shows you the phrases; then ask who's talking and how they feel."),
+Q("poetry","7-step read","What's the LAST step?",["Decide the main message","Read the title","Listen for sounds","Spot alliteration"],0,"Message last, once you've earned it from the other six steps."),
+
+L("poetry","Tone & mood","Tone vs mood",`<p><b>Tone</b>: how the <em class="k">speaker</em> feels about the subject.</p><p><b>Mood</b>: how <em class="k">you</em>, the reader, feel.</p><p>They can be different.</p>`,"A narrator calmly describes the creak of footsteps upstairs in an empty house. Tone: calm. Mood: creepy."),
+Q("poetry","Tone & mood","How YOU feel while reading a poem is the…",["Mood","Tone","Theme","Denotation"],0,"Mood = reader. Tone = speaker."),
+Q("poetry","Tone & mood","A speaker writes about their old school with bitter sarcasm. \"Bitter\" describes the…",["Tone","Mood","Setting","Rhyme"],0,"It's the speaker's attitude toward the subject: tone."),
+Q("poetry","Tone & mood","The speaker in a poem is always the poet. True?",["False: it's a voice the poet created","True"],0,"Same rule as narrators in Unit 1. The speaker can even be an animal."),
+
+L("poetry","Class poems","\"Jaguar\" · Alarcón",`<p><b>Speaker:</b> the jaguar.</p><p>People say it's almost extinct in the park. The jaguar says it's everywhere: the orchids' scent is its scent, the waterfalls' rumble is its ancestors' roar, the stars are the spots on its fur.</p><p><b>On the page:</b> tiny lines, almost no punctuation.</p>`,0),
+L("poetry","Class poems","\"sturgeon\" · Akiwenzie-Damm",`<p><b>Speaker:</b> a person who feels it whenever a sturgeon is caught in the Rainy River: gasping, strange hands, the struggle, the blow to the head.</p><p>That's why she doesn't eat sturgeon. By the end she says she <i>is</i> one.</p><p><b>On the page:</b> all lowercase, even "i."</p>`,0),
+Q("poetry","Class poems","Who is the speaker in \"Jaguar\"?",["The jaguar itself","A park ranger","A tourist","The poet's grandfather"],0,"The \"I\" is the animal. Step 4: always ask who's speaking."),
+Q("poetry","Class poems","In \"Jaguar\", the stars in the night sky are linked to…",["The spots on the jaguar's fur","The jaguar's eyes","Its ancestors' roar","The orchids"],0,"Orchids = its scent, waterfalls = ancestors' roar, constellations = its spots."),
+Q("poetry","Class poems","What do people in the park say about the jaguar?",["That it's almost extinct there","That it's dangerous","That it's a myth","That it's moved away"],0,"The poem pushes back against that claim."),
+Q("poetry","Class poems","What's unusual about how \"sturgeon\" looks on the page?",["Everything is lowercase, even \"i\"","It's shaped like a fish","Every line rhymes","It's written backwards"],0,"Step 2 notices it. Asking WHY the poet did that is your job."),
+Q("poetry","Class poems","Why doesn't the speaker in \"sturgeon\" eat sturgeon?",["She feels what the caught fish feels","She's allergic","It's too expensive","There are none left in the river"],0,"The poem says it straight out: she knows that feeling, so she won't."),
+L("poetry","Class poems","Your turn",`<p>The class questions are yours to answer. Use the 7 steps.</p><ul><li>What's the main message of each poem?</li><li>Bonus: what do "Jaguar" and "sturgeon" have in common?</li></ul>`,"Hint: compare step 4 for both. Who is speaking, and what are they speaking as?"),
+
+L("poetry","Sound devices","Sound devices: preview",`<p>Poetic devices = <em class="k">figurative</em> + <em class="k">sound</em> devices. Sound devices are the next lesson.</p><p>Two are already on the 7-step list:</p><ul><li><b>Alliteration</b>: same first sound in words close together.</li><li><b>Onomatopoeia</b>: a word that sounds like what it means.</li></ul>`,"Onomatopoeia: buzz, crack, sizzle, thud, whoosh."),
+Q("poetry","Sound devices","\"The bacon hissed and sizzled in the pan.\" Hissed and sizzled are…",["Onomatopoeia","Alliteration","Personification","Allusion"],0,"The words sound like the noise they describe."),
+Q("poetry","Sound devices","Poetic devices are made up of which two families?",["Figurative devices + sound devices","Plot + setting","Rhyme + rhythm only","Tone + mood"],0,"From the Oct 22 slide."),
+
+/* ===== UNIT 2: WORD POWER ===== */
+L("words","Denotation","Denotation",`<p>The <em class="k">literal, dictionary meaning</em> of a word. No feelings attached.</p>`,"\"Obese\" and \"portly\" both denote overweight."),
+L("words","Connotation","Connotation",`<p>The <em class="k">suggested extra meaning</em>: the feeling a word carries.</p><p>It comes from <b>culture and context</b>. Your job: decide if it's positive or negative.</p>`,"\"Obese\" suggests poor health. \"Portly\" suggests dignity. Same denotation, opposite feeling."),
+Q("words","Denotation","The dictionary meaning of a word is its…",["Denotation","Connotation","Tone","Imagery"],0,"Denotation = dictionary. Connotation = the feeling on top."),
+Q("words","Connotation","The feeling or extra meaning a word suggests is its…",["Connotation","Denotation","Synonym","Mood"],0,"Connotation carries the emotion."),
+Q("words","Connotation","Connotations come from…",["Culture and context","The dictionary","Spelling","The number of syllables"],0,"That's why a word can feel different to different people, or in different sentences."),
+Q("words","Connotation","Synonyms have the same denotation. Do they have the same connotation?",["Not always","Always","Never","Only in poems"],0,"Thin, slender and bony all mean not heavy. They feel very different."),
+
+Q("words","Positive or negative","Which word has the most POSITIVE connotation?",["Thrifty","Cheap","Stingy","Tight-fisted"],0,"All four mean careful with money. Only thrifty sounds like a compliment."),
+Q("words","Positive or negative","Which word has the most NEGATIVE connotation?",["Nosy","Curious","Interested","Inquisitive"],0,"Nosy means curious about things that aren't your business."),
+Q("words","Positive or negative","\"He's so confident.\" Swap in a word with the same denotation but a NEGATIVE connotation:",["Cocky","Self-assured","Bold","Poised"],0,"Cocky = too confident. Same idea, worse feeling."),
+Q("words","Positive or negative","Which word for a small living space sounds best?",["Cozy","Cramped","Tiny","Claustrophobic"],0,"A real estate listing would never say \"cramped.\""),
+Q("words","Positive or negative","\"The kid's laugh was childlike.\" vs \"The adult's tantrum was childish.\" Which is negative?",["Childish","Childlike","Both","Neither"],0,"Childlike suggests innocence. Childish suggests immaturity."),
+Q("words","Positive or negative","Which word carries the most feeling of warmth and belonging?",["Home","House","Building","Residence"],0,"\"House\" is close to pure denotation. \"Home\" is loaded with connotation."),
+Q("words","Positive or negative","Which is the most NEGATIVE way to describe a smell?",["Reek","Scent","Fragrance","Smell"],0,"\"Smell\" is neutral. \"Reek\" makes you hold your nose."),
+Q("words","Positive or negative","Which word makes a person sound admirably strong-willed?",["Determined","Pig-headed","Obstinate","Bull-headed"],0,"All four mean won't give up. Only one is praise."),
+
+L("words","Context","Context can flip it",`<p>The same word can be positive in one sentence and negative in another.</p><p>Mr. Winter's example, "youthful" (seeming young):</p><ul><li>An old woman's youthful energy → <b>positive</b>: full of life.</li><li>An argument with too much youthful enthusiasm → <b>negative</b>: immature.</li></ul>`,0),
+Q("words","Context","\"The concert tickets were cheap!\" Connotation of cheap here?",["Positive","Negative"],0,"Good price, great deal. Context makes it a win."),
+Q("words","Context","\"That jacket looks cheap.\" Connotation of cheap here?",["Negative","Positive"],0,"Now it means badly made. Same word, opposite feeling."),
+Q("words","Context","\"The old castle stood proud on the hill.\" Connotation of old here?",["Positive","Negative"],0,"Here old suggests history and grandeur."),
+Q("words","Context","\"My phone is so old it can't open the app.\" Connotation of old here?",["Negative","Positive"],0,"Here old means outdated and useless."),
+
+L("words","Why it matters","Why poets care",`<p>Most poets <b>don't make direct statements</b>; they don't hit your emotions.</p><p>Instead they pick <em class="k">connotatively powerful words</em> that make you see, hear, smell, feel and empathize. That's <b>imagery</b>.</p>`,"Tell: \"The dog was old.\" Show: \"The dog's grey muzzle rested on my shoe.\""),
+Q("words","Why it matters","Why do poets choose words with strong connotations?",["To create imagery that makes you feel something","To make the poem easier to translate","To avoid using imagery","Because dictionaries are out of date"],0,"Direct statements don't move people. Loaded words paint pictures."),
+Q("words","Why it matters","Imagery is…",["Sensory details: sight, sound, smell, touch, taste","The poem's rhyme scheme","The title","The speaker's name"],0,"Same as Unit 1: the five senses.")
 ];
 CARDS.forEach((c,i)=>c.id=c.deck+"-"+i);
 
@@ -369,7 +433,7 @@ function openSheet(){
   const counts=d=>CARDS.filter(c=>c.deck===d&&c.t==="check").length;
   const left=Object.keys(S.miss).length;
   document.getElementById("decks").innerHTML=Object.entries(DECKS).map(([k,v])=>{
-    const b=S.decks[k];return `<button class="deck${k===cur?" cur":""}" data-k="${k}"><div class="tx"><b>${esc(v.name)}</b><span>${esc(v.sub)}</span></div><span class="sc">${b&&b.runs?`Best ${b.best}%`:`${counts(k)} checks`}</span></button>`}).join("")
+    const b=S.decks[k];return `<button class="deck${k===cur?" cur":""}" data-k="${k}"><div class="tx"><b>${esc(v.name)}${v.isNew&&!(b&&b.runs)?' <i class="new">New</i>':""}</b><span>${esc(v.sub)}</span></div><span class="sc">${b&&b.runs?`Best ${b.best}%`:`${counts(k)} checks`}</span></button>`}).join("")
     +(left?`<button class="deck${cur==="missed"?" cur":""}" data-k="missed"><div class="tx"><b>Ones I've missed</b><span>Only the questions you got wrong</span></div><span class="sc">${left}</span></button>`:"");
   document.querySelectorAll(".deck").forEach(b=>b.onclick=()=>start(b.dataset.k));
   document.getElementById("stats").hidden=true;
@@ -392,6 +456,10 @@ document.getElementById("statsbtn").onclick=()=>{
 };
 
 let first="test";try{const d=localStorage.getItem(KEY+".deck");if(d&&(DECKS[d]))first=d}catch(e){}
+/* Open the new Unit 2 deck once for returning players, and whenever the link asks for a deck (#poetry). */
+try{if(!localStorage.getItem(KEY+".u2")){first="poetry";localStorage.setItem(KEY+".u2","1")}}catch(e){first="poetry"}
+const h=location.hash.slice(1);if(DECKS[h])first=h;
+window.addEventListener("hashchange",()=>{const d=location.hash.slice(1);if(DECKS[d]&&d!==cur)start(d)});
 start(first);
 </script>
 </body>
