@@ -1,0 +1,270 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Break a Poem</title>
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#0e0f12">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230e0f12'/%3E%3Cpath d='M18 18h28M18 28h18M18 38h24M18 48h12' stroke='%23d4ff3a' stroke-width='5' stroke-linecap='round'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;500;600&display=swap">
+<style>
+/* Same dark palette and type as English Swipe, laid out as one reading column with a sticky progress bar. */
+:root{
+  --bg:#0e0f12; --card:#17191e; --card2:#1f2229; --line:#2b2f38; --text:#f2f3f5; --dim:#9aa1ad; --faint:#6b7280;
+  --accent:#d4ff3a; --good:#4ade80; --warn:#ff9f43;
+  --display:"Space Grotesk",system-ui,sans-serif; --body:"Inter",system-ui,-apple-system,"Segoe UI",sans-serif;
+  color-scheme:dark;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--text);font-family:var(--body);font-size:17px;line-height:1.55;
+  padding-bottom:env(safe-area-inset-bottom,0px)}
+a{color:var(--accent)}
+.wrap{max-width:600px;margin:0 auto;padding:0 16px 60px}
+
+.top{position:sticky;top:0;z-index:10;background:linear-gradient(var(--bg) 75%,rgba(14,15,18,0));padding:calc(env(safe-area-inset-top,0px) + 10px) 0 12px}
+.top .in{max-width:600px;margin:0 auto;padding:0 16px;display:flex;align-items:center;gap:10px}
+.home{width:34px;height:34px;flex:none;display:grid;place-items:center;border-radius:10px;color:var(--dim);border:1px solid var(--line)}
+.top b{flex:1;font-family:var(--display);font-size:16px}
+.top span{font-family:var(--display);font-size:14px;color:var(--dim);font-variant-numeric:tabular-nums}
+.meter{max-width:568px;margin:8px auto 0;height:3px;background:var(--line);border-radius:2px;overflow:hidden}
+.meter i{display:block;height:100%;width:0;background:var(--accent);transition:width .3s}
+.chips{display:flex;gap:6px;overflow-x:auto;max-width:600px;margin:10px auto 0;padding:0 16px;scrollbar-width:none}
+.chips::-webkit-scrollbar{display:none}
+.chips a{flex:none;text-decoration:none;font-size:13px;font-weight:600;color:var(--dim);border:1px solid var(--line);border-radius:999px;padding:4px 11px}
+.chips a.done{color:#111;background:var(--good);border-color:var(--good)}
+
+header{padding:18px 0 4px}
+.eyebrow{font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--dim)}
+h1{font-family:var(--display);font-weight:700;font-size:clamp(34px,10vw,48px);line-height:1;margin:8px 0 14px;letter-spacing:-.02em}
+.lede{color:#d6d9df;margin:0 0 10px}
+
+section{margin-top:40px;scroll-margin-top:110px}
+.sh{display:flex;align-items:baseline;gap:12px;margin-bottom:12px}
+.num{font-family:var(--display);font-weight:700;font-size:15px;color:var(--accent);flex:none;width:28px}
+h2{font-family:var(--display);font-weight:700;font-size:26px;line-height:1.1;margin:0;letter-spacing:-.01em}
+h2 small{display:block;font-family:var(--body);font-weight:500;font-size:14px;color:var(--dim);margin-top:5px;letter-spacing:0}
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:18px;margin-bottom:12px}
+.card h3{font-family:var(--display);font-size:17px;margin:0 0 8px}
+.card p{margin:0 0 10px}.card p:last-child{margin-bottom:0}
+.card ul,.card ol{margin:0 0 10px;padding-left:22px}.card li{margin-bottom:7px}
+.card li:last-child{margin-bottom:0}
+em.k{font-style:normal;color:var(--accent)}
+.ex{background:var(--card2);border-radius:12px;padding:12px 14px;margin-top:12px;font-size:15px;color:#d6d9df}
+.ex b.l{display:block;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--faint);margin-bottom:4px;font-weight:600}
+.pair{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}
+.pair div{background:var(--card2);border-radius:12px;padding:12px;font-size:15px}
+.pair b{display:block;font-family:var(--display);font-size:15px;margin-bottom:2px}
+.plus{color:var(--good)}.minus{color:#ff8a8a}
+.steps{counter-reset:s;list-style:none;padding:0!important}
+.steps li{counter-increment:s;position:relative;padding-left:40px;margin-bottom:12px!important}
+.steps li::before{content:counter(s);position:absolute;left:0;top:0;width:28px;height:28px;border-radius:8px;background:var(--card2);border:1px solid var(--line);
+  display:grid;place-items:center;font-family:var(--display);font-weight:700;font-size:14px;color:var(--accent)}
+.you{border-color:var(--warn)}
+.you .tag{display:inline-block;font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--warn);margin-bottom:6px}
+.done-btn{display:block;width:100%;margin-top:4px;padding:13px;border-radius:14px;border:1px solid var(--line);background:var(--card2);color:var(--text);font:inherit;font-weight:600;cursor:pointer}
+.done-btn[aria-pressed="true"]{background:rgba(74,222,128,.14);border-color:var(--good);color:var(--good)}
+.done-btn:focus-visible,.go:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.go{display:block;text-align:center;text-decoration:none;margin-top:10px;padding:14px;border-radius:14px;background:var(--accent);color:#111;font-weight:600}
+.small{font-size:14px;color:var(--dim)}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}.meter i{transition:none}}
+</style>
+</head>
+<body>
+<div class="top">
+  <div class="in">
+    <a class="home" href="../" aria-label="Back to all games"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 3 5 8l5 5"/></svg></a>
+    <b>Break a Poem</b><span id="ml">0/6</span>
+  </div>
+  <div class="meter"><i id="mi"></i></div>
+  <nav class="chips" aria-label="Sections">
+    <a href="#method" data-k="method">TP-CASTT</a><a href="#demo" data-k="demo">Watch it work</a><a href="#traps" data-k="traps">Traps</a>
+    <a href="#class" data-k="class">Oct 26 poems</a><a href="#rime" data-k="rime">The Rime</a><a href="#next" data-k="next">Wrap-up</a>
+  </nav>
+</div>
+
+<main class="wrap">
+<header>
+  <div class="eyebrow">Unit 2 · Poetry · Oct 26–28</div>
+  <h1>Break a Poem</h1>
+  <p class="lede">Every poem is a locked room. TP-CASTT is the set of keys Mr. Winter handed out on Oct 26: seven of them, used in order. Then on Oct 28 the class boarded a cursed ship. About 8 minutes.</p>
+  <p class="small">Tap "Got it" at the end of each section. It saves on this phone.</p>
+</header>
+
+<section id="method">
+  <div class="sh"><span class="num">01</span><h2>TP-CASTT<small>Formal poetry analysis · Oct 26</small></h2></div>
+  <div class="card">
+    <p>Seven letters, seven moves. Same idea as the 7-step read from last week, packed into one word you can remember on a test.</p>
+    <ol class="steps">
+      <li><b>T · Title.</b> Before reading, look at the title and <em class="k">predict</em> what the poem is about.</li>
+      <li><b>P · Paraphrase.</b> Put it in your own words, line by line, on the <em class="k">literal</em> level. Find the complete thoughts (poets flip sentence order) and look up words you don't know.</li>
+      <li><b>C · Connotation.</b> Now go past literal. Look for <em class="k">figurative language, imagery and sound</em>.</li>
+      <li><b>A · Attitude / Tone.</b> How does the speaker feel? Humour? Sarcasm? Awe?</li>
+      <li><b>S · Shifts.</b> Where does the speaker or the attitude <em class="k">change</em>? Clues: key words, a jump in time, punctuation.</li>
+      <li><b>T · Title (again).</b> Look at it a second time, now on an <em class="k">interpretive</em> level. What does it mean now that you've read the poem?</li>
+      <li><b>T · Theme.</b> Say what the poem is about (the <b>subject</b>), then what the poet is saying about it (the <b>theme</b>).</li>
+    </ol>
+    <div class="ex"><b class="l">Sound familiar?</b>The last T is Unit 1's formula: <b>Theme = Topic + Message</b>. "Death" is a subject. What the poet says about death is the theme.</div>
+  </div>
+  <button class="done-btn" data-k="method" aria-pressed="false">Got it</button>
+</section>
+
+<section id="demo">
+  <div class="sh"><span class="num">02</span><h2>Watch it work<small>A practice poem, not one from class</small></h2></div>
+  <div class="card">
+    <h3>"Fire and Ice" · Robert Frost (1920)</h3>
+    <p style="font-family:Georgia,serif;font-size:17px;line-height:1.7;margin:12px 0 4px">Some say the world will end in fire,<br>Some say in ice.<br>From what I've tasted of desire<br>I hold with those who favor fire.<br>But if it had to perish twice,<br>I think I know enough of hate<br>To say that for destruction ice<br>Is also great<br>And would suffice.</p>
+  </div>
+  <div class="card">
+    <ol class="steps">
+      <li><b>Title:</b> two opposites, both deadly. Prediction: a fight between heat and cold? Something destructive.</li>
+      <li><b>Paraphrase:</b> People argue the world will end by burning or by freezing. From my experience of wanting things, I'd bet on fire. But if the world had to be destroyed a second time, I know enough about hatred to say ice would work just as well.</li>
+      <li><b>Connotation:</b> fire = <em class="k">desire</em> (hot, consuming). Ice = <em class="k">hate</em> (cold, hard). The world isn't really burning; people are. "Tasted" makes desire something you swallow. Rhymes chain together (fire, desire, fire / twice, ice, suffice), and the last lines get shorter and shorter, like the end closing in.</li>
+      <li><b>Tone:</b> calm, almost casual, about the end of the world. "Would suffice" is a shrug. That coolness is what makes it chilling.</li>
+      <li><b>Shift:</b> line 5, at <b>"But."</b> The speaker turns from fire to ice, and from desire to hate.</li>
+      <li><b>Title again:</b> not weather. Fire and ice are two human emotions that can wreck everything.</li>
+      <li><b>Theme:</b> subject: human emotion and destruction. Theme: <i>uncontrolled desire and cold hatred are both powerful enough to destroy the world.</i></li>
+    </ol>
+    <div class="ex"><b class="l">Notice</b>The theme is a full sentence, it's arguable, and you can prove it with lines from the poem. That's the bar.</div>
+  </div>
+  <button class="done-btn" data-k="demo" aria-pressed="false">Got it</button>
+</section>
+
+<section id="traps">
+  <div class="sh"><span class="num">03</span><h2>Where people slip<small>Quick fixes</small></h2></div>
+  <div class="card">
+    <h3>Paraphrase is literal. Only literal.</h3>
+    <p>No meaning yet, no symbols. Just what's happening. Meaning comes in the C step.</p>
+    <div class="ex"><b class="l">Flipped sentences</b>Poets reorder words to fit rhythm or rhyme. "Whose woods these are I think I know" (Frost again) → "I think I know whose woods these are." Unflip it first.</div>
+  </div>
+  <div class="card">
+    <h3>Tone ≠ mood</h3>
+    <div class="pair">
+      <div><b>Tone</b>the <i>speaker's</i> attitude. A step in TP-CASTT.</div>
+      <div><b>Mood</b>how <i>you</i> feel reading it.</div>
+    </div>
+    <p class="small" style="margin-top:12px">Name tone with real adjectives: bitter, wistful, mocking, reverent, detached. "Sad" and "happy" are the weakest answers you can give.</p>
+  </div>
+  <div class="card">
+    <h3>Shift hunters</h3>
+    <ul>
+      <li><b>Turn words:</b> but, yet, however, still, although, now.</li>
+      <li><b>Time jumps:</b> past to present, night to day.</li>
+      <li><b>Punctuation:</b> a dash, a colon, a question, a new stanza.</li>
+      <li><b>Who's talking:</b> "I" becomes "we," or a new voice cuts in.</li>
+    </ul>
+  </div>
+  <button class="done-btn" data-k="traps" aria-pressed="false">Got it</button>
+</section>
+
+<section id="class">
+  <div class="sh"><span class="num">04</span><h2>The Oct 26 poems<small>Two dark ones. The TP-CASTT is yours.</small></h2></div>
+  <div class="card">
+    <h3>"Because I could not stop for Death" · Emily Dickinson</h3>
+    <p>American, written in the 1860s and published after her death. A speaker remembers a carriage ride in which Death shows up as a polite gentleman caller.</p>
+    <p>Read it on <a href="https://www.poetryfoundation.org/poems/47652/because-i-could-not-stop-for-death-479" rel="noopener">Poetry Foundation</a>.</p>
+  </div>
+  <div class="card">
+    <h3>"The Hollow Men" · T. S. Eliot</h3>
+    <p>Published in 1925, in the wreckage after World War I. Spoken by a "we," a group of men who are empty inside. It ends on one of the most quoted last lines in English poetry.</p>
+    <p>Read it on <a href="https://poets.org/poem/hollow-men" rel="noopener">Poets.org</a>.</p>
+  </div>
+  <div class="card you">
+    <span class="tag">Your turn</span>
+    <p>Run all seven letters on one of these, in your notebook. Start with just T and P; those two unlock everything else.</p>
+    <p class="small">Connection to chase: "Fire and Ice" and "The Hollow Men" were both written within five years of each other, and both are about how the world ends. Do they agree?</p>
+  </div>
+  <button class="done-btn" data-k="class" aria-pressed="false">Got it</button>
+</section>
+
+<section id="rime">
+  <div class="sh"><span class="num">05</span><h2>The Rime of the Ancient Mariner<small>Samuel Taylor Coleridge · Oct 28</small></h2></div>
+  <div class="card">
+    <p>One sailor. One bad shot. A lifetime of paying for it.</p>
+    <p>First published in 1798 and revised by Coleridge until the <b>1834</b> version the class is reading. It's long, it's told in short four-line stanzas like an old ballad, and it's split into <b>seven parts</b>. The 1834 text also has little prose notes in the margin that explain what's happening. Use them.</p>
+    <p><b>The frame:</b> an old sailor stops a young man on his way into a wedding, grabs him with his "glittering eye," and won't let go until he's told his story. The story inside is the voyage.</p>
+  </div>
+  <div class="card">
+    <h3>The map</h3>
+    <ul>
+      <li><b>I:</b> The Mariner stops the Wedding-Guest. His ship is driven south into ice. An albatross appears, the ice splits, a good wind follows. He shoots it with his crossbow.</li>
+      <li><b>II:</b> The crew can't decide if he was right or wrong. Then the wind dies. Stuck, burning, no water to drink. They hang the dead albatross around his neck.</li>
+      <li><b>III:</b> A ghost ship arrives. On it, Death and Life-in-Death play dice for the crew. The 200 sailors drop dead. Life-in-Death wins the Mariner.</li>
+      <li><b>IV:</b> Alone with the dead. He can't pray. Then he sees water-snakes in the moonlight and blesses them without meaning to. The albatross falls off his neck into the sea.</li>
+      <li><b>V:</b> Rain. The dead crew rise and sail the ship, moved by spirits. He hears two voices talking about him.</li>
+      <li><b>VI:</b> <span style="color:var(--warn)">Your group's part.</span> Read it yourself first.</li>
+      <li><b>VII:</b> Done together in class: how the voyage ends, and why he still has to tell the story.</li>
+    </ul>
+  </div>
+  <div class="card">
+    <h3>Old-word decoder</h3>
+    <div class="pair">
+      <div><b>ere</b>before</div><div><b>quoth</b>said</div>
+      <div><b>eftsoons</b>soon after</div><div><b>kirk</b>church</div>
+      <div><b>thou / thee / thy</b>you / you / your</div><div><b>hath · doth</b>has · does</div>
+      <div><b>spake</b>spoke</div><div><b>'gan</b>began</div>
+    </div>
+    <p class="small" style="margin-top:12px">Still stuck on a word? That's the P step: look it up and paraphrase.</p>
+  </div>
+  <div class="card you">
+    <span class="tag">Your turn · Part VI</span>
+    <p>Your group has Part VI. Whatever Mr. Winter asked for, TP-CASTT is a solid way in: paraphrase each stanza first (margin notes help), then hunt for shifts.</p>
+  </div>
+  <button class="done-btn" data-k="rime" aria-pressed="false">Got it</button>
+</section>
+
+<section id="next">
+  <div class="sh"><span class="num">06</span><h2>Wrap-up<small>Lock it in</small></h2></div>
+  <div class="card">
+    <h3>Screenshot this</h3>
+    <ul>
+      <li><b>T</b>itle · <b>P</b>araphrase · <b>C</b>onnotation · <b>A</b>ttitude/tone · <b>S</b>hifts · <b>T</b>itle again · <b>T</b>heme</li>
+      <li>First T = prediction. Second T = interpretation.</li>
+      <li>P = literal only. C = everything beneath it.</li>
+      <li>Shift clues: turn words, time jumps, punctuation.</li>
+      <li>Theme = subject + what the poet says about it, as a sentence.</li>
+    </ul>
+  </div>
+  <div class="card">
+    <h3>Notebook, 2 minutes</h3>
+    <p>Without looking: write the seven letters of TP-CASTT down the margin and what each one means.</p>
+  </div>
+  <div class="card">
+    <h3>Ask Mr. Winter</h3>
+    <ul>
+      <li>"When I do TP-CASTT, which step do my answers usually come up short on?"</li>
+      <li>"For our Part VI, what should the finished analysis look like?"</li>
+    </ul>
+  </div>
+  <div class="card">
+    <h3>Also this week</h3>
+    <p>The Poetry Types mini-presentation (Oct 27) is a project with your partner, so it's not in here.</p>
+  </div>
+  <button class="done-btn" data-k="next" aria-pressed="false">Got it</button>
+  <a class="go" href="../swipe/#tpcastt">Now swipe it: TP-CASTT + The Rime</a>
+</section>
+</main>
+
+<script>
+const KEY="unit2Guide2.v1",keys=["method","demo","traps","class","rime","next"];
+let done={};try{done=JSON.parse(localStorage.getItem(KEY))||{}}catch(e){}
+function paint(){
+  const n=keys.filter(k=>done[k]).length;
+  document.getElementById("ml").textContent=`${n}/${keys.length}`;
+  document.getElementById("mi").style.width=(n/keys.length*100)+"%";
+  document.querySelectorAll(".done-btn").forEach(b=>{const on=!!done[b.dataset.k];b.setAttribute("aria-pressed",on);b.textContent=on?"✓ Got it":"Got it"});
+  document.querySelectorAll(".chips a").forEach(a=>a.classList.toggle("done",!!done[a.dataset.k]));
+}
+document.querySelectorAll(".done-btn").forEach(b=>b.addEventListener("click",()=>{
+  done[b.dataset.k]=!done[b.dataset.k];try{localStorage.setItem(KEY,JSON.stringify(done))}catch(e){}paint();
+  if(done[b.dataset.k]){const i=keys.indexOf(b.dataset.k);if(i<keys.length-1)document.getElementById(keys[i+1]).scrollIntoView()}
+}));
+paint();
+</script>
+</body>
+</html>

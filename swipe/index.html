@@ -122,8 +122,10 @@ h2{font-family:var(--display);font-weight:700;font-size:clamp(28px,8vw,38px);lin
    Definitions follow Mr. Winter's class notes. Examples come from films, games and books outside the course
    wherever a course text would hand over a homework answer (Necklace sheet, Symbolism of Desire chart, Ithaka sheet). */
 const DECKS={
-  poetry:{name:"Reading poetry",sub:"Unit 2: what poetry is, the 7-step read, tone vs mood, the class poems",isNew:true},
-  words:{name:"Word power",sub:"Unit 2: denotation vs connotation",isNew:true},
+  tpcastt:{name:"TP-CASTT",sub:"Unit 2: the 7-letter method for breaking down a poem",isNew:true},
+  rime:{name:"The Rime",sub:"Unit 2: Coleridge's cursed voyage, Parts I–V, and the old words",isNew:true},
+  poetry:{name:"Reading poetry",sub:"Unit 2: what poetry is, the 7-step read, tone vs mood, the class poems"},
+  words:{name:"Word power",sub:"Unit 2: denotation vs connotation"},
   test:{name:"On the test",sub:"Elements of fiction: conflict, plot, character, setting, POV, theme"},
   devices:{name:"Writer's tricks",sub:"Irony, inference, imagery, symbols, allusion and more"},
   odyssey:{name:"The Odyssey",sub:"The epic, the crew, Book 12 and the big themes"},
@@ -320,7 +322,68 @@ Q("words","Context","\"My phone is so old it can't open the app.\" Connotation o
 
 L("words","Why it matters","Why poets care",`<p>Most poets <b>don't make direct statements</b>; they don't hit your emotions.</p><p>Instead they pick <em class="k">connotatively powerful words</em> that make you see, hear, smell, feel and empathize. That's <b>imagery</b>.</p>`,"Tell: \"The dog was old.\" Show: \"The dog's grey muzzle rested on my shoe.\""),
 Q("words","Why it matters","Why do poets choose words with strong connotations?",["To create imagery that makes you feel something","To make the poem easier to translate","To avoid using imagery","Because dictionaries are out of date"],0,"Direct statements don't move people. Loaded words paint pictures."),
-Q("words","Why it matters","Imagery is…",["Sensory details: sight, sound, smell, touch, taste","The poem's rhyme scheme","The title","The speaker's name"],0,"Same as Unit 1: the five senses.")
+Q("words","Why it matters","Imagery is…",["Sensory details: sight, sound, smell, touch, taste","The poem's rhyme scheme","The title","The speaker's name"],0,"Same as Unit 1: the five senses."),
+
+/* ===== TP-CASTT (added Nov 1; Oct 26 handout) ===== */
+L("tpcastt","The letters","TP-CASTT",`<p>Mr. Winter's method for <em class="k">formal poetry analysis</em>. Seven moves, in order:</p><ol><li><b>T</b>itle: predict</li><li><b>P</b>araphrase: literal, line by line</li><li><b>C</b>onnotation: beyond literal</li><li><b>A</b>ttitude / tone</li><li><b>S</b>hifts</li><li><b>T</b>itle again: interpret</li><li><b>T</b>heme</li></ol>`,0),
+Q("tpcastt","The letters","In TP-CASTT, what does the P stand for?",["Paraphrase","Personification","Point of view","Punctuation"],0,"Paraphrase: put the poem in your own words, line by line, on the literal level."),
+Q("tpcastt","The letters","In TP-CASTT, the C step is…",["Connotation: meaning beyond the literal","Conflict","Characters","Climax"],0,"Connotation: figurative language, imagery and sound."),
+Q("tpcastt","The letters","What does the A stand for?",["Attitude, or tone","Alliteration","Allusion","Antagonist"],0,"The speaker's attitude. Humour? Sarcasm? Awe?"),
+Q("tpcastt","The letters","What does the S stand for?",["Shifts","Symbols","Setting","Stanzas"],0,"Shifts: where the speaker or attitude changes."),
+Q("tpcastt","The letters","Which step appears twice in TP-CASTT?",["Title","Theme","Paraphrase","Tone"],0,"Once before reading, once after."),
+Q("tpcastt","The letters","The last T in TP-CASTT stands for…",["Theme","Title","Tone","Topic"],0,"TP-CASTT ends on theme. The title is the T before it."),
+
+L("tpcastt","Each step","Title, twice",`<p><b>First time:</b> before reading. Make a <em class="k">prediction</em>.</p><p><b>Second time:</b> after the whole poem. Read the title on an <em class="k">interpretive</em> level. What does it mean now?</p>`,"\"Fire and Ice\" (Frost): first look, weather. Second look, desire and hate."),
+Q("tpcastt","Each step","The FIRST time you look at the title, you…",["Predict what the poem is about","Explain its deeper meaning","State the theme","Find the rhyme scheme"],0,"Prediction first. Interpretation comes after you've read the poem."),
+Q("tpcastt","Each step","The SECOND time you look at the title, you read it on which level?",["Interpretive","Literal","Predictive","Visual"],0,"After the poem, the title usually means more than it first seemed to."),
+
+L("tpcastt","Each step","Paraphrase = literal",`<p>Just what's happening, in plain words. <b>No meaning yet.</b></p><p>Look for complete thoughts: poets often flip sentence order. Look up words you don't know.</p>`,"\"Whose woods these are I think I know\" → \"I think I know whose woods these are.\""),
+Q("tpcastt","Each step","Paraphrasing a poem means…",["Putting it in your own words on the literal level","Explaining its symbols","Naming its theme","Counting its syllables"],0,"Literal only. Symbols and deeper meaning belong to the C step."),
+Q("tpcastt","Each step","\"Into the dark the rider went.\" Best paraphrase?",["The rider went into the dark.","The rider is afraid of death.","Darkness symbolizes evil.","The tone is ominous."],0,"Unflip it, keep it literal. The other three are later steps."),
+Q("tpcastt","Each step","When you hit a word you don't know during P, you…",["Look it up","Skip it","Guess the theme instead","Move to the next poem"],0,"The handout says it straight: look up unfamiliar words."),
+
+L("tpcastt","Each step","Connotation",`<p>Now go <em class="k">beyond the literal</em>. Look for three things:</p><ul><li>figurative language</li><li>imagery</li><li>sound elements</li></ul><p>Same word as the connotation lesson: the feeling and the extra meaning.</p>`,0),
+Q("tpcastt","Each step","Which three things does the C step look for?",["Figurative language, imagery and sound","Title, paraphrase and theme","Plot, setting and character","Rhyme, line count and stanza count"],0,"Straight from the handout."),
+
+L("tpcastt","Each step","Attitude / tone",`<p>The <em class="k">speaker's</em> feeling toward the subject. Not yours; that's mood.</p><p>Use sharp adjectives: bitter, wistful, mocking, reverent, detached, defiant.</p>`,"In \"Fire and Ice\" the speaker is calm, almost casual, about the end of the world. That's what makes it chilling."),
+Q("tpcastt","Each step","Attitude/tone is about…",["How the speaker feels","How the reader feels","Where the poem is set","How the poem looks"],0,"Speaker = tone. Reader = mood."),
+Q("tpcastt","Each step","Which is the strongest way to name a tone?",["Bitter","Sad","Good","Normal"],0,"Precise adjectives earn more. \"Sad\" and \"happy\" are weak."),
+Q("tpcastt","Each step","A speaker describes losing a championship game but jokes that at least the bus seats were comfy. Tone?",["Wry, self-mocking","Reverent","Furious","Terrified"],0,"Joking about a loss is wry humour."),
+
+L("tpcastt","Each step","Shifts",`<p>Where the <em class="k">speaker or attitude changes</em>. Clues:</p><ul><li>key words: <b>but, yet, however, still</b></li><li>a change in time</li><li>punctuation: a dash, a colon, a new stanza</li></ul>`,"In \"Fire and Ice\" the shift is at \"But\": fire turns to ice, desire turns to hate."),
+Q("tpcastt","Each step","Which word is the biggest shift signal?",["But","And","The","With"],0,"\"But\" turns a poem in a new direction."),
+Q("tpcastt","Each step","A poem's first stanza is about a summer long ago; the second starts with \"Now…\". What's the clue to a shift?",["A change in time","A rhyme","A long title","Alliteration"],0,"Past to present is a classic shift."),
+Q("tpcastt","Each step","Which of these is NOT one of the handout's shift clues?",["The poet's age","Key words","A change in time","Punctuation"],0,"Key words, time change and punctuation. The poet's age has nothing to do with it."),
+
+L("tpcastt","Each step","Theme",`<p>Two parts:</p><ol><li>the <b>subject</b>: what the poem is about</li><li>the <b>theme</b>: what the poet is saying about it</li></ol><p>Same as Unit 1: <em class="k">Topic + Message</em>, as a full sentence.</p>`,"Subject: emotion and destruction. Theme: uncontrolled desire and cold hatred can both destroy the world."),
+Q("tpcastt","Each step","Which is a THEME, not just a subject?",["Grief can make a familiar place feel strange","Grief","A house","Winter"],0,"A theme says something about the subject, in a sentence."),
+Q("tpcastt","Each step","Which step comes right after Paraphrase?",["Connotation","Attitude","Shifts","Theme"],0,"T, P, C: literal first, then beneath it."),
+Q("tpcastt","Each step","Which step comes right before the second Title?",["Shifts","Connotation","Paraphrase","Theme"],0,"T-P-C-A-S, then Title again, then Theme."),
+
+/* ===== THE RIME (added Nov 1; Oct 28). Part VI is Sebastian's group work: no cards on it. ===== */
+L("rime","Background","The Rime of the Ancient Mariner",`<p>By <b>Samuel Taylor Coleridge</b>. First published 1798; the class reads his revised <b>1834</b> text.</p><p>A long poem in short four-line stanzas, split into <em class="k">seven parts</em>, with prose notes in the margin.</p>`,0),
+Q("rime","Background","Who wrote The Rime of the Ancient Mariner?",["Samuel Taylor Coleridge","Robert Frost","T. S. Eliot","Emily Dickinson"],0,"Coleridge. Frost, Eliot and Dickinson were the TP-CASTT poets."),
+Q("rime","Background","How many parts is the poem split into?",["Seven","Three","Twelve","Two"],0,"Seven. The class does the title and Part VII together."),
+Q("rime","Background","\"Rime\" in the title is an old spelling of…",["Rhyme","Crime","Ride","Time"],0,"Rime is an old spelling of rhyme, so the title means a poem about the old sailor. Rime is also frost, which fits a ship trapped in ice."),
+
+L("rime","The frame","A story inside a story",`<p>An old sailor stops a young man on his way into a <b>wedding</b> and holds him with his glittering eye until he's heard the whole tale.</p><p>The voyage is the story inside.</p>`,0),
+Q("rime","The frame","Who does the Mariner stop to tell his story?",["A Wedding-Guest","A priest","His son","A ship's captain"],0,"One of three young men heading into a wedding feast."),
+
+Q("rime","The voyage","What does the Mariner kill in Part I?",["An albatross","A sea serpent","A shipmate","A whale"],0,"The bird that came out of the fog and brought a good wind."),
+Q("rime","The voyage","What weapon does he use?",["A crossbow","A harpoon","A sword","A musket"],0,"A crossbow, at the very end of Part I."),
+Q("rime","The voyage","In Part II, what does the crew hang around the Mariner's neck?",["The dead albatross","A cross","An anchor chain","A rope"],0,"Instead of a cross, the albatross."),
+Q("rime","The voyage","In Part III, who play dice on the ghost ship?",["Death and Life-in-Death","Two dead sailors","The Mariner and the captain","Two angels"],0,"Life-in-Death wins the Mariner. The crew go to Death."),
+Q("rime","The voyage","How many crew die in Part III?",["200","12","6","None"],0,"\"Four times fifty living men\": two hundred."),
+Q("rime","The voyage","In Part IV, what does the Mariner bless without meaning to?",["Water-snakes","The ghost ship","The moon","The dead crew"],0,"He sees them shining in the moonlight and blesses them \"unaware.\" Right after, the albatross falls from his neck."),
+Q("rime","The voyage","Who sails the ship in Part V?",["The dead crew, moved by spirits","The Mariner alone","A new crew","Nobody; it drifts"],0,"The bodies rise and work the ropes."),
+
+L("rime","Old words","Old-word decoder",`<ul><li><b>ere</b> = before</li><li><b>quoth</b> = said</li><li><b>eftsoons</b> = soon after</li><li><b>kirk</b> = church</li><li><b>hath / doth</b> = has / does</li><li><b>spake</b> = spoke</li></ul>`,0),
+Q("rime","Old words","\"Ere\" means…",["Before","After","Here","Air"],0,"\"Ere the sun went down\" = before the sun went down."),
+Q("rime","Old words","\"Quoth he\" means…",["He said","He sailed","He wept","He prayed"],0,"Quoth = said."),
+Q("rime","Old words","A \"kirk\" is a…",["Church","Ship","Hill","Graveyard"],0,"Old Scots and English word for church."),
+Q("rime","Old words","\"Eftsoons\" means…",["Soon after","Never","Often","Too late"],0,"Eftsoons = soon after, at once."),
+
+L("rime","Still around","\"An albatross around your neck\"",`<p>This poem gave English an idiom. Today, an <em class="k">albatross around your neck</em> means a burden you can't get rid of, often caused by something you did.</p>`,"\"That one bad review became an albatross around the restaurant's neck.\"")
 ];
 CARDS.forEach((c,i)=>c.id=c.deck+"-"+i);
 
@@ -458,6 +521,8 @@ document.getElementById("statsbtn").onclick=()=>{
 let first="test";try{const d=localStorage.getItem(KEY+".deck");if(d&&(DECKS[d]))first=d}catch(e){}
 /* Open the new Unit 2 deck once for returning players, and whenever the link asks for a deck (#poetry). */
 try{if(!localStorage.getItem(KEY+".u2")){first="poetry";localStorage.setItem(KEY+".u2","1")}}catch(e){first="poetry"}
+/* Same for the Nov 1 batch: open TP-CASTT once. */
+try{if(!localStorage.getItem(KEY+".u2b")){first="tpcastt";localStorage.setItem(KEY+".u2b","1")}}catch(e){first="tpcastt"}
 const h=location.hash.slice(1);if(DECKS[h])first=h;
 window.addEventListener("hashchange",()=>{const d=location.hash.slice(1);if(DECKS[d]&&d!==cur)start(d)});
 start(first);
