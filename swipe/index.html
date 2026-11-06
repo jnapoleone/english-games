@@ -124,6 +124,7 @@ h2{font-family:var(--display);font-weight:700;font-size:clamp(28px,8vw,38px);lin
    Definitions follow Mr. Winter's class notes. Examples come from films, games and books outside the course
    wherever a course text would hand over a homework answer (Necklace sheet, Symbolism of Desire chart, Ithaka sheet). */
 const DECKS={
+  weak:{name:"Weak spots",sub:"Review: point of view, TP-CASTT and The Rime. Picked from your own answers",isNew:true},
   tpcastt:{name:"TP-CASTT",sub:"Unit 2: the 7-letter method for breaking down a poem",isNew:true},
   rime:{name:"The Rime",sub:"Unit 2: Coleridge's cursed voyage, Parts I–V, and the old words",isNew:true},
   poetry:{name:"Reading poetry",sub:"Unit 2: what poetry is, the 7-step read, tone vs mood, the class poems"},
@@ -385,7 +386,28 @@ Q("rime","Old words","\"Quoth he\" means…",["He said","He sailed","He wept","H
 Q("rime","Old words","A \"kirk\" is a…",["Church","Ship","Hill","Graveyard"],0,"Old Scots and English word for church."),
 Q("rime","Old words","\"Eftsoons\" means…",["Soon after","Never","Often","Too late"],0,"Eftsoons = soon after, at once."),
 
-L("rime","Still around","\"An albatross around your neck\"",`<p>This poem gave English an idiom. Today, an <em class="k">albatross around your neck</em> means a burden you can't get rid of, often caused by something you did.</p>`,"\"That one bad review became an albatross around the restaurant's neck.\"")
+L("rime","Still around","\"An albatross around your neck\"",`<p>This poem gave English an idiom. Today, an <em class="k">albatross around your neck</em> means a burden you can't get rid of, often caused by something you did.</p>`,"\"That one bad review became an albatross around the restaurant's neck.\""),
+
+/* ===== WEAK SPOTS (Nov 5): built from his synced results. Weakest: The voyage, Point of view, TP-CASTT. ===== */
+L("weak","Start here","Three spots left",`<p>You already have most of this. Your own answers picked the <em class="k">three spots</em> that are still close: point of view, TP-CASTT and The Rime.</p><p>About five minutes. Then you're done.</p>`,0),
+
+L("weak","Point of view","Point of view in two questions",`<ol><li><b>What's the pronoun in the narration?</b> I = first. You = second. He or she = third.</li><li><b>If third: how many heads can the narrator get into?</b> One = limited. More than one = omniscient.</li></ol>`,"Read the narration, not the dialogue. A character saying \"you\" doesn't make it second person.",T),
+Q("weak","Point of view","\"Tess smiled, hiding her fear. Her brother smiled back, already planning to leave by morning.\" What POV?",["Third person omniscient","Third person limited","First person","Second person"],0,"The narrator knows what's inside both of them. More than one head = omniscient.",T),
+Q("weak","Point of view","\"'You'd better run,' Kai said. He looked back, unsure whether anyone had heard him.\" What POV?",["Third person limited","Second person","First person","Third person omniscient"],0,"The \"you\" is only in the dialogue. The narration says \"he\" and stays in Kai's head.",T),
+Q("weak","Point of view","A first-person narrator keeps misunderstanding what's really going on. That narrator is…",["Unreliable","Omniscient","Limited","Second person"],0,"First-person narrators only know what they know, and they can be reliable or unreliable.",T),
+
+L("weak","The letters","TP-CASTT: which step is it?",`<p>The order follows what you do with a poem:</p><ul><li><b>Title:</b> predict</li><li><b>Paraphrase:</b> plain words, literal</li><li><b>Connotation:</b> go deeper</li><li><b>Attitude:</b> the speaker's feeling</li><li><b>Shifts:</b> where it changes</li><li><b>Title:</b> interpret it now</li><li><b>Theme:</b> the message</li></ul>`,0),
+Q("weak","The letters","A note on a poem says: \"The speaker walks home through the snow.\" Which step is that?",["Paraphrase","Connotation","Attitude","Theme"],0,"It only says what's literally happening. No meaning yet."),
+Q("weak","The letters","A note says: \"The snow stands for loneliness.\" Which step is that?",["Connotation","Paraphrase","Shifts","Title"],0,"That goes beyond the literal, so it belongs to C."),
+Q("weak","The letters","A note says: \"At the word 'yet,' the speaker goes from calm to angry.\" Which step is that?",["Shifts","Attitude","Paraphrase","Theme"],0,"The clue is the change. A key word like \"yet\" often signals a shift."),
+Q("weak","The letters","Which is the right order for the middle of TP-CASTT?",["Connotation, Attitude, Shifts","Attitude, Connotation, Shifts","Shifts, Attitude, Connotation","Connotation, Shifts, Attitude"],0,"C-A-S: go deeper, name the speaker's feeling, then find where it changes."),
+
+L("weak","The voyage","The Rime in five beats",`<ul><li><b>Part I:</b> shoots the albatross with a crossbow</li><li><b>Part II:</b> ship stuck; the albatross is hung around his neck</li><li><b>Part III:</b> Death and Life-in-Death play dice; 200 crew die</li><li><b>Part IV:</b> blesses the water-snakes; the albatross falls</li><li><b>Part V:</b> the dead crew sail the ship</li></ul>`,0),
+Q("weak","The voyage","Which of these happens FIRST?",["The albatross is hung around his neck","Death and Life-in-Death play dice","He blesses the water-snakes","The dead crew sail the ship"],0,"That's Part II. Then the dice in III, the snakes in IV and the dead crew in V."),
+Q("weak","The voyage","Why does the albatross finally fall from his neck?",["He blesses the water-snakes","The crew take it off","The ship reaches land","Life-in-Death wins the dice game"],0,"Part IV: he blesses them without meaning to, and the albatross falls."),
+Q("weak","The voyage","The dice game decides two fates. What happens?",["The crew go to Death; Life-in-Death wins the Mariner","The Mariner dies; the crew live","Everyone survives","Death wins the albatross"],0,"The 200 crew die. The Mariner lives on, as Life-in-Death's prize."),
+
+L("weak","Wrap-up","Before you close this",`<p><b>In your notebook, from memory:</b> write out the seven TP-CASTT steps.</p><p><b>Ask Mr. Winter:</b></p><ul><li>"Which TP-CASTT step do I rush or skip?"</li><li>"How can I spot a shift when there's no key word?"</li></ul>`,0)
 ];
 CARDS.forEach((c,i)=>c.id=c.deck+"-"+i);
 
@@ -528,6 +550,8 @@ let first="test";try{const d=localStorage.getItem(KEY+".deck");if(d&&(DECKS[d]))
 try{if(!localStorage.getItem(KEY+".u2")){first="poetry";localStorage.setItem(KEY+".u2","1")}}catch(e){first="poetry"}
 /* Same for the Nov 1 batch: open TP-CASTT once. */
 try{if(!localStorage.getItem(KEY+".u2b")){first="tpcastt";localStorage.setItem(KEY+".u2b","1")}}catch(e){first="tpcastt"}
+/* Same for the Nov 5 review: open Weak spots once. */
+try{if(!localStorage.getItem(KEY+".weak1")){first="weak";localStorage.setItem(KEY+".weak1","1")}}catch(e){first="weak"}
 const h=location.hash.slice(1);if(DECKS[h])first=h;
 window.addEventListener("hashchange",()=>{const d=location.hash.slice(1);if(DECKS[d]&&d!==cur)start(d)});
 start(first);
