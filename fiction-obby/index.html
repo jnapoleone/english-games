@@ -147,6 +147,7 @@ th{font-size:12px;text-transform:uppercase;letter-spacing:.5px;color:var(--muted
 <div class="cloud c1"></div><div class="cloud c2"></div><div class="cloud c3"></div>
 <div class="wrap"><main id="app"></main></div>
 
+<script src="../sync.js"></script>
 <script>
 /* ============ CONTENT: from Mr. Winter's ENL1W Unit 1 materials ============ */
 const STAGES = [
@@ -379,6 +380,7 @@ function answer(j){
     const qc=$("#qc");qc.classList.remove("shake");void qc.offsetWidth;qc.classList.add("shake");
     const hs=app.querySelector(".hearts");if(hs)hs.innerHTML=heartsHTML(run.hearts,run.max)}
   save();
+  window.Sync&&Sync.log("answer",q.id,ok?"right":"wrong","first");
   const hud0=app.querySelector(".hud .chip");if(hud0)hud0.innerHTML=`<i class="coin"></i>${S.coins}`;
   const dead=run.hearts<=0; const last=run.k===run.qs.length-1;
   $("#fb").innerHTML=`<div class="feedback ${ok?"ok":"no"}"><b>${ok?["NAILED IT","CLEAN JUMP","EZ","LET'S GO"][Math.floor(Math.random()*4)]:"OOF"}</b>
@@ -396,6 +398,7 @@ function finish(cleared){
   rec.last=Date.now(); S.stages[st.id]=rec;
   const entry={at:new Date().toISOString(),stage:st.id,stageName:st.name,correct:run.correct,total:run.qs.length,cleared,stars,missed:run.missed.slice()};
   S.log.unshift(entry); S.log=S.log.slice(0,60); save();
+  window.Sync&&Sync.log("run",st.id,cleared?"cleared":"fell",run.correct+"of"+run.qs.length);
   if(DB){DB.collection("runs").add(entry).catch(()=>{})}
   run.stars=stars; run.cleared=cleared; view="end"; render();
 }

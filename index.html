@@ -75,8 +75,11 @@ a.game:focus-visible{outline:3px solid var(--ink);outline-offset:3px}
     </div>
   </div>
   <p class="foot">Tip: tap Share → Add to Home Screen to keep this like an app.</p>
+  <p class="foot" id="syncnote" hidden></p>
 </div>
+<script src="sync.js"></script>
 <script>
+if(window.Sync&&Sync.on){const n=document.getElementById("syncnote");n.textContent=Sync.note;n.hidden=false}
 try{const s=JSON.parse(localStorage.getItem("fictionObby.v1"));if(s&&s.stages){const n=Object.values(s.stages).filter(r=>r.best>0).length;document.getElementById("fo").textContent=n?`${n}/6 CLEARED · ${s.coins} COINS`:"PLAY"}}catch(e){}
 try{const g=JSON.parse(localStorage.getItem("unit1Guide.v1"));if(g){const n=Object.values(g).filter(Boolean).length;if(n)document.getElementById("sg").textContent=`${n}/7 LEVELS DONE`}}catch(e){}
 try{const w=JSON.parse(localStorage.getItem("englishSwipe.v1"));if(w&&w.decks){const n=Object.values(w.decks).filter(d=>d.runs>0).length;if(n)document.getElementById("sw").textContent=`${n}/8 DECKS DONE`}}catch(e){}

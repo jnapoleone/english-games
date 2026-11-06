@@ -250,6 +250,7 @@ em.k{font-style:normal;color:var(--accent)}
 </section>
 </main>
 
+<script src="../sync.js"></script>
 <script>
 const KEY="unit2Guide2.v1",keys=["method","demo","traps","class","rime","next"];
 let done={};try{done=JSON.parse(localStorage.getItem(KEY))||{}}catch(e){}
@@ -261,7 +262,7 @@ function paint(){
   document.querySelectorAll(".chips a").forEach(a=>a.classList.toggle("done",!!done[a.dataset.k]));
 }
 document.querySelectorAll(".done-btn").forEach(b=>b.addEventListener("click",()=>{
-  done[b.dataset.k]=!done[b.dataset.k];try{localStorage.setItem(KEY,JSON.stringify(done))}catch(e){}paint();
+  done[b.dataset.k]=!done[b.dataset.k];try{localStorage.setItem(KEY,JSON.stringify(done))}catch(e){}window.Sync&&Sync.log("read",b.dataset.k,done[b.dataset.k]?"done":"undone");paint();
   if(done[b.dataset.k]){const i=keys.indexOf(b.dataset.k);if(i<keys.length-1)document.getElementById(keys[i+1]).scrollIntoView()}
 }));
 paint();

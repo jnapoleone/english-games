@@ -373,6 +373,7 @@ footer a{font-family:var(--display);color:var(--paper);text-shadow:0 2px 0 var(-
 <footer><a href="../">← ALL GAMES</a></footer>
 </div>
 
+<script src="../sync.js"></script>
 <script>
 const KEY="unit1Guide.v1", keys=["stories","plot","character","conflict","pov","theme","irony"];
 let done={};try{done=JSON.parse(localStorage.getItem(KEY))||{}}catch(e){}
@@ -383,7 +384,7 @@ function paint(){
   document.querySelectorAll(".done-btn").forEach(b=>{const on=!!done[b.dataset.k];b.setAttribute("aria-pressed",on);b.textContent=on?"✓ DONE":"DONE"});
   document.querySelectorAll(".chips a").forEach(a=>a.classList.toggle("done",!!done[a.dataset.k]));
 }
-document.querySelectorAll(".done-btn").forEach(b=>b.addEventListener("click",()=>{done[b.dataset.k]=!done[b.dataset.k];try{localStorage.setItem(KEY,JSON.stringify(done))}catch(e){}paint()}));
+document.querySelectorAll(".done-btn").forEach(b=>b.addEventListener("click",()=>{done[b.dataset.k]=!done[b.dataset.k];try{localStorage.setItem(KEY,JSON.stringify(done))}catch(e){}window.Sync&&Sync.log("read",b.dataset.k,done[b.dataset.k]?"done":"undone");paint()}));
 paint();
 </script>
 </body>
