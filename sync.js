@@ -6,7 +6,7 @@
    Results wait on the device and are sent later if there's no connection. */
 (function(){
 "use strict";
-var ENDPOINT="";   /* the Apps Script web app URL. Empty = sync is off and this file does nothing. */
+var ENDPOINT="https://script.google.com/macros/s/AKfycbwJvnAwPuw_DF35k5DqDlWMkwIec07y3MU2fDwsLTch-OaU7Yman_DqSL_cB_T-yB-z/exec";   /* the Apps Script web app URL. Empty = sync is off and this file does nothing. */
 var P="englishSync.",K_DEV=P+"device",K_Q=P+"queue",K_BF=P+"backfilled",K_NOTE=P+"noteSeen";
 var BATCH=200,MAX_QUEUE=3000,RETRY_MS=60000;
 var NOTE="Your right and wrong answers now go to a private sheet your dad can see, with no name attached, so your reviews get built around what you miss.";
