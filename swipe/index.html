@@ -125,7 +125,7 @@ h2{font-family:var(--display);font-weight:700;font-size:clamp(28px,8vw,38px);lin
    wherever a course text would hand over a homework answer (Necklace sheet, Symbolism of Desire chart, Ithaka sheet). */
 const DECKS={
   writeup:{name:"Write it up",sub:"Unit 2: turning TP-CASTT notes into a full analysis, plus a 4-question rematch",isNew:true},
-  weak:{name:"Weak spots",sub:"Review: point of view, TP-CASTT and The Rime. Picked from your own answers",isNew:true},
+  weak:{name:"Rematch",sub:"Round two on point of view, TP-CASTT and The Rime. Picked from your own answers",isNew:true},
   tpcastt:{name:"TP-CASTT",sub:"Unit 2: the 7-letter method for breaking down a poem",isNew:true},
   rime:{name:"The Rime",sub:"Unit 2: Coleridge's cursed voyage, Parts I–V, and the old words",isNew:true},
   poetry:{name:"Reading poetry",sub:"Unit 2: what poetry is, the 7-step read, tone vs mood, the class poems"},
@@ -389,7 +389,7 @@ Q("rime","Old words","\"Eftsoons\" means…",["Soon after","Never","Often","Too 
 
 L("rime","Still around","\"An albatross around your neck\"",`<p>This poem gave English an idiom. Today, an <em class="k">albatross around your neck</em> means a burden you can't get rid of, often caused by something you did.</p>`,"\"That one bad review became an albatross around the restaurant's neck.\""),
 
-/* ===== WEAK SPOTS (Nov 5): built from his synced results. Weakest: The voyage, Point of view, TP-CASTT. ===== */
+/* ===== REMATCH, deck key "weak" (Nov 5; renamed Nov 7): built from his synced results. Weakest: The voyage, Point of view, TP-CASTT. ===== */
 L("weak","Start here","Three spots left",`<p>You already have most of this. Your own answers picked the <em class="k">three spots</em> that are still close: point of view, TP-CASTT and The Rime.</p><p>About five minutes. Then you're done.</p>`,0),
 
 L("weak","Point of view","Point of view in two questions",`<ol><li><b>What's the pronoun in the narration?</b> I = first. You = second. He or she = third.</li><li><b>If third: how many heads can the narrator get into?</b> One = limited. More than one = omniscient.</li></ol>`,"Read the narration, not the dialogue. A character saying \"you\" doesn't make it second person.",T),
@@ -425,11 +425,11 @@ Q("writeup","The checklist","Where does Works Cited go?",["On a new page at the 
 Q("writeup","The checklist","How should your report's title look?",["Plain: not bold, not underlined","Bold and underlined","ALL CAPS","Bold, in a bigger font"],0,"MLA keeps the title plain. Same font and size as the rest."),
 Q("writeup","The checklist","What goes in the top-right header?",["Your last name and the page number","The date","Your teacher's name","The poem's title"],0,"Name and page number, every page."),
 
-L("writeup","Rematch","Four from Thursday",`<p>Thursday's Weak spots run went 6 of 10. Here are the four that slipped, asked a new way.</p>`,0),
-Q("writeup","Rematch","\"Mia hid her shaking hands. Across the room, Leo noticed and felt sorry for her.\" What POV?",["Third person omniscient","Third person limited","First person","Second person"],0,"Inside Mia's head AND Leo's. Two heads = omniscient.",T),
-Q("writeup","Rematch","\"'You never listen,' his mom said. Jay rolled his eyes, already tuning her out.\" What POV?",["Third person limited","Second person","Third person omniscient","First person"],0,"The \"you\" is inside quotation marks. The narration says \"his\" and \"Jay\" and stays in Jay's head.",T),
-Q("writeup","Rematch","The Rime: which of these happens LAST?",["The dead crew sail the ship","The albatross is hung around his neck","Death and Life-in-Death play dice","He shoots the albatross"],0,"Shoot (I) → neck (II) → dice (III) → snakes (IV) → dead crew sail (V)."),
-Q("writeup","Rematch","The Rime: what makes the albatross drop off his neck?",["He blesses the water-snakes without meaning to","He prays on purpose","The rain washes it away","The crew cut it loose"],0,"Part IV. The blessing is an accident, and that's the point: the love comes before he can think."),
+L("writeup","Round two","Four from Thursday",`<p>Thursday's Rematch went 6 of 10. Here are the four that slipped, asked a new way.</p>`,0),
+Q("writeup","Round two","\"Mia hid her shaking hands. Across the room, Leo noticed and felt sorry for her.\" What POV?",["Third person omniscient","Third person limited","First person","Second person"],0,"Inside Mia's head AND Leo's. Two heads = omniscient.",T),
+Q("writeup","Round two","\"'You never listen,' his mom said. Jay rolled his eyes, already tuning her out.\" What POV?",["Third person limited","Second person","Third person omniscient","First person"],0,"The \"you\" is inside quotation marks. The narration says \"his\" and \"Jay\" and stays in Jay's head.",T),
+Q("writeup","Round two","The Rime: which of these happens LAST?",["The dead crew sail the ship","The albatross is hung around his neck","Death and Life-in-Death play dice","He shoots the albatross"],0,"Shoot (I) → neck (II) → dice (III) → snakes (IV) → dead crew sail (V)."),
+Q("writeup","Round two","The Rime: what makes the albatross drop off his neck?",["He blesses the water-snakes without meaning to","He prays on purpose","The rain washes it away","The crew cut it loose"],0,"Part IV. The blessing is an accident, and that's the point: the love comes before he can think."),
 L("writeup","Wrap-up","Done. Close it.",`<p><b>In your notebook, from memory:</b> the seven headings, in order.</p><p><b>Ask Mr. Winter:</b></p><ul><li>"Which section of my analysis is the thinnest?"</li><li>"Can you show me a strong Shifts paragraph?"</li></ul>`,0)
 ];
 CARDS.forEach((c,i)=>c.id=c.deck+"-"+i);
@@ -573,7 +573,7 @@ let first="test";try{const d=localStorage.getItem(KEY+".deck");if(d&&(DECKS[d]))
 try{if(!localStorage.getItem(KEY+".u2")){first="poetry";localStorage.setItem(KEY+".u2","1")}}catch(e){first="poetry"}
 /* Same for the Nov 1 batch: open TP-CASTT once. */
 try{if(!localStorage.getItem(KEY+".u2b")){first="tpcastt";localStorage.setItem(KEY+".u2b","1")}}catch(e){first="tpcastt"}
-/* Same for the Nov 5 review: open Weak spots once. */
+/* Same for the Nov 5 review: open Rematch (key "weak") once. */
 try{if(!localStorage.getItem(KEY+".weak1")){first="weak";localStorage.setItem(KEY+".weak1","1")}}catch(e){first="weak"}
 /* Same for the Nov 7 batch: open Write it up once. */
 try{if(!localStorage.getItem(KEY+".wu1")){first="writeup";localStorage.setItem(KEY+".wu1","1")}}catch(e){first="writeup"}
