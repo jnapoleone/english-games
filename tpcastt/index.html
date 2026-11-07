@@ -84,13 +84,13 @@ em.k{font-style:normal;color:var(--accent)}
   <div class="meter"><i id="mi"></i></div>
   <nav class="chips" aria-label="Sections">
     <a href="#method" data-k="method">TP-CASTT</a><a href="#demo" data-k="demo">Watch it work</a><a href="#traps" data-k="traps">Traps</a>
-    <a href="#class" data-k="class">Oct 26 poems</a><a href="#rime" data-k="rime">The Rime</a><a href="#next" data-k="next">Wrap-up</a>
+    <a href="#class" data-k="class">Oct 26 poems</a><a href="#rime" data-k="rime">The Rime</a><a href="#write" data-k="write">Write it up</a><a href="#next" data-k="next">Wrap-up</a>
   </nav>
 </div>
 
 <main class="wrap">
 <header>
-  <div class="eyebrow">Unit 2 · Poetry · Oct 26–28</div>
+  <div class="eyebrow">Unit 2 · Poetry · Oct 26 – Nov 3</div>
   <h1>Break a Poem</h1>
   <p class="lede">Every poem is a locked room. TP-CASTT is the set of keys Mr. Winter handed out on Oct 26: seven of them, used in order. Then on Oct 28 the class boarded a cursed ship. About 8 minutes.</p>
   <p class="small">Tap "Got it" at the end of each section. It saves on this phone.</p>
@@ -218,8 +218,49 @@ em.k{font-style:normal;color:var(--accent)}
   <button class="done-btn" data-k="rime" aria-pressed="false">Got it</button>
 </section>
 
+<section id="write">
+  <div class="sh"><span class="num">06</span><h2>Write it up<small>Mr. Winter's model analysis · Nov 3</small></h2></div>
+  <div class="card">
+    <p>Notes in the margin are the first draft. The finished analysis is the same seven letters, each turned into a short paragraph under its own heading. That's how Mr. Winter's Nov 3 model does it.</p>
+    <ol class="steps">
+      <li><b>Title</b> · your prediction, and why the title's words point that way.</li>
+      <li><b>Paraphrase / Summary</b> · what happens, in plain words.</li>
+      <li><b>Connotation (Literary Devices)</b> · one device at a time.</li>
+      <li><b>Attitude / Tone</b> · precise adjectives, with the reason.</li>
+      <li><b>Shifts</b> · where it turns, from what to what, and the clue.</li>
+      <li><b>Title (Re-evaluation)</b> · how the title reads now.</li>
+      <li><b>Thematic Statement</b> · one sentence with the poet's message.</li>
+    </ol>
+    <p class="small">Then Works Cited, on a new page.</p>
+  </div>
+  <div class="card">
+    <h3>Every device, three moves</h3>
+    <p><b>Name</b> it, <b>point</b> to the exact words, <b>say what it does</b>. "There is a metaphor" earns almost nothing. The effect is where the marks are.</p>
+    <div class="ex"><b class="l">With "Fire and Ice"</b>Metaphor: fire stands for desire. Because fire spreads and consumes, wanting things starts to look dangerous, not harmless.</div>
+  </div>
+  <div class="card">
+    <h3>New device: paradox</h3>
+    <p>A statement that seems to contradict itself but holds a truth. John Donne (1633) tells Death: "Death, thou shalt die." The model analysis finds one in eyes that are blind and yet see.</p>
+  </div>
+  <div class="card">
+    <h3>The checklist on the model</h3>
+    <ul>
+      <li>Full sentences, edited. TP-CASTT headings.</li>
+      <li>First page: name, teacher, course, date.</li>
+      <li>A title, not bold or underlined.</li>
+      <li>Times New Roman 12. Last name + page number, top right.</li>
+      <li>Works Cited on its own page.</li>
+    </ul>
+  </div>
+  <div class="card you">
+    <span class="tag">Your turn</span>
+    <p>Your own analysis is yours to write. Use this page to check the shape, not the content.</p>
+  </div>
+  <button class="done-btn" data-k="write" aria-pressed="false">Got it</button>
+</section>
+
 <section id="next">
-  <div class="sh"><span class="num">06</span><h2>Wrap-up<small>Lock it in</small></h2></div>
+  <div class="sh"><span class="num">07</span><h2>Wrap-up<small>Lock it in</small></h2></div>
   <div class="card">
     <h3>Screenshot this</h3>
     <ul>
@@ -239,6 +280,7 @@ em.k{font-style:normal;color:var(--accent)}
     <ul>
       <li>"When I do TP-CASTT, which step do my answers usually come up short on?"</li>
       <li>"For our Part VI, what should the finished analysis look like?"</li>
+      <li>"In my write-up, which section is the thinnest?"</li>
     </ul>
   </div>
   <div class="card">
@@ -246,13 +288,13 @@ em.k{font-style:normal;color:var(--accent)}
     <p>The Poetry Types mini-presentation (Oct 27) is a project with your partner, so it's not in here.</p>
   </div>
   <button class="done-btn" data-k="next" aria-pressed="false">Got it</button>
-  <a class="go" href="../swipe/#tpcastt">Now swipe it: TP-CASTT + The Rime</a>
+  <a class="go" href="../swipe/#writeup">Now swipe it: Write it up</a>
 </section>
 </main>
 
 <script src="../sync.js"></script>
 <script>
-const KEY="unit2Guide2.v1",keys=["method","demo","traps","class","rime","next"];
+const KEY="unit2Guide2.v1",keys=["method","demo","traps","class","rime","write","next"];
 let done={};try{done=JSON.parse(localStorage.getItem(KEY))||{}}catch(e){}
 function paint(){
   const n=keys.filter(k=>done[k]).length;
