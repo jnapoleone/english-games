@@ -1,0 +1,53 @@
+kind,app,key,group,label
+guide,essay,shape,Essay Kit,Shape
+guide,essay,thesis,Essay Kit,Thesis
+guide,essay,pqe,Essay Kit,Pqe
+guide,essay,quotes,Essay Kit,Quotes
+guide,essay,ends,Essay Kit,Intro + conclusion
+guide,essay,style,Essay Kit,Style
+guide,essay,next,Essay Kit,Wrap-up
+guide,macbeth,play,Macbeth guide,The play
+guide,macbeth,who,Macbeth guide,Who's who
+guide,macbeth,acts,Macbeth guide,Five acts
+guide,macbeth,scenes,Macbeth guide,Key scenes
+guide,macbeth,passage,Macbeth guide,Passage analysis
+guide,macbeth,devices,Macbeth guide,Devices
+guide,macbeth,next,Macbeth guide,Wrap-up
+deck,swipe,essay,Swipe decks,Essay kit
+deck,swipe,macbeth,Swipe decks,Macbeth
+deck,swipe,writeup,Swipe decks,Write it up
+deck,swipe,weak,Swipe decks,Rematch
+deck,swipe,tpcastt,Swipe decks,TP-CASTT
+deck,swipe,rime,Swipe decks,The Rime
+deck,swipe,poetry,Swipe decks,Reading poetry
+deck,swipe,words,Swipe decks,Word power
+deck,swipe,test,Swipe decks,On the test
+deck,swipe,devices,Swipe decks,Writer's tricks
+deck,swipe,odyssey,Swipe decks,The Odyssey
+deck,swipe,myth,Swipe decks,Gods & heroes
+guide,tpcastt,method,Break a Poem,Tp-castt
+guide,tpcastt,demo,Break a Poem,Watch it work
+guide,tpcastt,traps,Break a Poem,Traps
+guide,tpcastt,class,Break a Poem,Oct 26 poems
+guide,tpcastt,rime,Break a Poem,The Rime
+guide,tpcastt,write,Break a Poem,Write it up
+guide,tpcastt,next,Break a Poem,Wrap-up
+guide,poetry,what,Poetry Starter,What is poetry
+guide,poetry,read,Poetry Starter,How to read one
+guide,poetry,words,Poetry Starter,Connotation
+guide,poetry,why,Poetry Starter,Why it matters
+guide,poetry,poems,Poetry Starter,The class poems
+guide,poetry,next,Poetry Starter,Coming up
+guide,study-guide,stories,Unit 1 Survival Guide,Stories
+guide,study-guide,plot,Unit 1 Survival Guide,Plot
+guide,study-guide,character,Unit 1 Survival Guide,Character
+guide,study-guide,conflict,Unit 1 Survival Guide,Conflict
+guide,study-guide,pov,Unit 1 Survival Guide,Pov
+guide,study-guide,theme,Unit 1 Survival Guide,Theme
+guide,study-guide,irony,Unit 1 Survival Guide,Boss Irony
+stage,fiction-obby,setting,Fiction Obby,Plot & Setting
+stage,fiction-obby,character,Fiction Obby,Character Types
+stage,fiction-obby,conflict,Fiction Obby,Conflict
+stage,fiction-obby,pov,Fiction Obby,Point of View
+stage,fiction-obby,theme,Fiction Obby,Theme
+stage,fiction-obby,boss,Fiction Obby,BOSS: Twist Ending
