@@ -1,7 +1,7 @@
 kind,app,key,group,label
 guide,essay,shape,Essay Kit,Shape
 guide,essay,thesis,Essay Kit,Thesis
-guide,essay,pqe,Essay Kit,Pqe
+guide,essay,pqe,Essay Kit,PQE
 guide,essay,quotes,Essay Kit,Quotes
 guide,essay,ends,Essay Kit,Intro + conclusion
 guide,essay,style,Essay Kit,Style
@@ -25,7 +25,7 @@ deck,swipe,test,Swipe decks,On the test
 deck,swipe,devices,Swipe decks,Writer's tricks
 deck,swipe,odyssey,Swipe decks,The Odyssey
 deck,swipe,myth,Swipe decks,Gods & heroes
-guide,tpcastt,method,Break a Poem,Tp-castt
+guide,tpcastt,method,Break a Poem,TP-CASTT
 guide,tpcastt,demo,Break a Poem,Watch it work
 guide,tpcastt,traps,Break a Poem,Traps
 guide,tpcastt,class,Break a Poem,Oct 26 poems

@@ -25,7 +25,7 @@ const map=[["kind","app","key","group","label"]];
 const guideRows=g=>{
   const h=read(g[0]+"/index.html");
   const keys=JSON.parse(h.match(/keys\s*=\s*(\[[^\]]*\])/)[1]);
-  keys.forEach(k=>{const m=h.match(new RegExp('<a href="#'+k+'" data-k="'+k+'">([^<]*)</a>'));let lab=m?strip(m[1]):k;if(lab===lab.toUpperCase())lab=lab.replace(/^\d+\s*/,"").toLowerCase().replace(/(^|\s)\S/g,x=>x.toUpperCase());lab=lab.replace(/\bPov\b/,"POV");map.push(["guide",g[0],k,g[1],lab])});
+  keys.forEach(k=>{const m=h.match(new RegExp('<a href="#'+k+'" data-k="'+k+'">([^<]*)</a>'));let lab=m?strip(m[1]):k;if(g[0]==="study-guide"&&lab===lab.toUpperCase())lab=lab.replace(/^\d+\s*/,"").toLowerCase().replace(/(^|\s)\S/g,x=>x.toUpperCase());lab=lab.replace(/\bPov\b/,"POV");map.push(["guide",g[0],k,g[1],lab])});
 };
 /* Interleave: each unit's guides, then that unit's decks. */
 const deckRow=k=>map.push(["deck","swipe",k,"Swipe decks",DECKS[k].name]);
