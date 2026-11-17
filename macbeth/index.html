@@ -1,0 +1,285 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Macbeth</title>
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#0e0f12">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230e0f12'/%3E%3Cpath d='M18 18h28M18 28h18M18 38h24M18 48h12' stroke='%23d4ff3a' stroke-width='5' stroke-linecap='round'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;500;600&display=swap">
+<style>
+/* Same dark palette and type as English Swipe, laid out as one reading column with a sticky progress bar. */
+:root{
+  --bg:#0e0f12; --card:#17191e; --card2:#1f2229; --line:#2b2f38; --text:#f2f3f5; --dim:#9aa1ad; --faint:#6b7280;
+  --accent:#d4ff3a; --good:#4ade80; --warn:#ff9f43;
+  --display:"Space Grotesk",system-ui,sans-serif; --body:"Inter",system-ui,-apple-system,"Segoe UI",sans-serif;
+  color-scheme:dark;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--text);font-family:var(--body);font-size:17px;line-height:1.55;
+  padding-bottom:env(safe-area-inset-bottom,0px)}
+a{color:var(--accent)}
+.wrap{max-width:600px;margin:0 auto;padding:0 16px 60px}
+
+.top{position:sticky;top:0;z-index:10;background:linear-gradient(var(--bg) 75%,rgba(14,15,18,0));padding:calc(env(safe-area-inset-top,0px) + 10px) 0 12px}
+.top .in{max-width:600px;margin:0 auto;padding:0 16px;display:flex;align-items:center;gap:10px}
+.home{width:34px;height:34px;flex:none;display:grid;place-items:center;border-radius:10px;color:var(--dim);border:1px solid var(--line)}
+.top b{flex:1;font-family:var(--display);font-size:16px}
+.top span{font-family:var(--display);font-size:14px;color:var(--dim);font-variant-numeric:tabular-nums}
+.meter{max-width:568px;margin:8px auto 0;height:3px;background:var(--line);border-radius:2px;overflow:hidden}
+.meter i{display:block;height:100%;width:0;background:var(--accent);transition:width .3s}
+.chips{display:flex;gap:6px;overflow-x:auto;max-width:600px;margin:10px auto 0;padding:0 16px;scrollbar-width:none}
+.chips::-webkit-scrollbar{display:none}
+.chips a{flex:none;text-decoration:none;font-size:13px;font-weight:600;color:var(--dim);border:1px solid var(--line);border-radius:999px;padding:4px 11px}
+.chips a.done{color:#111;background:var(--good);border-color:var(--good)}
+
+header{padding:18px 0 4px}
+.eyebrow{font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--dim)}
+h1{font-family:var(--display);font-weight:700;font-size:clamp(34px,10vw,48px);line-height:1;margin:8px 0 14px;letter-spacing:-.02em}
+.lede{color:#d6d9df;margin:0 0 10px}
+
+section{margin-top:40px;scroll-margin-top:110px}
+.sh{display:flex;align-items:baseline;gap:12px;margin-bottom:12px}
+.num{font-family:var(--display);font-weight:700;font-size:15px;color:var(--accent);flex:none;width:28px}
+h2{font-family:var(--display);font-weight:700;font-size:26px;line-height:1.1;margin:0;letter-spacing:-.01em}
+h2 small{display:block;font-family:var(--body);font-weight:500;font-size:14px;color:var(--dim);margin-top:5px;letter-spacing:0}
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:18px;margin-bottom:12px}
+.card h3{font-family:var(--display);font-size:17px;margin:0 0 8px}
+.card p{margin:0 0 10px}.card p:last-child{margin-bottom:0}
+.card ul,.card ol{margin:0 0 10px;padding-left:22px}.card li{margin-bottom:7px}
+.card li:last-child{margin-bottom:0}
+em.k{font-style:normal;color:var(--accent)}
+.ex{background:var(--card2);border-radius:12px;padding:12px 14px;margin-top:12px;font-size:15px;color:#d6d9df}
+.ex b.l{display:block;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--faint);margin-bottom:4px;font-weight:600}
+.pair{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}
+.pair div{background:var(--card2);border-radius:12px;padding:12px;font-size:15px}
+.pair b{display:block;font-family:var(--display);font-size:15px;margin-bottom:2px}
+.plus{color:var(--good)}.minus{color:#ff8a8a}
+.steps{counter-reset:s;list-style:none;padding:0!important}
+.steps li{counter-increment:s;position:relative;padding-left:40px;margin-bottom:12px!important}
+.steps li::before{content:counter(s);position:absolute;left:0;top:0;width:28px;height:28px;border-radius:8px;background:var(--card2);border:1px solid var(--line);
+  display:grid;place-items:center;font-family:var(--display);font-weight:700;font-size:14px;color:var(--accent)}
+.you{border-color:var(--warn)}
+.you .tag{display:inline-block;font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--warn);margin-bottom:6px}
+.done-btn{display:block;width:100%;margin-top:4px;padding:13px;border-radius:14px;border:1px solid var(--line);background:var(--card2);color:var(--text);font:inherit;font-weight:600;cursor:pointer}
+.done-btn[aria-pressed="true"]{background:rgba(74,222,128,.14);border-color:var(--good);color:var(--good)}
+.done-btn:focus-visible,.go:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.go{display:block;text-align:center;text-decoration:none;margin-top:10px;padding:14px;border-radius:14px;background:var(--accent);color:#111;font-weight:600}
+.small{font-size:14px;color:var(--dim)}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}.meter i{transition:none}}
+</style>
+</head>
+<body>
+<div class="top">
+  <div class="in">
+    <a class="home" href="../" aria-label="Back to all games"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 3 5 8l5 5"/></svg></a>
+    <b>Macbeth</b><span id="ml">0/7</span>
+  </div>
+  <div class="meter"><i id="mi"></i></div>
+  <nav class="chips" aria-label="Sections"><a href="#play" data-k="play">The play</a><a href="#who" data-k="who">Who's who</a><a href="#acts" data-k="acts">Five acts</a><a href="#scenes" data-k="scenes">Key scenes</a><a href="#passage" data-k="passage">Passage analysis</a><a href="#devices" data-k="devices">Devices</a><a href="#next" data-k="next">Wrap-up</a></nav>
+</div>
+
+<main class="wrap">
+<header>
+  <div class="eyebrow">Unit 3 · Macbeth · Nov 10 – 16</div>
+  <h1>Macbeth</h1>
+  <p class="lede">A soldier comes home from war a hero. Three strangers on a heath tell him he will be king. Five acts later, almost everyone he knows is dead. This is the map: who's who, what happens, and the five-step method Mr. Winter marks. About 8 minutes.</p>
+  <p class="small">Tap "Got it" at the end of each section. It saves on this phone.</p>
+</header>
+
+<section id="play">
+  <div class="sh"><span class="num">01</span><h2>The play<small>Unit 3 began Nov 10</small></h2></div>
+  <div class="card">
+    <p><b>Macbeth</b> is a <em class="k">tragedy</em> by William Shakespeare, written around 1606 and set in medieval Scotland. A war hero is told he will be king, and decides not to wait.</p>
+    <p>It is short, fast and violent. Almost every scene is about one question: what does wanting something badly do to a person?</p>
+  </div>
+  <div class="card">
+    <h3>Four words to own</h3>
+    <ul>
+      <li><em class="k">Thane</em> · a Scottish lord. Macbeth starts as Thane of Glamis.</li>
+      <li><em class="k">Regicide</em> · killing a king.</li>
+      <li><em class="k">Soliloquy</em> · a character alone, speaking their thoughts out loud. Nobody else on stage hears it.</li>
+      <li><em class="k">Tragedy</em> · a play that follows a great person's fall. The hero usually has a <b>fatal flaw</b> that drives it.</li>
+    </ul>
+    <div class="ex"><b class="l">Mr. Winter's example</b>In his Hamlet model, Hamlet's fatal flaw is procrastination: he debates endlessly instead of acting.</div>
+  </div>
+  <button class="done-btn" data-k="play" aria-pressed="false">Got it</button>
+</section>
+
+<section id="who">
+  <div class="sh"><span class="num">02</span><h2>Who's who<small>Seven names</small></h2></div>
+  <div class="card">
+    <ul>
+      <li><b>Macbeth</b> · a general and thane. Brave in battle, and tempted.</li>
+      <li><b>Lady Macbeth</b> · his wife. She pushes the plan forward.</li>
+      <li><b>King Duncan</b> · king of Scotland when the play opens. Trusts Macbeth.</li>
+      <li><b>Banquo</b> · Macbeth's friend and fellow general. He hears the prophecy too. His son is <b>Fleance</b>.</li>
+      <li><b>Macduff</b> · the thane who never trusts Macbeth, and faces him at the end.</li>
+      <li><b>Malcolm</b> · Duncan's elder son and heir.</li>
+      <li><b>The three witches</b> · the "weird sisters." They speak in riddles.</li>
+    </ul>
+  </div>
+  <button class="done-btn" data-k="who" aria-pressed="false">Got it</button>
+</section>
+
+<section id="acts">
+  <div class="sh"><span class="num">03</span><h2>Five acts<small>The whole road</small></h2></div>
+  <div class="card">
+    <ol class="steps">
+      <li><b>Act 1 · The idea.</b> Macbeth wins a battle. Three witches hail him as Thane of Glamis, Thane of Cawdor, and king "hereafter." Minutes later he is made Thane of Cawdor. Lady Macbeth reads his letter and starts planning. Duncan comes to stay at their castle.</li>
+      <li><b>Act 2 · The deed.</b> Macbeth sees a dagger in the air, then kills Duncan in his sleep. He carries the daggers out by mistake; Lady Macbeth takes them back. Macduff finds the body. Duncan's sons run: Malcolm to England, Donalbain to Ireland. Macbeth is crowned.</li>
+      <li><b>Act 3 · The cover-up.</b> The witches said Banquo's children would be kings, so Macbeth hires murderers. Banquo dies. Fleance escapes. That night Banquo's ghost sits in Macbeth's chair at the banquet.</li>
+      <li><b>Act 4 · The spiral.</b> Macbeth goes back to the witches and gets three new riddles. He has Macduff's wife and children killed. In England, Malcolm tests Macduff, then they raise an army.</li>
+      <li><b>Act 5 · The fall.</b> Lady Macbeth sleepwalks, scrubbing at her hands. She dies. The army cuts branches from Birnam Wood for cover, so the forest "moves." Macduff kills Macbeth. Malcolm is king.</li>
+    </ol>
+  </div>
+  <div class="card">
+    <h3>The riddles from Act 4</h3>
+    <ul>
+      <li>Beware Macduff.</li>
+      <li>No one "of woman born" can harm Macbeth.</li>
+      <li>He is safe until Birnam Wood comes to Dunsinane.</li>
+    </ul>
+    <p class="small">Each one sounds like a promise. Watch how each one comes true in Act 5.</p>
+  </div>
+  <button class="done-btn" data-k="acts" aria-pressed="false">Got it</button>
+</section>
+
+<section id="scenes">
+  <div class="sh"><span class="num">04</span><h2>Five key scenes<small>Mr. Winter's list</small></h2></div>
+  <div class="card">
+    <p>The passage analysis handout ends with five scenes. Know where each one sits in the story.</p>
+    <ol class="steps">
+      <li><b>Act 1, Scene 3 · The witches' prophecy.</b> Macbeth and Banquo meet the witches on the way back from battle.</li>
+      <li><b>Act 1, Scene 7 · "Vaulting ambition."</b> Macbeth, alone, argues with himself about killing Duncan. Then Lady Macbeth arrives.</li>
+      <li><b>Act 3, Scene 4 · The ghost at the banquet.</b> Macbeth is king. Banquo has just been killed. Only Macbeth sees the ghost.</li>
+      <li><b>Act 4, Scene 1 · The witches, part two.</b> Macbeth demands answers and gets the three riddles.</li>
+      <li><b>Act 5, Scene 1 · "Out, damned spot!"</b> Lady Macbeth sleepwalks while a doctor and a gentlewoman watch.</li>
+    </ol>
+  </div>
+  <div class="card you">
+    <span class="tag">Your turn</span>
+    <p>What each speech means, and which motifs are in it, is the analysis itself. That part is yours. The next section shows the method on a different play.</p>
+  </div>
+  <button class="done-btn" data-k="scenes" aria-pressed="false">Got it</button>
+</section>
+
+<section id="passage">
+  <div class="sh"><span class="num">05</span><h2>Passage analysis<small>Five steps, ten marks</small></h2></div>
+  <div class="card">
+    <ol class="steps">
+      <li><b>Speaker and listener</b> · who is talking, and to whom? <span class="small">(1 mark)</span></li>
+      <li><b>Context</b> · act and scene, and what is happening at this point. <span class="small">(1)</span></li>
+      <li><b>Summary</b> · what the speaker is talking about, in your words. <span class="small">(2)</span></li>
+      <li><b>Poetic devices</b> · name them and point to the words. <span class="small">(2)</span></li>
+      <li><b>Motifs and themes</b> · which motifs appear, why they matter, and how the scene connects to the play's themes. <span class="small">(4)</span></li>
+    </ol>
+    <div class="ex"><b class="l">Do the math</b>Step 5 is worth as much as steps 1, 2 and 3 added together. A long summary with a one-line step 5 leaves marks behind.</div>
+  </div>
+  <div class="card">
+    <h3>Watch it work · Romeo and Juliet</h3>
+    <p style="font-family:Georgia,serif;font-size:17px;line-height:1.7;margin:12px 0 4px">But soft, what light through yonder window breaks?<br>It is the east, and Juliet is the sun.</p>
+    <ol class="steps" style="margin-top:14px">
+      <li>The speaker is Romeo. He is speaking to himself; Juliet cannot hear him.</li>
+      <li>Act 2, Scene 2. He has just met Juliet at her family's party and is hiding in their orchard, below her window.</li>
+      <li>He sees a light at the window and says Juliet appearing is like the sun rising.</li>
+      <li><b>Metaphor:</b> "Juliet is the sun." No "like" or "as." <b>Alliteration:</b> "what … window."</li>
+      <li><b>Motif: light against dark.</b> The lovers keep meeting at night and describing each other as light. It ties to a theme of the play: their love is bright, sudden and surrounded by darkness.</li>
+    </ol>
+  </div>
+  <button class="done-btn" data-k="passage" aria-pressed="false">Got it</button>
+</section>
+
+<section id="devices">
+  <div class="sh"><span class="num">06</span><h2>Devices to spot<small>Step 4 and step 5</small></h2></div>
+  <div class="card">
+    <h3>Three sound devices</h3>
+    <p>The handout names these three. They are finally the sound devices from the poetry unit.</p>
+    <ul>
+      <li><em class="k">Alliteration</em> · the same sound at the <b>start</b> of nearby words. "Wild and whirling words."</li>
+      <li><em class="k">Assonance</em> · the same <b>vowel</b> sound inside nearby words. "The l<b>igh</b>t of the f<b>i</b>re is a s<b>igh</b>t."</li>
+      <li><em class="k">Consonance</em> · the same <b>consonant</b> sound anywhere in nearby words. "The lu<b>mp</b>y, bu<b>mp</b>y road."</li>
+    </ul>
+  </div>
+  <div class="card">
+    <h3>Simile, metaphor, personification</h3>
+    <div class="pair">
+      <div><b>Simile</b>Compares with "like" or "as."</div>
+      <div><b>Metaphor</b>Says one thing <i>is</i> another.</div>
+    </div>
+    <p style="margin-top:12px"><em class="k">Personification</em> gives a human action to something that isn't human: "Fear grabbed him."</p>
+    <div class="ex"><b class="l">The trap</b>"Fear, like a cold hand, closed around him." The word "like" makes it a simile, even though a hand is human. Check for "like" or "as" first.</div>
+  </div>
+  <div class="card">
+    <h3>Motif</h3>
+    <p>An image or idea that <b>keeps coming back</b> through a work. Each return adds to a theme.</p>
+    <p>Ones to watch for in Macbeth:</p>
+    <ul>
+      <li>Blood</li>
+      <li>Sleep, and not being able to</li>
+      <li>Darkness and light</li>
+      <li>Hands and water</li>
+      <li>Clothes that don't fit</li>
+      <li>Nature behaving unnaturally</li>
+      <li>Visions and the supernatural</li>
+    </ul>
+    <p class="small">Spotting one is half of step 5. The other half is saying what it shows.</p>
+  </div>
+  <button class="done-btn" data-k="devices" aria-pressed="false">Got it</button>
+</section>
+
+<section id="next">
+  <div class="sh"><span class="num">07</span><h2>Wrap-up<small>Lock it in</small></h2></div>
+  <div class="card">
+    <h3>Screenshot this</h3>
+    <ul>
+      <li>Speaker · Context · Summary · Devices · Motifs and themes</li>
+      <li>Marks: 1 · 1 · 2 · 2 · 4</li>
+      <li>Key scenes: 1.3 · 1.7 · 3.4 · 4.1 · 5.1</li>
+      <li>"Like" or "as" = simile.</li>
+    </ul>
+  </div>
+  <div class="card">
+    <h3>Notebook, 2 minutes</h3>
+    <p>Without looking: the five key scenes, with act and scene numbers, and one line on what happens in each.</p>
+  </div>
+  <div class="card">
+    <h3>Ask Mr. Winter</h3>
+    <ul>
+      <li>"On my Act 1 Scene 7 practice, which step lost the most marks?"</li>
+      <li>"For step 5, how many motifs do you want to see?"</li>
+      <li>"Will the marked passage come from the five key scenes?"</li>
+    </ul>
+  </div>
+  <button class="done-btn" data-k="next" aria-pressed="false">Got it</button>
+  <a class="go" href="../swipe/#macbeth">Now swipe it: Macbeth</a>
+  <a class="go" href="../essay/" style="background:none;border:1px solid var(--line);color:var(--text)">Next: Essay Kit</a>
+</section>
+
+</main>
+
+<script src="../sync.js"></script>
+<script>
+const KEY="unit3Guide.v1",keys=["play","who","acts","scenes","passage","devices","next"];
+let done={};try{done=JSON.parse(localStorage.getItem(KEY))||{}}catch(e){}
+function paint(){
+  const n=keys.filter(k=>done[k]).length;
+  document.getElementById("ml").textContent=`${n}/${keys.length}`;
+  document.getElementById("mi").style.width=(n/keys.length*100)+"%";
+  document.querySelectorAll(".done-btn").forEach(b=>{const on=!!done[b.dataset.k];b.setAttribute("aria-pressed",on);b.textContent=on?"✓ Got it":"Got it"});
+  document.querySelectorAll(".chips a").forEach(a=>a.classList.toggle("done",!!done[a.dataset.k]));
+}
+document.querySelectorAll(".done-btn").forEach(b=>b.addEventListener("click",()=>{
+  done[b.dataset.k]=!done[b.dataset.k];try{localStorage.setItem(KEY,JSON.stringify(done))}catch(e){}window.Sync&&Sync.log("read",b.dataset.k,done[b.dataset.k]?"done":"undone");paint();
+  if(done[b.dataset.k]){const i=keys.indexOf(b.dataset.k);if(i<keys.length-1)document.getElementById(keys[i+1]).scrollIntoView()}
+}));
+paint();
+</script>
+</body>
+</html>

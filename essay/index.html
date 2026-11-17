@@ -1,0 +1,289 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Essay Kit</title>
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#0e0f12">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230e0f12'/%3E%3Cpath d='M18 18h28M18 28h18M18 38h24M18 48h12' stroke='%23d4ff3a' stroke-width='5' stroke-linecap='round'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;500;600&display=swap">
+<style>
+/* Same dark palette and type as English Swipe, laid out as one reading column with a sticky progress bar. */
+:root{
+  --bg:#0e0f12; --card:#17191e; --card2:#1f2229; --line:#2b2f38; --text:#f2f3f5; --dim:#9aa1ad; --faint:#6b7280;
+  --accent:#d4ff3a; --good:#4ade80; --warn:#ff9f43;
+  --display:"Space Grotesk",system-ui,sans-serif; --body:"Inter",system-ui,-apple-system,"Segoe UI",sans-serif;
+  color-scheme:dark;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--text);font-family:var(--body);font-size:17px;line-height:1.55;
+  padding-bottom:env(safe-area-inset-bottom,0px)}
+a{color:var(--accent)}
+.wrap{max-width:600px;margin:0 auto;padding:0 16px 60px}
+
+.top{position:sticky;top:0;z-index:10;background:linear-gradient(var(--bg) 75%,rgba(14,15,18,0));padding:calc(env(safe-area-inset-top,0px) + 10px) 0 12px}
+.top .in{max-width:600px;margin:0 auto;padding:0 16px;display:flex;align-items:center;gap:10px}
+.home{width:34px;height:34px;flex:none;display:grid;place-items:center;border-radius:10px;color:var(--dim);border:1px solid var(--line)}
+.top b{flex:1;font-family:var(--display);font-size:16px}
+.top span{font-family:var(--display);font-size:14px;color:var(--dim);font-variant-numeric:tabular-nums}
+.meter{max-width:568px;margin:8px auto 0;height:3px;background:var(--line);border-radius:2px;overflow:hidden}
+.meter i{display:block;height:100%;width:0;background:var(--accent);transition:width .3s}
+.chips{display:flex;gap:6px;overflow-x:auto;max-width:600px;margin:10px auto 0;padding:0 16px;scrollbar-width:none}
+.chips::-webkit-scrollbar{display:none}
+.chips a{flex:none;text-decoration:none;font-size:13px;font-weight:600;color:var(--dim);border:1px solid var(--line);border-radius:999px;padding:4px 11px}
+.chips a.done{color:#111;background:var(--good);border-color:var(--good)}
+
+header{padding:18px 0 4px}
+.eyebrow{font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--dim)}
+h1{font-family:var(--display);font-weight:700;font-size:clamp(34px,10vw,48px);line-height:1;margin:8px 0 14px;letter-spacing:-.02em}
+.lede{color:#d6d9df;margin:0 0 10px}
+
+section{margin-top:40px;scroll-margin-top:110px}
+.sh{display:flex;align-items:baseline;gap:12px;margin-bottom:12px}
+.num{font-family:var(--display);font-weight:700;font-size:15px;color:var(--accent);flex:none;width:28px}
+h2{font-family:var(--display);font-weight:700;font-size:26px;line-height:1.1;margin:0;letter-spacing:-.01em}
+h2 small{display:block;font-family:var(--body);font-weight:500;font-size:14px;color:var(--dim);margin-top:5px;letter-spacing:0}
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:18px;margin-bottom:12px}
+.card h3{font-family:var(--display);font-size:17px;margin:0 0 8px}
+.card p{margin:0 0 10px}.card p:last-child{margin-bottom:0}
+.card ul,.card ol{margin:0 0 10px;padding-left:22px}.card li{margin-bottom:7px}
+.card li:last-child{margin-bottom:0}
+em.k{font-style:normal;color:var(--accent)}
+.ex{background:var(--card2);border-radius:12px;padding:12px 14px;margin-top:12px;font-size:15px;color:#d6d9df}
+.ex b.l{display:block;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--faint);margin-bottom:4px;font-weight:600}
+.pair{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}
+.pair div{background:var(--card2);border-radius:12px;padding:12px;font-size:15px}
+.pair b{display:block;font-family:var(--display);font-size:15px;margin-bottom:2px}
+.plus{color:var(--good)}.minus{color:#ff8a8a}
+.steps{counter-reset:s;list-style:none;padding:0!important}
+.steps li{counter-increment:s;position:relative;padding-left:40px;margin-bottom:12px!important}
+.steps li::before{content:counter(s);position:absolute;left:0;top:0;width:28px;height:28px;border-radius:8px;background:var(--card2);border:1px solid var(--line);
+  display:grid;place-items:center;font-family:var(--display);font-weight:700;font-size:14px;color:var(--accent)}
+.you{border-color:var(--warn)}
+.you .tag{display:inline-block;font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--warn);margin-bottom:6px}
+.done-btn{display:block;width:100%;margin-top:4px;padding:13px;border-radius:14px;border:1px solid var(--line);background:var(--card2);color:var(--text);font:inherit;font-weight:600;cursor:pointer}
+.done-btn[aria-pressed="true"]{background:rgba(74,222,128,.14);border-color:var(--good);color:var(--good)}
+.done-btn:focus-visible,.go:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.go{display:block;text-align:center;text-decoration:none;margin-top:10px;padding:14px;border-radius:14px;background:var(--accent);color:#111;font-weight:600}
+.small{font-size:14px;color:var(--dim)}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}.meter i{transition:none}}
+</style>
+</head>
+<body>
+<div class="top">
+  <div class="in">
+    <a class="home" href="../" aria-label="Back to all games"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 3 5 8l5 5"/></svg></a>
+    <b>Essay Kit</b><span id="ml">0/7</span>
+  </div>
+  <div class="meter"><i id="mi"></i></div>
+  <nav class="chips" aria-label="Sections"><a href="#shape" data-k="shape">Shape</a><a href="#thesis" data-k="thesis">Thesis</a><a href="#pqe" data-k="pqe">PQE</a><a href="#quotes" data-k="quotes">Quotes</a><a href="#ends" data-k="ends">Intro + conclusion</a><a href="#style" data-k="style">Style</a><a href="#next" data-k="next">Wrap-up</a></nav>
+</div>
+
+<main class="wrap">
+<header>
+  <div class="eyebrow">Unit 3 · Macbeth essay · Nov 13 – 16</div>
+  <h1>Essay Kit</h1>
+  <p class="lede">Every essay is a case in court. The thesis is the charge, the quotes are the evidence, and the explaining is where you win it. Here is the build Mr. Winter is marking, shown on stories that aren't Macbeth. About 7 minutes.</p>
+  <p class="small">Tap "Got it" at the end of each section. It saves on this phone.</p>
+</header>
+
+<section id="shape">
+  <div class="sh"><span class="num">01</span><h2>The shape<small>Four paragraphs</small></h2></div>
+  <div class="card">
+    <p>The Macbeth essay is a <em class="k">4-paragraph persuasive essay</em>. You pick one of three questions and argue your answer.</p>
+    <ol class="steps">
+      <li><b>Introduction</b> · ends with your thesis.</li>
+      <li><b>Body 1</b> · your first argument, with two PQEs.</li>
+      <li><b>Body 2</b> · your second argument, with two PQEs.</li>
+      <li><b>Conclusion</b> · thesis again in new words, then the bigger point.</li>
+    </ol>
+    <p class="small">After that: a Works Cited page.</p>
+  </div>
+  <div class="card you">
+    <span class="tag">Your turn</span>
+    <p>The assignment says the ideas have to be yours. So this page teaches the shape using other stories. Which question you pick, your thesis and your quotes are your call.</p>
+  </div>
+  <button class="done-btn" data-k="shape" aria-pressed="false">Got it</button>
+</section>
+
+<section id="thesis">
+  <div class="sh"><span class="num">02</span><h2>Thesis<small>The last sentence of your intro</small></h2></div>
+  <div class="card">
+    <p>A thesis <b>answers the essay question</b> in one sentence. Mr. Winter's formula:</p>
+    <p style="font-family:var(--display);font-size:19px;margin:14px 0"><em class="k">Main point</em> + <em class="k">two arguments</em> that prove it</p>
+    <div class="ex"><b class="l">With Star Wars</b>Anakin Skywalker falls because of fear: first the fear of losing his mother, then the fear of losing Padmé.</div>
+    <p style="margin-top:12px">Main point: fear causes his fall. Argument one becomes body paragraph 1. Argument two becomes body paragraph 2.</p>
+  </div>
+  <div class="card">
+    <h3>Not a thesis</h3>
+    <ul>
+      <li>A topic: "Fear."</li>
+      <li>A fact: "Star Wars is a film series."</li>
+      <li>An announcement: "This essay will be about Anakin."</li>
+    </ul>
+    <p class="small">The rubric's top levels want a thesis that is clear, answers the question, and is specific.</p>
+  </div>
+  <button class="done-btn" data-k="thesis" aria-pressed="false">Got it</button>
+</section>
+
+<section id="pqe">
+  <div class="sh"><span class="num">03</span><h2>PQE<small>How a body paragraph is built</small></h2></div>
+  <div class="card">
+    <div class="pair">
+      <div><b>P · Point</b>A claim that proves your topic sentence.</div>
+      <div><b>Q · Quote</b>Evidence from the text, with a citation.</div>
+    </div>
+    <div class="pair" style="grid-template-columns:1fr">
+      <div><b>E · Explain</b>One or two sentences on <i>how</i> the quote proves the point.</div>
+    </div>
+  </div>
+  <div class="card">
+    <h3>One body paragraph, about ten sentences</h3>
+    <ol class="steps">
+      <li><b>Topic sentence</b> · the argument this paragraph proves.</li>
+      <li><b>Point 1</b></li>
+      <li><b>Quote 1</b>, embedded and cited.</li>
+      <li><b>Explain 1</b> · one or two sentences.</li>
+      <li><b>Point 2, Quote 2, Explain 2</b></li>
+      <li><b>Closing sentence</b> · link back to the thesis.</li>
+    </ol>
+    <div class="ex"><b class="l">From the rubric</b>Two PQEs in each body paragraph is Level 4. One is Level 2. The E is where the thinking marks are.</div>
+  </div>
+  <button class="done-btn" data-k="pqe" aria-pressed="false">Got it</button>
+</section>
+
+<section id="quotes">
+  <div class="sh"><span class="num">04</span><h2>Quotes<small>Small but mighty</small></h2></div>
+  <div class="card">
+    <ul>
+      <li>Aim for <b>5 to 25 words</b>.</li>
+      <li>Pick quotes with deeper meaning: figurative language beats plain plot.</li>
+      <li><em class="k">Embed</em> them: blend the quote into your own sentence. A quote never stands as a sentence on its own.</li>
+      <li>Skip "Shakespeare said, '…'". Mr. Winter asks for something more creative.</li>
+    </ul>
+  </div>
+  <div class="card">
+    <h3>Square brackets</h3>
+    <p>Use [ ] around any word you change so the sentence flows. You can change <b>pronouns</b> and <b>verb tense</b>.</p>
+    <div class="ex"><b class="l">The original line · The Rime</b>"With my cross-bow / I shot the ALBATROSS."</div>
+    <div class="ex"><b class="l">Embedded</b>The Mariner gives no reason for his crime, admitting only that "with [his] cross-bow / [he] shot the ALBATROSS" (Coleridge 81–82).</div>
+  </div>
+  <div class="card">
+    <h3>Citing a play</h3>
+    <p>For Shakespeare, the numbers are <b>act.scene.lines</b>. Mr. Winter's question sheet writes (1.7.71-74): Act 1, Scene 7, lines 71 to 74.</p>
+    <p class="small">Write down act, scene and line numbers when you find each quote. Hunting for them later is slow.</p>
+  </div>
+  <button class="done-btn" data-k="quotes" aria-pressed="false">Got it</button>
+</section>
+
+<section id="ends">
+  <div class="sh"><span class="num">05</span><h2>Intro and conclusion<small>The bookends</small></h2></div>
+  <div class="card">
+    <h3>Introduction, in order</h3>
+    <ol class="steps">
+      <li><b>Hook</b> · one or two sentences on the big topic. <em class="k">Don't name the play or the author yet.</em></li>
+      <li><b>Connection</b> · a transition into the work: title, author, genre.</li>
+      <li><b>Summary</b> · a brief summary; you can preview your body points.</li>
+      <li><b>Thesis</b> · the final sentence.</li>
+    </ol>
+    <div class="ex"><b class="l">A hook for an Odyssey essay</b>Almost everyone has one place they would cross the world to get back to.</div>
+  </div>
+  <div class="card">
+    <h3>Conclusion, in order</h3>
+    <ol class="steps">
+      <li><b>Transition</b> · Ultimately, Therefore, Thus.</li>
+      <li><b>Thesis</b>, restated in different words.</li>
+      <li><b>Recap</b> · one sentence for each body point.</li>
+      <li><b>What's the point?</b> · a message about life that reaches past the play, maybe into today.</li>
+    </ol>
+    <p class="small">The handout's warning: don't write "The universal truth is…". Just say it.</p>
+  </div>
+  <button class="done-btn" data-k="ends" aria-pressed="false">Got it</button>
+</section>
+
+<section id="style">
+  <div class="sh"><span class="num">06</span><h2>Sound like an essay<small>A quarter of the mark</small></h2></div>
+  <div class="card">
+    <p>Communication is 25 of the 100 marks. The rubric lists the rules:</p>
+    <ul>
+      <li><b>No contractions.</b> "does not," never "doesn't."</li>
+      <li><b>No personal pronouns.</b> No I, me, my, you.</li>
+      <li><b>Literary present tense.</b> The story happens now: Odysseus <i>ties</i> himself to the mast.</li>
+      <li><b>No slang or casual words.</b></li>
+    </ul>
+    <div class="pair">
+      <div><b class="minus">Text-message voice</b>I think Odysseus tied himself up cuz he knew he'd fold.</div>
+      <div><b class="plus">Essay voice</b>Odysseus ties himself to the mast because he does not trust his own will.</div>
+    </div>
+    <p class="small" style="margin-top:12px">Same idea both times. Only the second one earns the marks for it.</p>
+  </div>
+  <div class="card">
+    <h3>MLA, also 25 marks</h3>
+    <ul>
+      <li>Times New Roman 12, double-spaced.</li>
+      <li>In-text citation after every quote.</li>
+      <li>Works Cited page.</li>
+      <li><b>Rough work counts.</b> Hand in the outline and the rough draft with the good copy.</li>
+    </ul>
+  </div>
+  <button class="done-btn" data-k="style" aria-pressed="false">Got it</button>
+</section>
+
+<section id="next">
+  <div class="sh"><span class="num">07</span><h2>Wrap-up<small>The seven steps</small></h2></div>
+  <div class="card">
+    <h3>Mr. Winter's steps</h3>
+    <ol class="steps">
+      <li>Answer the question. That's your thesis.</li>
+      <li>Brainstorm how your two arguments prove it.</li>
+      <li>Find quotes. Note act, scene and lines.</li>
+      <li>Fill out the essay outline.</li>
+      <li>Write the rough draft. <em class="k">Finish it; it doesn't have to be perfect.</em></li>
+      <li>Bring it to class for editing.</li>
+      <li>Polish and hand in.</li>
+    </ol>
+    <p class="small">The Nov 16 slides say the rough draft is due Thursday.</p>
+  </div>
+  <div class="card">
+    <h3>Notebook, 2 minutes</h3>
+    <p>Without looking: the four parts of an introduction and the four parts of a conclusion, in order.</p>
+  </div>
+  <div class="card">
+    <h3>Ask Mr. Winter</h3>
+    <ul>
+      <li>"Does my thesis answer the question and name two arguments?"</li>
+      <li>"Is this quote doing enough work, or should I find a more figurative one?"</li>
+      <li>"In the citation, do you want Shakespeare's name or just the numbers?"</li>
+    </ul>
+  </div>
+  <button class="done-btn" data-k="next" aria-pressed="false">Got it</button>
+  <a class="go" href="../swipe/#essay">Now swipe it: Essay kit</a>
+</section>
+
+</main>
+
+<script src="../sync.js"></script>
+<script>
+const KEY="unit3Essay.v1",keys=["shape","thesis","pqe","quotes","ends","style","next"];
+let done={};try{done=JSON.parse(localStorage.getItem(KEY))||{}}catch(e){}
+function paint(){
+  const n=keys.filter(k=>done[k]).length;
+  document.getElementById("ml").textContent=`${n}/${keys.length}`;
+  document.getElementById("mi").style.width=(n/keys.length*100)+"%";
+  document.querySelectorAll(".done-btn").forEach(b=>{const on=!!done[b.dataset.k];b.setAttribute("aria-pressed",on);b.textContent=on?"✓ Got it":"Got it"});
+  document.querySelectorAll(".chips a").forEach(a=>a.classList.toggle("done",!!done[a.dataset.k]));
+}
+document.querySelectorAll(".done-btn").forEach(b=>b.addEventListener("click",()=>{
+  done[b.dataset.k]=!done[b.dataset.k];try{localStorage.setItem(KEY,JSON.stringify(done))}catch(e){}window.Sync&&Sync.log("read",b.dataset.k,done[b.dataset.k]?"done":"undone");paint();
+  if(done[b.dataset.k]){const i=keys.indexOf(b.dataset.k);if(i<keys.length-1)document.getElementById(keys[i+1]).scrollIntoView()}
+}));
+paint();
+</script>
+</body>
+</html>

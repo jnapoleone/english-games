@@ -28,7 +28,7 @@ function randomId(){
 }
 var dev=get(K_DEV);if(!/^[0-9a-f]{12}$/.test(dev||"")){dev=randomId();put(K_DEV,dev)}
 
-var path=location.pathname.match(/\/(swipe|poetry|tpcastt|study-guide|fiction-obby)(\/|$)/);
+var path=location.pathname.match(/\/(swipe|poetry|tpcastt|macbeth|essay|study-guide|fiction-obby)(\/|$)/);
 var APP=path?path[1]:"home";
 
 function slug(s){return String(s).replace(/[^A-Za-z0-9]+/g,"-").replace(/^-+|-+$/g,"").slice(0,60)}
@@ -67,7 +67,7 @@ function backfill(){
       if(r&&r.at)add(r.at,"fiction-obby","run",r.stage,r.cleared?"cleared":"fell",r.correct+"of"+r.total,r.stage+"-"+slug(r.at));
     });
   }
-  [["unit1Guide.v1","study-guide"],["unit2Guide.v1","poetry"],["unit2Guide2.v1","tpcastt"]].forEach(function(g){
+  [["unit1Guide.v1","study-guide"],["unit2Guide.v1","poetry"],["unit2Guide2.v1","tpcastt"],["unit3Guide.v1","macbeth"],["unit3Essay.v1","essay"]].forEach(function(g){
     var d=parse(g[0]);if(!d||typeof d!=="object")return;
     Object.keys(d).forEach(function(k){if(d[k])add(now,g[1],"past_read",k,"done","",g[1]+"-"+k)});
   });

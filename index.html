@@ -43,11 +43,19 @@ a.game:focus-visible{outline:3px solid var(--ink);outline-offset:3px}
 <body>
 <div class="wrap">
   <h1>ENGLISH<br>GAMES</h1>
-  <p class="sub">Grade 9 English with Mr. Winter · Units 1–2</p>
+  <p class="sub">Grade 9 English with Mr. Winter · Units 1–3</p>
   <div class="games">
+    <a class="game" href="essay/">
+      <div class="tile dark">¶</div>
+      <div><b>Essay Kit</b><span>NEW · The Macbeth essay: thesis, PQE, embedding quotes, intro and conclusion. Rough draft due Thursday</span><em class="go" id="ek">READ</em></div>
+    </a>
+    <a class="game" href="macbeth/">
+      <div class="tile dark">M</div>
+      <div><b>Macbeth</b><span>NEW · Unit 3: who's who, the five acts, the five key scenes and how a passage analysis is marked</span><em class="go" id="mb">READ</em></div>
+    </a>
     <a class="game" href="tpcastt/">
       <div class="tile dark">T</div>
-      <div><b>Break a Poem</b><span>NEW · Write it up: how a TP-CASTT turns into a full analysis (Nov 3). Plus TP-CASTT, the two class poems and The Rime</span><em class="go" id="tp">READ</em></div>
+      <div><b>Break a Poem</b><span>Write it up: how a TP-CASTT turns into a full analysis (Nov 3). Plus TP-CASTT, the two class poems and The Rime</span><em class="go" id="tp">READ</em></div>
     </a>
     <a class="game" href="poetry/">
       <div class="tile dark">≡</div>
@@ -55,7 +63,7 @@ a.game:focus-visible{outline:3px solid var(--ink);outline-offset:3px}
     </a>
     <a class="game" href="swipe/">
       <div class="tile dark">↑</div>
-      <div><b>English Swipe</b><span>NEW · Write it up, plus round two on 4 that slipped. Also Rematch, TP-CASTT, The Rime, poetry, test terms, writer's tricks, the Odyssey, gods &amp; heroes</span><em class="go" id="sw">OPEN</em></div>
+      <div><b>English Swipe</b><span>NEW · Essay kit and Macbeth. Also Write it up, Rematch, TP-CASTT, The Rime, poetry, test terms, writer's tricks, the Odyssey, gods &amp; heroes</span><em class="go" id="sw">OPEN</em></div>
     </a>
     <a class="game" href="study-guide/">
       <div class="tile gold">★</div>
@@ -82,8 +90,10 @@ a.game:focus-visible{outline:3px solid var(--ink);outline-offset:3px}
 if(window.Sync&&Sync.on){const n=document.getElementById("syncnote");n.textContent=Sync.note;n.hidden=false}
 try{const s=JSON.parse(localStorage.getItem("fictionObby.v1"));if(s&&s.stages){const n=Object.values(s.stages).filter(r=>r.best>0).length;document.getElementById("fo").textContent=n?`${n}/6 CLEARED · ${s.coins} COINS`:"PLAY"}}catch(e){}
 try{const g=JSON.parse(localStorage.getItem("unit1Guide.v1"));if(g){const n=Object.values(g).filter(Boolean).length;if(n)document.getElementById("sg").textContent=`${n}/7 LEVELS DONE`}}catch(e){}
-try{const w=JSON.parse(localStorage.getItem("englishSwipe.v1"));if(w&&w.decks){const n=Object.values(w.decks).filter(d=>d.runs>0).length;if(n)document.getElementById("sw").textContent=`${n}/10 DECKS DONE`}}catch(e){}
+try{const w=JSON.parse(localStorage.getItem("englishSwipe.v1"));if(w&&w.decks){const n=Object.values(w.decks).filter(d=>d.runs>0).length;if(n)document.getElementById("sw").textContent=`${n}/12 DECKS DONE`}}catch(e){}
 try{const p=JSON.parse(localStorage.getItem("unit2Guide.v1"));if(p){const n=Object.values(p).filter(Boolean).length;if(n)document.getElementById("ps").textContent=`${n}/6 SECTIONS READ`}}catch(e){}
+try{const m=JSON.parse(localStorage.getItem("unit3Guide.v1"));if(m){const n=Object.values(m).filter(Boolean).length;if(n)document.getElementById("mb").textContent=`${n}/7 SECTIONS READ`}}catch(e){}
+try{const k=JSON.parse(localStorage.getItem("unit3Essay.v1"));if(k){const n=Object.values(k).filter(Boolean).length;if(n)document.getElementById("ek").textContent=`${n}/7 SECTIONS READ`}}catch(e){}
 try{const q=JSON.parse(localStorage.getItem("unit2Guide2.v1"));if(q){const n=Object.values(q).filter(Boolean).length;if(n)document.getElementById("tp").textContent=`${n}/6 SECTIONS READ`}}catch(e){}
 </script>
 </body>
