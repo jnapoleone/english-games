@@ -5,6 +5,7 @@ guide,essay,pqe,Essay Kit,PQE
 guide,essay,quotes,Essay Kit,Quotes
 guide,essay,ends,Essay Kit,Intro + conclusion
 guide,essay,style,Essay Kit,Style
+guide,essay,book,Essay Kit,Your book
 guide,essay,next,Essay Kit,Wrap-up
 guide,macbeth,play,Macbeth guide,The play
 guide,macbeth,who,Macbeth guide,Who's who
@@ -13,6 +14,7 @@ guide,macbeth,scenes,Macbeth guide,Key scenes
 guide,macbeth,passage,Macbeth guide,Passage analysis
 guide,macbeth,devices,Macbeth guide,Devices
 guide,macbeth,next,Macbeth guide,Wrap-up
+deck,swipe,book,Swipe decks,Your No Fear book
 deck,swipe,essay,Swipe decks,Essay kit
 deck,swipe,macbeth,Swipe decks,Macbeth
 deck,swipe,writeup,Swipe decks,Write it up

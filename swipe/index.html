@@ -124,7 +124,8 @@ h2{font-family:var(--display);font-weight:700;font-size:clamp(28px,8vw,38px);lin
    Definitions follow Mr. Winter's class notes. Examples come from films, games and books outside the course
    wherever a course text would hand over a homework answer (Necklace sheet, Symbolism of Desire chart, Ithaka sheet). */
 const DECKS={
-  essay:{name:"Essay kit",sub:"Unit 3: thesis, PQE, embedding quotes, intro and conclusion. Rough draft due Thursday",isNew:true},
+  book:{name:"Your No Fear book",sub:"Unit 3: which page to quote, line numbers, Works Cited, the peer checklist",isNew:true},
+  essay:{name:"Essay kit",sub:"Unit 3: thesis, PQE, embedding quotes, intro and conclusion",isNew:true},
   macbeth:{name:"Macbeth",sub:"Unit 3: who's who, the five acts, the five key scenes, passage analysis",isNew:true},
   writeup:{name:"Write it up",sub:"Unit 2: turning TP-CASTT notes into a full analysis, plus a 4-question rematch"},
   weak:{name:"Rematch",sub:"Round two on point of view, TP-CASTT and The Rime. Picked from your own answers",isNew:true},
@@ -461,7 +462,7 @@ Q("macbeth","Devices","What is a motif?",["An image or idea that keeps returning
 L("macbeth","Wrap-up","Done. Close it.",`<p><b>In your notebook, from memory:</b> the five key scenes with their act and scene numbers.</p><p><b>Ask Mr. Winter:</b></p><ul><li>"On my 1.7 practice, which step lost the most marks?"</li><li>"For step 5, how many motifs do you want?"</li></ul>`,0),
 
 /* ===== ESSAY KIT (Unit 3, added Nov 16) ===== */
-L("essay","Start here","Four paragraphs, one argument",`<p>The Macbeth essay is a <em class="k">4-paragraph persuasive essay</em>. The Nov 16 slides say the rough draft is due Thursday.</p><p>This deck is the shape. The ideas have to be yours, so every example comes from a different story.</p>`,0),
+L("essay","Start here","Four paragraphs, one argument",`<p>The Macbeth essay is a <em class="k">4-paragraph persuasive essay</em>. Check the current due dates with Mr. Winter.</p><p>This deck is the shape. The ideas have to be yours, so every example comes from a different story.</p>`,0),
 L("essay","The shape","Intro, two bodies, conclusion",`<ol><li><b>Introduction</b>: ends with the thesis</li><li><b>Body 1</b>: first argument, two PQEs</li><li><b>Body 2</b>: second argument, two PQEs</li><li><b>Conclusion</b></li></ol><p>Then a Works Cited page.</p>`,0),
 Q("essay","The shape","Where does the thesis go?",["The last sentence of the introduction","The first sentence of the essay","The start of body paragraph 1","The last sentence of the conclusion"],0,"The intro builds up to it. Everything after it proves it."),
 L("essay","Thesis","Main point + two arguments",`<p>A thesis <em class="k">answers the essay question</em> in one sentence, and names the two arguments that prove it.</p>`,"Anakin Skywalker falls because of fear: first the fear of losing his mother, then the fear of losing Padmé."),
@@ -481,6 +482,21 @@ Q("essay","Style","Which sentence is essay-ready?",["Odysseus ties himself to th
 Q("essay","Style","What is literary present tense?",["Writing about the story's events as if they happen now","Only writing about modern books","Writing in the first person","Quoting in the present tense only"],0,"\"Macbeth sees a dagger,\" not \"Macbeth saw a dagger.\""),
 Q("essay","Citing","A quote from the play is cited (2.2.15). What do the numbers mean?",["Act 2, Scene 2, line 15","Page 2, paragraph 2, line 15","Chapter 2, page 2, word 15","February 2, 2015"],0,"Act.scene.line, the way Mr. Winter's question sheet writes it."),
 L("essay","Wrap-up","Done. Close it.",`<p>Mr. Winter's step 5: write the rough draft and <em class="k">just finish it</em>. It doesn't have to be perfect.</p><p><b>Ask Mr. Winter:</b></p><ul><li>"Does my thesis answer the question and name two arguments?"</li><li>"Do you want Shakespeare's name in the citation, or just the numbers?"</li></ul>`,0)
+,L("book","Start here","Two pages, two jobs",`<p><b>Left page:</b> Shakespeare's words. The play itself. <em class="k">Quote from here.</em></p><p><b>Right page:</b> a modern translation by SparkNotes. Read it to understand. Never quote it.</p>`,0),
+Q("book","Which page","Which page do your essay quotes come from?",["The left page: Shakespeare's original","The right page: the plain-English version","Either one","A website, not the book"],0,"The translation is SparkNotes' words. Mr. Winter is marking quotes from the play."),
+L("book","Reading","Right, then left",`<p>Read a speech on the right first so you know what's happening. Then read the same lines on the left.</p><p>A line on the left that hits hard is a quote. Write down act, scene and line right then.</p>`,0),
+L("book","Line numbers","Cite your own book",`<ul><li>Act and scene: top of the page</li><li>Line numbers: beside the original text. Count from the nearest one.</li><li>Every edition numbers lines a little differently</li></ul>`,0),
+Q("book","Line numbers","A website says a line is 3.1.50. In your book it's 3.1.48. Which do you cite?",["3.1.48, from your book","3.1.50, from the website","3.1.49, in between","Leave the line out"],0,"Line numbers shift between editions. Cite the book you actually read."),
+Q("book","Line numbers","Your quote runs over two lines of the play. How do you show where the line breaks?",["A slash: /","A comma","Start a new paragraph","Square brackets"],0,"Same as The Rime: \"with [his] cross-bow / [he] shot the ALBATROSS.\" Then cite both lines, like (2.2.15–16)."),
+L("book","The extras","Not your ideas",`<p>The back of your edition has quote lists by theme, explanations and essay tips.</p><p>The assignment says <em class="k">no ideas that aren't yours</em>. Skip them for this essay: find quotes by reading the play, and explain them yourself.</p>`,0),
+Q("book","The extras","Which one keeps the essay's ideas yours?",["Using a quote you found while reading the scene","Copying an explanation from the back of the book","Taking your quotes from the quotes-by-theme list","Rewording the right-hand page as your explanation"],0,"Your quotes and your explanations come from you reading the play. If you're unsure, ask Mr. Winter."),
+L("book","Works Cited","The MLA book pattern",`<p>Last name, First name. <i>Title</i>. Publisher, Year.</p><ul><li><b>Title page</b>: author and title</li><li><b>Copyright page</b> (behind it): publisher and year</li></ul>`,"Dimaline, Cherie. The Marrow Thieves. Cormorant Books, 2017."),
+Q("book","Works Cited","Where do you usually find a book's publisher and year?",["The copyright page, behind the title page","The back cover","The last page of the story","The table of contents"],0,"The title page has the title and author. The copyright page has the rest."),
+Q("book","Works Cited","How is the title of a play written in MLA?",["In italics","In quotation marks","Bold and underlined","In ALL CAPS"],0,"Long works (plays, novels) go in italics. Short ones (poems, short stories) go in \"quotation marks.\""),
+L("book","Page setup","The peer checklist",`<ul><li><b>Top left:</b> full name, teacher, course code, due date</li><li><b>Header, top right:</b> last name + page number</li><li>Your own title; the play's name in italics</li><li>Tab to indent paragraphs</li><li>Works Cited on its own page</li></ul>`,0),
+Q("book","Page setup","What goes in the top-right header?",["Last name and page number","Full name and due date","The essay title","The course code"],0,"Full name, teacher, course code and due date go on the top left of page one."),
+Q("book","Page setup","Which four lines go at the top left of page one?",["Full name, teacher, course code, due date","Title, author, play, year","Name, grade, school, date","Thesis, topic sentences, conclusion, Works Cited"],0,"Then the title, then the essay."),
+L("book","Wrap-up","Done. Close it.",`<p><b>Ask Mr. Winter:</b></p><ul><li>"How do you want the No Fear edition in my Works Cited?"</li><li>"Can I use the plain-English page to understand a line, as long as I quote the original?"</li></ul><p><b>Notebook, 1 minute:</b> write the MLA book pattern from memory.</p>`,0)
 ];
 CARDS.forEach((c,i)=>c.id=c.deck+"-"+i);
 
@@ -629,6 +645,8 @@ try{if(!localStorage.getItem(KEY+".weak1")){first="weak";localStorage.setItem(KE
 try{if(!localStorage.getItem(KEY+".wu1")){first="writeup";localStorage.setItem(KEY+".wu1","1")}}catch(e){first="writeup"}
 /* Same for the Nov 16 batch (Unit 3): open Essay kit once. */
 try{if(!localStorage.getItem(KEY+".u3")){first="essay";localStorage.setItem(KEY+".u3","1")}}catch(e){first="essay"}
+/* Same for the Nov 21 batch: open Your No Fear book once. */
+try{if(!localStorage.getItem(KEY+".nf1")){first="book";localStorage.setItem(KEY+".nf1","1")}}catch(e){first="book"}
 const h=location.hash.slice(1);if(DECKS[h])first=h;
 window.addEventListener("hashchange",()=>{const d=location.hash.slice(1);if(DECKS[d]&&d!==cur)start(d)});
 start(first);
