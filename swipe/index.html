@@ -626,13 +626,29 @@ document.getElementById("statsbtn").onclick=()=>{
   if(!st.hidden){st.hidden=true;return}
   const fmt=d=>d?new Date(d).toLocaleString(undefined,{month:"short",day:"numeric",hour:"numeric",minute:"2-digit"}):"never";
   const topics=Object.entries(S.topics).map(([k,v])=>[k,v,v.r/(v.r+v.w)]).sort((a,b)=>a[2]-b[2]);
-  st.innerHTML=`<div class="statrow"><span>Sessions</span><span>${S.sessions}</span></div>
+  st.innerHTML=parentBox()+`<div class="statrow"><span>Sessions</span><span>${S.sessions}</span></div>
     <div class="statrow"><span>Last active</span><span>${fmt(S.last)}</span></div>
     ${Object.entries(DECKS).map(([k,v])=>{const d=S.decks[k];return `<div class="statrow"><span>${esc(v.name)}</span><span>${d&&d.runs?`${d.runs} finished · best ${d.best}%`:"not finished yet"}</span></div>`}).join("")}
     ${topics.length?`<p class="small" style="margin:14px 4px 4px">By topic, weakest first (all answers, including second tries):</p>`+topics.map(([k,v,p])=>`<div class="statrow"><span>${esc(k)}</span><span>${Math.round(p*100)}% of ${v.r+v.w}</span></div>`).join(""):'<p class="small" style="margin:14px 4px">No answers yet.</p>'}
     <p class="small" style="margin:12px 4px 0">${window.Sync&&Sync.on?"Saved on this device and sent to the progress sheet.":"Saved on this device only."}</p>`;
   st.hidden=false;
+  wireParent();
 };
+/* Parent mode: while on, this browser's visits go under a separate parent id in the progress sheet. */
+function parentBox(){
+  if(!(window.Sync&&Sync.on&&Sync.parent))return"";
+  const on=Sync.parent.on;
+  return `<div id="pmode" style="border:1px solid ${on?"#6b5a22":"#3a3e48"};background:${on?"#2a2412":"transparent"};border-radius:12px;padding:12px;margin:0 0 14px">
+    <div class="statrow" style="border:0;padding:0"><span><b>Parent mode</b> · ${on?"on":"off"}</span>
+    <button class="linkish" id="pmodebtn" style="margin:0;padding:6px 12px;border:1px solid currentColor;border-radius:999px">${on?"Turn off":"Turn on"}</button></div>
+    <p class="small" style="margin:8px 0 0">${on?"Pages you open on this device now count as a parent's, not his. Ends after 30 minutes idle, when you tap Turn off, or as soon as a question is answered.":"Viewing decks or guides on a shared device? Turn this on first so your visits aren't counted as his. Answering a question turns it off."}</p></div>`;
+}
+function wireParent(){
+  const b=document.getElementById("pmodebtn");if(!b)return;
+  b.onclick=()=>{Sync.parent.on?Sync.parent.stop():Sync.parent.start();refreshParent()};
+}
+function refreshParent(){const box=document.getElementById("pmode");if(!box)return;box.outerHTML=parentBox();wireParent()}
+window.addEventListener("parentmode",refreshParent);
 
 let first="test";try{const d=localStorage.getItem(KEY+".deck");if(d&&(DECKS[d]))first=d}catch(e){}
 /* Open the new Unit 2 deck once for returning players, and whenever the link asks for a deck (#poetry). */
